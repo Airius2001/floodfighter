@@ -1,16 +1,24 @@
-import Link from "next/link";
 import React from "react";
+import Orb from "../../src/blocks/Backgrounds/Orb/Orb";
 
 export default function Hero({ onExplore }: { onExplore?: () => void }) {
   const wrap: React.CSSProperties = {
-    background: "linear-gradient(135deg, #ffffff 0%, #eff6ff 100%)",
+    position: "relative",
+    width: "100%",
+    height: "600px",
+    overflow: "hidden",
+    backgroundColor: "#000",
   };
+
   const inner: React.CSSProperties = {
+    position: "relative",
+    // zIndex: 1,
     maxWidth: 1120,
     margin: "0 auto",
     textAlign: "center",
-    padding: "80px 16px",
+    padding: "200px 16px",
   };
+
   const btn: React.CSSProperties = {
     display: "inline-flex",
     alignItems: "center",
@@ -27,19 +35,71 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
 
   return (
     <section style={wrap}>
-      <div style={inner}>
-        <h1 style={{ fontSize: 44, lineHeight: 1.1, fontWeight: 800, margin: 0 }}>
-          Be Prepared. Stay Safe. Recover Stronger.
-        </h1>
-        <p style={{ maxWidth: 700, margin: "16px auto 0", color: "#4b5563", fontSize: 18 }}>
-          Real-time flood alerts, map-based visual data, and practical knowledge
-          to face floods in Australia.
-        </p>
+      {/* Orb background */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 2 }}>
+        <Orb
+          hoverIntensity={0.5}
+          rotateOnHover={true}
+          hue={283}
+          forceHoverState={false}
+        />
+      </div>
 
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 20 }}>
-          <button type="button" onClick={onExplore} style={btn}>
-            Explore More
-          </button>
+      {/* Content */}
+      <div style={inner}>
+        {/* pointerEvents: none make title not obstruct Orb */}
+        <div style={{ position: "relative", zIndex: 3, pointerEvents: "none", fontFamily:"sans-serif" }}>
+          <h1
+            style={{
+              fontSize: 50,
+              lineHeight: 1.1,
+              fontWeight: 800,
+              margin: 0,
+              color: "white",
+            }}
+          >
+            Flood Fighter
+          </h1>
+
+          <h2
+            style={{
+              fontSize: 25,
+              lineHeight: 1.1,
+              fontWeight: 500,
+              margin: 20,
+              color: "grey",
+            }}
+          >
+            Be Prepared. Stay Safe. Recover Stronger.
+          </h2>
+
+          <p
+            style={{
+              maxWidth: 700,
+              margin: "16px auto 0",
+              color: "#ddd",
+              fontSize: 18,
+            }}
+          >
+            Map-based visual data and practical knowledge to face floods in
+            Australia.
+          </p>
+
+
+          <div
+            style={{
+              display: "flex",
+              gap: 12,
+              justifyContent: "center",
+              marginTop: 20,
+              /* recover pointerEvents, make button works */
+              pointerEvents: "auto",
+            }}
+          >
+            <button type="button" onClick={onExplore} style={btn}>
+              Explore More
+            </button>
+          </div>
         </div>
       </div>
     </section>

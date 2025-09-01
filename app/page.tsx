@@ -13,7 +13,7 @@ export default function HomePage() {
       position: "relative",
       overflow: expanded ? "visible" : "hidden",
       minHeight: "100vh",
-      backgroundColor: "#f9fafb",
+      backgroundColor: "#000000ff",
     }),
     [expanded]
   );

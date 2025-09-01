@@ -7,17 +7,18 @@ const cardStyle: React.CSSProperties = {
   borderRadius: 16,
   padding: 24,
   boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+  fontFamily:"sans-serif" 
 };
 
 export function FeatureDuplex() {
   return (
-    <section>
+    <section style={{ backgroundColor:"#000"}}>
       <div
         className="feature-grid"
         style={{
           maxWidth: 1120,
           margin: "0 auto",
-          padding: "64px 16px",
+          padding: "0px 16px",
           display: "grid",
           gap: 24,
         }}
@@ -27,9 +28,8 @@ export function FeatureDuplex() {
           <h3 style={{ fontSize: 20, fontWeight: 600, margin: 0 }}>
             Map-based visual data
           </h3>
-          <p style={{ color: "#4b5563", marginTop: 8 }}>
-            Explore live rainfall, river levels, and flood extents on an
-            interactive map to assess risk in real time.
+          <p style={{ color: "#4b5563", marginTop: 8, fontSize: 15 }}>
+            Explore live rainfall and flood extents on an interactive map to assess risk.
           </p>
           <Link
             href="/map"
@@ -53,7 +53,7 @@ export function FeatureDuplex() {
           <h3 style={{ fontSize: 20, fontWeight: 600, margin: 0 }}>
             Search for the postcode
           </h3>
-          <p style={{ color: "#4b5563", marginTop: 8 }}>
+          <p style={{ color: "#4b5563", marginTop: 8, fontSize: 15 }}>
             Stay safe with live flood updates and safety guidance.
           </p>
           <Link

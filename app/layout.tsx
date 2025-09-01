@@ -20,24 +20,24 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           flexDirection: "column",
         }}
       >
-        {/* 固定在顶部 */}
+        {/* make nav bar to stick at the top */}
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50 }}>
           <Navbar />
         </div>
 
-        {/* 中间可滚动的主内容 */}
+        {/* main content to be scrollable */}
         <main
           style={{
             flex: 1,
             overflowY: "auto",
-            paddingTop: "64px", // 留出 Navbar 高度
-            paddingBottom: "64px", // 留出 Footer 高度
+            paddingTop: "64px", // leave some space for nav bar
+            paddingBottom: "64px", // leave some space for footer bar
           }}
         >
           {children}
         </main>
 
-        {/* 固定在底部 */}
+        {/* footer will be stick at bottom*/}
         <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50 }}>
           <Footer />
         </div>

@@ -21,6 +21,7 @@ function navLinkStyle(active: boolean): React.CSSProperties {
     color: active ? "#1d4ed8" : "#374151",
     textDecoration: "none",
     backgroundColor: active ? "rgba(29,78,216,0.08)" : "transparent",
+    fontFamily:"sans-serif"
   };
 }
 
@@ -38,15 +39,13 @@ export function Navbar() {
       }}
     >
       <div style={container}>
-        <Link href="/" style={{ fontSize: 18, fontWeight: 700, color: "#111827", textDecoration: "none" }}>
+        <Link href="/" style={{ fontSize: 18, fontWeight: 700, color: "#111827", textDecoration: "none", fontFamily:"sans-serif"}}>
           Flood Fighter
         </Link>
         <nav style={{ display: "flex", gap: 8 }}>
           <Link href="/" style={navLinkStyle(pathname === "/")}>Home</Link>
           <Link href="/map" style={navLinkStyle(pathname === "/map")}>Map visualisation</Link>
           <Link href="/check" style={navLinkStyle(pathname === "/check")}>Check postcode</Link>
-          <a href="#" style={{ ...navLinkStyle(false), color: "#6b7280" }}>Sign in</a>
-          <a href="#" style={{ ...navLinkStyle(false), color: "#6b7280" }}>Register</a>
         </nav>
       </div>
     </header>

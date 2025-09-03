@@ -1,10 +1,14 @@
-export default function MapPage() {
+"use client";
+
+import dynamic from "next/dynamic";
+
+const WaterMap = dynamic(() => import("../map/watermap"), { ssr: false });
+
+export default function Home() {
   return (
-    <div style={{ padding: "20px" }}>
-      <h1 style={{ fontSize: "24px", fontWeight: "bold" }}> Map Visualisation</h1>
-      <p style={{ marginTop: "12px", fontSize: "16px", color: "#374151" }}>
-        This is the map page.
-      </p>
+    <div>
+      <h1>Australia reservoir map distribution</h1>
+      <WaterMap />
     </div>
   );
 }

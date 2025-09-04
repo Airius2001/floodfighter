@@ -67,7 +67,7 @@ export default function CombinedMap() {
 
   // Loading reservoir points
   useEffect(() => {
-    fetch('http://localhost:3000/water-data')
+    fetch('https://floodfighterbackend.onrender.com/water-data')
       .then((res) => res.json())
       .then((data) => {
         setWaterPoints(data.features || []);
@@ -77,7 +77,7 @@ export default function CombinedMap() {
 
   // Load flood area
   useEffect(() => {
-    fetch('http://localhost:3000/flood/catchments')
+    fetch('https://floodfighterbackend.onrender.com/flood')
       .then((res) => res.json())
       .then((data) => {
         const features = Array.isArray(data) ? data : [];

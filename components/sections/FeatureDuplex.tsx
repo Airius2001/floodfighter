@@ -26,10 +26,11 @@ export function FeatureDuplex() {
         {/* Card 1 */}
         <div style={cardStyle}>
           <h3 style={{ fontSize: 20, fontWeight: 600, margin: 0 }}>
-            Map-based visual data
+            Explore Australia’s Water & Flood Safety
           </h3>
           <p style={{ color: "#4b5563", marginTop: 8, fontSize: 15 }}>
-            Explore live rainfall and flood extents on an interactive map to assess risk.
+            Discover an interactive map of Australia showing key water reservoirs and official flood warning areas. 
+            Stay informed about critical locations that may impact communities, and explore how water management and flood safety are connected across the nation.
           </p>
           <Link
             href="/map"
@@ -44,7 +45,7 @@ export function FeatureDuplex() {
               textDecoration: "none",
             }}
           >
-            Go explore the live datasets
+            👉 Click here to view the visual map
           </Link>
         </div>
 
@@ -63,13 +64,14 @@ export function FeatureDuplex() {
               display: "inline-block",
               padding: "12px 20px",
               borderRadius: 10,
-              background: "#2563eb",
+              background: "#9ca3af", // unclickable
               color: "#fff",
               fontWeight: 600,
               textDecoration: "none",
+              pointerEvents: "none", // unclickable, todo in next iteration
             }}
           >
-            Check Postcode
+            Check Postcode (Todo)
           </Link>
         </div>
         

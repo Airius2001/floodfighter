@@ -45,7 +45,7 @@ export function Navbar() {
         <nav style={{ display: "flex", gap: 8 }}>
           <Link href="/" style={navLinkStyle(pathname === "/")}>Home</Link>
           <Link href="/map" style={navLinkStyle(pathname === "/map")}>Map visualisation</Link>
-          <Link href="/check" style={navLinkStyle(pathname === "/check")}>Check postcode</Link>
+          <Link href="/check" style={{...navLinkStyle(pathname === "/check"), pointerEvents: "none", cursor: "not-allowed", color: "#9ca3af"}}>Check postcode (Todo)</Link>
         </nav>
       </div>
     </header>

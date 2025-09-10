@@ -3,81 +3,127 @@ import React from "react";
 
 const cardStyle: React.CSSProperties = {
   background: "#fff",
-  border: "1px solid #e5e7eb",
-  borderRadius: 16,
-  padding: 24,
-  boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
-  fontFamily:"sans-serif" 
+  borderRadius: 20,
+  padding: "32px 28px",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+  fontFamily: "Inter, sans-serif",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  transition: "all 0.3s ease",
 };
 
 export function FeatureDuplex() {
   return (
-    <section style={{ backgroundColor:"#000"}}>
+    <section
+      style={{
+        background: "linear-gradient(135deg, #000 0%, #111827 100%)",
+        padding: "80px 0",
+      }}
+    >
       <div
         className="feature-grid"
         style={{
-          maxWidth: 1120,
           margin: "0 auto",
-          padding: "0px 16px",
+          padding: "0px 20px",
           display: "grid",
-          gap: 24,
+          gap: 32,
         }}
       >
         {/* Card 1 */}
-        <div style={cardStyle}>
-          <h3 style={{ fontSize: 20, fontWeight: 600, margin: 0 }}>
-            Explore Australia’s Water & Flood Safety
-          </h3>
-          <p style={{ color: "#4b5563", marginTop: 8, fontSize: 15 }}>
-            Discover an interactive map of Australia showing key water reservoirs and official flood warning areas. 
-            Stay informed about critical locations that may impact communities, and explore how water management and flood safety are connected across the nation.
-          </p>
+        <div className="feature-card" style={cardStyle}>
+          <div>
+            <h3
+              style={{
+                fontSize: 24,
+                fontWeight: 700,
+                marginBottom: 12,
+                color: "#111827",
+              }}
+            >
+              Explore Australia’s Water & Flood Safety
+            </h3>
+            <p
+              style={{
+                color: "#4b5563",
+                lineHeight: 1.6,
+                fontSize: 16,
+                marginBottom: 20,
+                fontStyle:'italic'
+              }}
+            >
+              "Discover an interactive map of Australia showing key water
+              reservoirs and official flood warning areas. Stay informed about
+              critical locations that may impact communities, and explore how
+              water management and flood safety are connected across the nation."
+            </p>
+          </div>
           <Link
             href="/map"
+            className="feature-btn"
             style={{
-              marginTop: 16,
-              display: "inline-block",
-              padding: "12px 20px",
-              borderRadius: 10,
+              padding: "14px 22px",
+              borderRadius: 12,
               background: "#111827",
               color: "#fff",
               fontWeight: 600,
+              fontSize: 15,
+              textAlign: "center",
               textDecoration: "none",
+              marginTop: "auto",
             }}
           >
-            👉 Click here to view the visual map
+            👉 View Interactive Map
           </Link>
         </div>
 
         {/* Card 2 */}
-        <div style={cardStyle}>
-          <h3 style={{ fontSize: 20, fontWeight: 600, margin: 0 }}>
-            Search for the postcode
-          </h3>
-          <p style={{ color: "#4b5563", marginTop: 8, fontSize: 15 }}>
-            Stay safe with live flood updates and safety guidance.
-          </p>
+        <div className="feature-card" style={cardStyle}>
+          <div>
+            <h3
+              style={{
+                fontSize: 24,
+                fontWeight: 700,
+                marginBottom: 12,
+                color: "#111827",
+              }}
+            >
+              Search for the Postcode
+            </h3>
+            <p
+              style={{
+                color: "#4b5563",
+                lineHeight: 1.6,
+                fontSize: 16,
+                marginBottom: 20,
+                fontStyle:'italic'
+              }}
+            >
+              "Stay safe with live flood updates and guidance tailored for your
+              location."
+            </p>
+          </div>
           <Link
             href="/check"
+            className="feature-btn disabled"
             style={{
-              marginTop: 16,
-              display: "inline-block",
-              padding: "12px 20px",
-              borderRadius: 10,
-              background: "#9ca3af", // unclickable
+              padding: "14px 22px",
+              borderRadius: 12,
+              background: "#9ca3af",
               color: "#fff",
               fontWeight: 600,
+              fontSize: 15,
+              textAlign: "center",
               textDecoration: "none",
-              pointerEvents: "none", // unclickable, todo in next iteration
+              pointerEvents: "none",
+              marginTop: "auto",
             }}
           >
-            Check Postcode (Todo)
+            🔒 Check Postcode (Coming Soon)
           </Link>
         </div>
-        
       </div>
 
-      {/* Responsive columns via CSS only (no JS), so SSR/CSR are identical */}
       <style jsx>{`
         .feature-grid {
           grid-template-columns: 1fr;
@@ -86,6 +132,24 @@ export function FeatureDuplex() {
           .feature-grid {
             grid-template-columns: 1fr 1fr;
           }
+        }
+
+        .feature-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-btn {
+          transition: background 0.3s ease, transform 0.2s ease;
+          display: inline-block;
+        }
+        .feature-btn:hover {
+          background: #2563eb;
+          transform: translateY(-2px);
+        }
+        .feature-btn.disabled:hover {
+          background: #9ca3af;
+          transform: none;
         }
       `}</style>
     </section>

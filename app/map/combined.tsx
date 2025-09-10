@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polygon, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { Spin, Switch } from 'antd';
 
 // Fix the issue of default marker icon not displaying.
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -87,19 +88,49 @@ export default function CombinedMap() {
       .catch(console.error);
   }, []);
 
-  if (loading) return <div>Loading map...</div>;
-
+if (loading)
+  return (
+    <div
+      style={{
+        height: "50vh",
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: 'column',
+        alignItems: "center",
+      }}
+    >
+      <Spin size="large" />
+      <p>Loading Map...</p>
+    </div>
+  );
+  
   return (
     <div>
-      {/* Control display */}
-      <div style={{ marginBottom: '10px' }}>
-        <label>
-          <input type="checkbox" checked={showFlood} onChange={() => setShowFlood(!showFlood)} /> Show Flood Warning Catchments
-        </label>
-        <label style={{ marginLeft: '20px' }}>
-          <input type="checkbox" checked={showWater} onChange={() => setShowWater(!showWater)} /> Show Water Storage Points
-        </label>
-      </div>
+
+<div style={{ marginBottom: "10px", display:'flex', flexWrap:'wrap',  gap: "8px" }}>
+  <label style={{ marginRight: "20px", display: "flex", alignItems: "center", gap: "8px" }}>
+    <Switch
+      checked={showFlood}
+      onChange={() => setShowFlood(!showFlood)}
+      checkedChildren="Show"
+      unCheckedChildren="Hide"
+      style={{ backgroundColor: showFlood ? "#000" : "#9ca3af" }}
+    />
+    <span>Flood Warning Catchments</span>
+  </label>
+
+  <label style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+    <Switch
+      checked={showWater}
+      onChange={() => setShowWater(!showWater)}
+      checkedChildren="Show"
+      unCheckedChildren="Hide"
+      style={{ backgroundColor: showWater ? "#000" : "#9ca3af" }}
+    />
+    <span>Water Storage Points</span>
+  </label>
+</div>
+
 
       <MapContainer center={[-25, 133]} zoom={4} style={{ height: '90vh', width: '100%' }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />

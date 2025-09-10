@@ -31,7 +31,7 @@ export default function WaterMap() {
 
   useEffect(() => {
   const fetchData = async () => {
-    const res = await fetch("http://localhost:3000/water-data");
+    const res = await fetch("https://floodfighterbackend.onrender.com/water-data");
     const data = await res.json();
     console.log(data); // debugging 
     setFeatures(data.features);

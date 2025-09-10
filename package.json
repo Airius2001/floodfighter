@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "antd": "^5.27.3",
     "esri-leaflet": "^3.0.18",
     "gsap": "^3.13.0",
     "leaflet": "^1.9.4",

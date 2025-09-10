@@ -35,6 +35,10 @@ a {
   text-decoration: none;
 }
 
+.ant-spin-dot-item {
+  background: #000 !important;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

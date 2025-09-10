@@ -1,5 +1,6 @@
 import React from "react";
 import Orb from "../../src/blocks/Backgrounds/Orb/Orb";
+import { FaArrowRight } from "react-icons/fa6";
 
 export default function Hero({ onExplore }: { onExplore?: () => void }) {
   const wrap: React.CSSProperties = {
@@ -13,7 +14,6 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
   const inner: React.CSSProperties = {
     position: "relative",
     // zIndex: 1,
-    maxWidth: 1120,
     margin: "0 auto",
     textAlign: "center",
     padding: "200px 16px",
@@ -97,7 +97,7 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
             }}
           >
             <button type="button" onClick={onExplore} style={btn}>
-              Explore More
+              Explore More &nbsp;<FaArrowRight />
             </button>
           </div>
         </div>

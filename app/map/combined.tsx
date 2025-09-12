@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup, Polygon, useMap } from 'react-l
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-// Fix the issue of default marker icon not displaying.
+// Fix default marker icon
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -30,19 +30,23 @@ interface FloodCatchment {
   geometry: { rings: number[][][] } | null;
 }
 
-// Auxiliary component: automatically adjust map boundaries
-function FitBounds({ waterPoints, catchments }: { waterPoints: WaterFeature[]; catchments: FloodCatchment[] }) {
+// Fit map bounds to data
+function FitBounds({
+  waterPoints,
+  catchments,
+}: {
+  waterPoints: WaterFeature[];
+  catchments: FloodCatchment[];
+}) {
   const map = useMap();
 
   useEffect(() => {
     const allCoords: [number, number][] = [];
 
-    // Reservoir point
     waterPoints.forEach((wp) => {
       allCoords.push([wp.geometry.y, wp.geometry.x]);
     });
 
-    // Flood Polygon
     catchments.forEach((c) => {
       c.geometry?.rings.forEach((ring) => {
         ring.forEach(([lng, lat]) => allCoords.push([lat, lng]));
@@ -57,25 +61,23 @@ function FitBounds({ waterPoints, catchments }: { waterPoints: WaterFeature[]; c
   return null;
 }
 
-export default function CombinedMap() {
+interface CombinedMapProps {
+  showWater: boolean;
+  showFlood: boolean;
+}
+
+export default function CombinedMap({ showWater, showFlood }: CombinedMapProps) {
   const [waterPoints, setWaterPoints] = useState<WaterFeature[]>([]);
   const [catchments, setCatchments] = useState<FloodCatchment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const [showWater, setShowWater] = useState(true);
-  const [showFlood, setShowFlood] = useState(true);
-
-  // Loading reservoir points
   useEffect(() => {
     fetch('https://floodfighterbackend.onrender.com/water-data')
       .then((res) => res.json())
-      .then((data) => {
-        setWaterPoints(data.features || []);
-      })
+      .then((data) => setWaterPoints(data.features || []))
       .catch(console.error);
   }, []);
 
-  // Load flood area
   useEffect(() => {
     fetch('https://floodfighterbackend.onrender.com/flood')
       .then((res) => res.json())
@@ -90,57 +92,47 @@ export default function CombinedMap() {
   if (loading) return <div>Loading map...</div>;
 
   return (
-    <div>
-      {/* Control display */}
-      <div style={{ marginBottom: '10px' }}>
-        <label>
-          <input type="checkbox" checked={showFlood} onChange={() => setShowFlood(!showFlood)} /> Show Flood Warning Catchments
-        </label>
-        <label style={{ marginLeft: '20px' }}>
-          <input type="checkbox" checked={showWater} onChange={() => setShowWater(!showWater)} /> Show Water Storage Points
-        </label>
-      </div>
+    <MapContainer center={[-25, 133]} zoom={4} style={{ height: '100vh', width: '100%' }}>
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-      <MapContainer center={[-25, 133]} zoom={4} style={{ height: '90vh', width: '100%' }}>
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <FitBounds waterPoints={waterPoints} catchments={catchments} />
 
-        <FitBounds waterPoints={waterPoints} catchments={catchments} />
+      {showWater &&
+        waterPoints.map((wp, idx) => (
+          <Marker key={idx} position={[wp.geometry.y, wp.geometry.x]}>
+            <Popup>
+              <div style={{ minWidth: 200 }}>
+                <h3>{wp.attributes.wstorlname}</h3>
+                <p>
+                  <b>Capacity:</b> {wp.attributes.total_capacity_ml} ML
+                </p>
+                {wp.attributes.surface_area_m2 && (
+                  <p>Surface Area: {wp.attributes.surface_area_m2.toLocaleString()} m²</p>
+                )}
+                {wp.attributes.year_completion && <p>Year Completed: {wp.attributes.year_completion}</p>}
+                {wp.attributes.state_name && <p>State: {wp.attributes.state_name}</p>}
+                {wp.attributes.total_us_catchment_area_km2 && (
+                  <p>Catchment Area: {wp.attributes.total_us_catchment_area_km2} km²</p>
+                )}
+              </div>
+            </Popup>
+          </Marker>
+        ))}
 
-        {/* Reservoir Marker */}
-        {showWater &&
-          waterPoints.map((wp, idx) => (
-            <Marker key={idx} position={[wp.geometry.y, wp.geometry.x]}>
-              <Popup>
-                <div style={{ minWidth: 200 }}>
-                  <h3>{wp.attributes.wstorlname}</h3>
-                  <p>
-                    <b>Capacity:</b> {wp.attributes.total_capacity_ml} ML
-                  </p>
-                  {wp.attributes.surface_area_m2 && <p>Surface Area: {wp.attributes.surface_area_m2.toLocaleString()} m²</p>}
-                  {wp.attributes.year_completion && <p>Year Completed: {wp.attributes.year_completion}</p>}
-                  {wp.attributes.state_name && <p>State: {wp.attributes.state_name}</p>}
-                  {wp.attributes.total_us_catchment_area_km2 && <p>Catchment Area: {wp.attributes.total_us_catchment_area_km2} km²</p>}
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-
-        {/* flood Polygon */}
-        {showFlood &&
-          catchments.map((c, idx) =>
-            c.geometry?.rings.map((ring, rIdx) => (
-              <Polygon
-                key={`${idx}-${rIdx}`}
-                positions={ring.map(([lng, lat]) => [lat, lng])}
-                color="blue"
-                fillColor="lightblue"
-                fillOpacity={0.4}
-              >
-                <Popup>{c.name}</Popup>
-              </Polygon>
-            ))
-          )}
-      </MapContainer>
-    </div>
+      {showFlood &&
+        catchments.map((c, idx) =>
+          c.geometry?.rings.map((ring, rIdx) => (
+            <Polygon
+              key={`${idx}-${rIdx}`}
+              positions={ring.map(([lng, lat]) => [lat, lng])}
+              color="blue"
+              fillColor="lightblue"
+              fillOpacity={0.4}
+            >
+              <Popup>{c.name}</Popup>
+            </Polygon>
+          ))
+        )}
+    </MapContainer>
   );
 }

@@ -40,7 +40,7 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
         <Orb
           hoverIntensity={0.5}
           rotateOnHover={true}
-          hue={283}
+          hue={45}
           forceHoverState={false}
         />
       </div>

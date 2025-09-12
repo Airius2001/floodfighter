@@ -1,10 +1,19 @@
+'use client';
+
+import dynamic from 'next/dynamic';
+import React from 'react';
+
+const CombinedMap = dynamic(() => import('./combined').then((mod) => mod.default), {
+  ssr: false,
+});
+
 export default function MapPage() {
   return (
-    <div style={{ padding: "20px" }}>
-      <h1 style={{ fontSize: "24px", fontWeight: "bold" }}> Map Visualisation</h1>
-      <p style={{ marginTop: "12px", fontSize: "16px", color: "#374151" }}>
-        This is the map page.
-      </p>
+    <div style={{ padding: '20px' }}>
+      <h1>Australia Flood information Map</h1>
+      <div style={{ marginTop: '20px', height: '90vh' }}>
+        <CombinedMap />
+      </div>
     </div>
   );
 }

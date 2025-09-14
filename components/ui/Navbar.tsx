@@ -195,12 +195,12 @@ export function Navbar() {
           <Link href="/map" style={navLinkStyle(isMap)}>
             <FaMapLocationDot /> Map Visualisation
           </Link>
-          <Link href="/check-postcode" style={navLinkStyle(isPostCode)}>
+          {/* <Link href="/check-postcode" style={navLinkStyle(isPostCode)}>
             <FaLocationDot /> Check Postcode
           </Link>
           <AntdDropdownMenu title="Before Flood" href="/before" items={beforeItems} active={isBefore} icon={<BsShieldCheck />} />
           <AntdDropdownMenu title="During Flood" href="/during" items={duringItems} active={isDuring} icon={<AiOutlineCheckCircle />} />
-          <AntdDropdownMenu title="After Flood" href="/after" items={afterItems} active={isAfter} icon={<MdOutlineCleaningServices />} />
+          <AntdDropdownMenu title="After Flood" href="/after" items={afterItems} active={isAfter} icon={<MdOutlineCleaningServices />} /> */}
         </nav>
 
         <button
@@ -214,7 +214,7 @@ export function Navbar() {
       {menuOpen && (
         <div className="mobile-nav">
           <MobileItem href="/map" label="Map" icon={<FaMapLocationDot />} active={isMap} onClick={() => setMenuOpen(false)} />
-          <MobileItem href="/check-postcode" label="Check PostCode" icon={<FaLocationDot />} active={isPostCode} onClick={() => setMenuOpen(false)} />
+          {/* <MobileItem href="/check-postcode" label="Check PostCode" icon={<FaLocationDot />} active={isPostCode} onClick={() => setMenuOpen(false)} />
 
           <div className="mobile-section-title">Before Flood</div>
           {beforeItems.map((it) => (
@@ -229,7 +229,7 @@ export function Navbar() {
           <div className="mobile-section-title">After Flood</div>
           {afterItems.map((it) => (
             <MobileSubItem key={it.href} href={it.href} label={it.label} icon={it.icon} onClick={() => setMenuOpen(false)} />
-          ))}
+          ))} */}
         </div>
       )}
 

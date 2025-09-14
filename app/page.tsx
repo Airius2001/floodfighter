@@ -3,9 +3,12 @@
 import { useMemo, useRef, useState } from "react";
 import Hero from "@/components/sections/Hero";
 import FeatureDuplex from "@/components/sections/FeatureDuplex";
+import { Statistics } from "@/components/sections/Statistics";
+import FloodFighterUI from "@/components/sections/ProjectDetails";
+
 
 export default function HomePage() {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToContent = () => {
@@ -15,12 +18,7 @@ export default function HomePage() {
   };
 
   const handleExplore = () => {
-    if (!expanded) {
-      setExpanded(true);
-      setTimeout(() => scrollToContent(), 400);
-    } else {
-      scrollToContent();
-    }
+    
   };
 
   const pageWrap: React.CSSProperties = useMemo(
@@ -49,7 +47,8 @@ export default function HomePage() {
     <div style={pageWrap}>
       <Hero onExplore={handleExplore} />
       {expanded && <div style={revealPanel} ref={contentRef}>
-        <FeatureDuplex />
+        <FloodFighterUI />
+        <Statistics />
       </div>}
     </div>
   );

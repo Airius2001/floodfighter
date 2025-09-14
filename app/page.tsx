@@ -1,13 +1,28 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Hero from "@/components/sections/Hero";
 import FeatureDuplex from "@/components/sections/FeatureDuplex";
 
 export default function HomePage() {
   const [expanded, setExpanded] = useState(false);
+  const contentRef = useRef<HTMLDivElement | null>(null);
 
-  // Static container styles ensure SSR/CSR markup is identical
+  const scrollToContent = () => {
+    if (contentRef.current) {
+      contentRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleExplore = () => {
+    if (!expanded) {
+      setExpanded(true);
+      setTimeout(() => scrollToContent(), 400);
+    } else {
+      scrollToContent();
+    }
+  };
+
   const pageWrap: React.CSSProperties = useMemo(
     () => ({
       position: "relative",
@@ -18,7 +33,6 @@ export default function HomePage() {
     [expanded]
   );
 
-  // Panel that slides up to reveal the rest of the page
   const revealPanel: React.CSSProperties = useMemo(
     () => ({
       transform: expanded ? "translateY(0)" : "translateY(100vh)",
@@ -33,11 +47,10 @@ export default function HomePage() {
 
   return (
     <div style={pageWrap}>
-      <Hero onExplore={() => setExpanded(true)} />
-      <div style={revealPanel}>
+      <Hero onExplore={handleExplore} />
+      {expanded && <div style={revealPanel} ref={contentRef}>
         <FeatureDuplex />
-        
-      </div>
+      </div>}
     </div>
   );
 }

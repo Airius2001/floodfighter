@@ -30,6 +30,43 @@ interface FloodCatchment {
   geometry: { rings: number[][][] } | null;
 }
 
+// Convert the reservoir returned by the Worker to the GeoJSON → existing ArcGIS style
+function adaptWaterGeoJSON(geojson: any): WaterFeature[] {
+  if (!geojson || !geojson.features) return [];
+  return geojson.features.map((f: any) => ({
+    geometry: { x: f.geometry.coordinates[0], y: f.geometry.coordinates[1] },
+    attributes: {
+      wstorlname: f.properties.wstorlname,
+      total_capacity_ml: f.properties.total_capacity_ml,
+      surface_area_m2: f.properties.surface_area_m2,
+      year_completion: f.properties.year_completion,
+      state_name: f.properties.state_name,
+      total_us_catchment_area_km2: f.properties.total_us_catchment_area_km2,
+    },
+  }));
+}
+
+// Convert the flood returned by the Worker to the GeoJSON → existing ArcGIS style
+function adaptFloodGeoJSON(geojson: any): FloodCatchment[] {
+  if (!geojson || !geojson.features) return [];
+  return geojson.features.map((f: any) => {
+    let rings: number[][][] = [];
+    if (f.geometry.type === 'Polygon') {
+      rings = f.geometry.coordinates.map((ring: number[][]) =>
+        ring.map(([lng, lat]) => [lng, lat])
+      );
+    } else if (f.geometry.type === 'MultiPolygon') {
+      rings = f.geometry.coordinates.flat().map((ring: number[][]) =>
+        ring.map(([lng, lat]) => [lng, lat])
+      );
+    }
+    return {
+      name: f.properties?.name || 'Unnamed',
+      geometry: { rings },
+    };
+  });
+}
+
 // Fit map bounds to data
 function FitBounds({
   waterPoints,
@@ -72,18 +109,17 @@ export default function CombinedMap({ showWater, showFlood }: CombinedMapProps) 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://floodfighterbackend.onrender.com/water-data')
+    fetch('https://bom-cache-worker.yxin0038.workers.dev/water?where=1=1&resultRecordCount=200')
       .then((res) => res.json())
-      .then((data) => setWaterPoints(data.features || []))
+      .then((data) => setWaterPoints(adaptWaterGeoJSON(data)))
       .catch(console.error);
   }, []);
 
   useEffect(() => {
-    fetch('https://floodfighterbackend.onrender.com/flood')
+    fetch('https://bom-cache-worker.yxin0038.workers.dev/flood?where=1=1&resultRecordCount=200')
       .then((res) => res.json())
       .then((data) => {
-        const features = Array.isArray(data) ? data : [];
-        setCatchments(features.filter((f) => f.geometry && Array.isArray(f.geometry.rings)));
+        setCatchments(adaptFloodGeoJSON(data));
         setLoading(false);
       })
       .catch(console.error);

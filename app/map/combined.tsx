@@ -41,6 +41,7 @@ function FitBounds({
 }) {
   const map = useMap();
 
+
   useEffect(() => {
     const allCoords: [number, number][] = [];
 
@@ -63,14 +64,15 @@ function FitBounds({
 }
 
 interface CombinedMapProps {
+  loading: boolean;
+  setLoading: (value: boolean) => void;
   showWater: boolean;
   showFlood: boolean;
 }
 
-export default function CombinedMap({ showWater, showFlood }: CombinedMapProps) {
+export default function CombinedMap({ showWater, showFlood, loading, setLoading }: CombinedMapProps) {
   const [waterPoints, setWaterPoints] = useState<WaterFeature[]>([]);
   const [catchments, setCatchments] = useState<FloodCatchment[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('https://floodfighterbackend.onrender.com/water-data')
@@ -90,31 +92,42 @@ export default function CombinedMap({ showWater, showFlood }: CombinedMapProps) 
       .catch(console.error);
   }, []);
 
-if (loading)
+  if (loading)
+    return (
+      <div
+        style={{
+          height: "80vh",
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: 'column',
+          alignItems: "center",
+        }}
+      >
+        <Spin className="activity-spinner" size="large" />
+        <p style={{ marginTop: 10, color: '#fff' }}>Loading Map...</p>
+      </div>
+    );
+
   return (
-    <div
-      style={{
-        height: "50vh",
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: 'column',
-        alignItems: "center",
-      }}
-    >
-      <Spin size="large" />
-      <p>Loading Map...</p>
-    </div>
-  );
-  
-  return (
-    <MapContainer center={[-25, 133]} zoom={4} style={{ height: '100vh', width: '100%' }}>
+    <MapContainer center={[-25, 133]} zoom={8} style={{ height: '100vh', width: '100%' }}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
       <FitBounds waterPoints={waterPoints} catchments={catchments} />
 
       {showWater &&
         waterPoints.map((wp, idx) => (
-          <Marker key={idx} position={[wp.geometry.y, wp.geometry.x]}>
+          <Marker key={idx} position={[wp.geometry.y, wp.geometry.x]}
+            eventHandlers={{
+              mouseover: (e) => {
+                const layer = e.target;
+                layer.openPopup();
+              },
+              mouseout: (e) => {
+                const layer = e.target;
+                layer.closePopup();
+              },
+            }}
+          >
             <Popup>
               <div style={{ minWidth: 200 }}>
                 <h3>{wp.attributes.wstorlname}</h3>
@@ -143,11 +156,30 @@ if (loading)
               color="blue"
               fillColor="lightblue"
               fillOpacity={0.4}
-            >
-              <Popup>{c.name}</Popup>
-            </Polygon>
+              eventHandlers={{
+                mouseover: (e) => {
+                  const popup = L.popup({
+                    closeButton: false,
+                    autoClose: false,
+                    closeOnClick: false,
+                  })
+                    .setLatLng(e.latlng)
+                    .setContent(c.name);
+                  popup.addTo(e.target._map); // attach popup to map
+                  (e.target as any)._hoverPopup = popup; // store reference for later
+                },
+                mouseout: (e) => {
+                  const popup = (e.target as any)._hoverPopup;
+                  if (popup) {
+                    popup.remove();
+                  }
+                },
+              }}
+            />
+
           ))
         )}
+
     </MapContainer>
   );
 }

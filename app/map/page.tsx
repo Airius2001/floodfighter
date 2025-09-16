@@ -21,34 +21,35 @@ export default function MapPage() {
       document.body.style.overflow = prev;
     };
   }, []);
+  const [loading, setLoading] = useState(true);
 
   return (
     <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
-      <CombinedMap showFlood={showCatchments} showWater={showWaterPoints} />
+      <CombinedMap loading={loading} setLoading={setLoading} showFlood={showCatchments} showWater={showWaterPoints} />
 
       {/* Floating stack on the top-right for both menus */}
+      {!loading && 
       <div
         style={{
           position: 'fixed',
-          bottom: 36,
-          right: 16,
+          bottom: 5,
+          right:10,
           zIndex: 1200,
           display: 'flex',
           flexDirection: 'column',
           gap: 10,
-          // prevent panel from touching rounded phone corners / notches
           paddingRight: 'env(safe-area-inset-right)',
           paddingTop: 'env(safe-area-inset-top)',
         }}
       >
-        <MapMenu />
+        {/* <MapMenu /> */}
         <MapControls
           showCatchments={showCatchments}
           setShowCatchments={setShowCatchments}
           showWaterPoints={showWaterPoints}
           setShowWaterPoints={setShowWaterPoints}
         />
-      </div>
+      </div>}
     </div>
   );
 }

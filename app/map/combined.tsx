@@ -1,9 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polygon, useMap, Tooltip } from 'react-leaflet';
+import LocatemeControl from './LocatemeControl';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+
+
 
 // Fix default marker icon
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -35,18 +38,26 @@ const BASEMAPS = {
   esriTopo: {
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
     attribution: '© Esri, FAO, NOAA, USGS',
+    maxZoom: 12,
+    maxNativeZoom: 12,
   },
   openTopo: {
     url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
     attribution: 'Map data © OpenStreetMap contributors, SRTM | Tiles © OpenTopoMap (CC-BY-SA)',
+    maxZoom: 12,
+    maxNativeZoom: 12,
   },
   esriImagery: {
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
     attribution: 'Source: Esri, Maxar, Earthstar Geographics',
+    maxZoom: 12,
+    maxNativeZoom: 12,
   },
   esriNatGeo: {
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}',
     attribution: '© Esri, National Geographic, DeLorme',
+    maxZoom: 12,
+    maxNativeZoom: 12,
   },
 } as const;
 type BasemapKey = keyof typeof BASEMAPS;
@@ -127,9 +138,13 @@ interface CombinedMapProps {
   basemap: BasemapKey;
 }
 
+
+
 export default function CombinedMap({ showWater, showFlood, basemap }: CombinedMapProps) {
   const [waterPoints, setWaterPoints] = useState<WaterFeature[]>([]);
   const [catchments, setCatchments] = useState<FloodCatchment[]>([]);
+  // Track which catchment ring is hovered (format: `${idx}-${rIdx}`)
+  const [hoveredKey, setHoveredKey] = useState<string | null>(null);  
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -151,6 +166,7 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
 
   if (loading) return <div>Loading map...</div>;
 
+  
   return (
     <MapContainer center={[-25, 133]} zoom={4} style={{ height: '100vh', width: '100%' }}>
       {/* Minimal change: use selected basemap instead of fixed OSM */}
@@ -158,7 +174,11 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
         key={basemap}
         url={BASEMAPS[basemap].url}
         attribution={BASEMAPS[basemap].attribution}
+        maxZoom={BASEMAPS[basemap].maxZoom}
+        maxNativeZoom={BASEMAPS[basemap].maxNativeZoom}
       />
+
+      <LocatemeControl/>
 
       <FitBounds waterPoints={waterPoints} catchments={catchments} />
 
@@ -183,20 +203,56 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
             </Popup>
           </Marker>
         ))}
-
+      
       {showFlood &&
         catchments.map((c, idx) =>
-          c.geometry?.rings.map((ring, rIdx) => (
-            <Polygon
-              key={`${idx}-${rIdx}`}
-              positions={ring.map(([lng, lat]) => [lat, lng])}
-              color="blue"
-              fillColor="lightblue"
-              fillOpacity={0.4}
-            >
-              <Popup>{c.name}</Popup>
-            </Polygon>
-          ))
+          c.geometry?.rings.map((ring, rIdx) => {
+            const keyId = `${idx}-${rIdx}`;
+            const isHovered = hoveredKey === keyId;
+
+            // Strong & obvious hover style
+            const baseStyle = {
+              color: 'blue',
+              weight: 1,
+              fillColor: 'lightblue',
+              fillOpacity: 0.35,
+            };
+
+            const hoverStyle = {
+              color: '#ff2d55',        // vivid pink stroke
+              weight: 3,               // thicker border
+              dashArray: '6 3',        // dashed stroke on hover
+              fillColor: '#ffd1dd',    // light pink fill
+              fillOpacity: 0.70,
+            };
+
+            const style = isHovered ? hoverStyle : baseStyle;
+
+            return (
+              <Polygon
+                key={keyId}
+                positions={ring.map(([lng, lat]) => [lat, lng] as [number, number])}
+                // ✅ All Leaflet Path options go into pathOptions
+                pathOptions={{
+                  ...style,
+                  interactive: true,
+                  bubblingMouseEvents: false, // put here, not as a top-level prop
+                }}
+                eventHandlers={{
+                  mouseover: (e) => {
+                    setHoveredKey(keyId);
+                    (e.target as L.Path).bringToFront(); // ensure it's on top
+                  },
+                  mouseout: (e) => {
+                    setHoveredKey((prev) => (prev === keyId ? null : prev));
+                  },
+                }}
+              >
+                {/* Hover feedback that's impossible to miss */}
+                <Tooltip sticky>{c.name}</Tooltip>
+              </Polygon>
+            );
+          })
         )}
     </MapContainer>
   );

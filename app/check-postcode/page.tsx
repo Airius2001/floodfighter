@@ -54,13 +54,13 @@ export default function CheckPostcodePage() {
       setLoading(true);
 
       // Call Geo API
-      const geoRes = await axios.get("http://localhost:3000/geo", {
+      const geoRes = await axios.get("https://floodfighterbackend.onrender.com/geo", {
         params: { postcode },
       });
       setLocation(geoRes.data);
 
       // Call Weather API
-      const weatherRes = await axios.get("http://localhost:3000/weather", {
+      const weatherRes = await axios.get("https://floodfighterbackend.onrender.com/weather", {
         params: {
           lat: geoRes.data.latitude,
           lon: geoRes.data.longitude,

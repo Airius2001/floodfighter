@@ -30,6 +30,27 @@ interface FloodCatchment {
   geometry: { rings: number[][][] } | null;
 }
 
+/** Added: basemap registry (minimal, no style changes elsewhere) */
+const BASEMAPS = {
+  esriTopo: {
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+    attribution: '© Esri, FAO, NOAA, USGS',
+  },
+  openTopo: {
+    url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+    attribution: 'Map data © OpenStreetMap contributors, SRTM | Tiles © OpenTopoMap (CC-BY-SA)',
+  },
+  esriImagery: {
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Source: Esri, Maxar, Earthstar Geographics',
+  },
+  esriNatGeo: {
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}',
+    attribution: '© Esri, National Geographic, DeLorme',
+  },
+} as const;
+type BasemapKey = keyof typeof BASEMAPS;
+
 // Convert the reservoir returned by the Worker to the GeoJSON → existing ArcGIS style
 function adaptWaterGeoJSON(geojson: any): WaterFeature[] {
   if (!geojson || !geojson.features) return [];
@@ -61,11 +82,12 @@ function adaptFloodGeoJSON(geojson: any): FloodCatchment[] {
       );
     }
     return {
-      name: f.properties?.name || 'Unnamed',
+      name: f.properties?.dist_name || 'Unnamed',
       geometry: { rings },
     };
   });
 }
+
 
 // Fit map bounds to data
 function FitBounds({
@@ -101,9 +123,11 @@ function FitBounds({
 interface CombinedMapProps {
   showWater: boolean;
   showFlood: boolean;
+  /** Added: current basemap key */
+  basemap: BasemapKey;
 }
 
-export default function CombinedMap({ showWater, showFlood }: CombinedMapProps) {
+export default function CombinedMap({ showWater, showFlood, basemap }: CombinedMapProps) {
   const [waterPoints, setWaterPoints] = useState<WaterFeature[]>([]);
   const [catchments, setCatchments] = useState<FloodCatchment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -129,7 +153,12 @@ export default function CombinedMap({ showWater, showFlood }: CombinedMapProps) 
 
   return (
     <MapContainer center={[-25, 133]} zoom={4} style={{ height: '100vh', width: '100%' }}>
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {/* Minimal change: use selected basemap instead of fixed OSM */}
+      <TileLayer
+        key={basemap}
+        url={BASEMAPS[basemap].url}
+        attribution={BASEMAPS[basemap].attribution}
+      />
 
       <FitBounds waterPoints={waterPoints} catchments={catchments} />
 

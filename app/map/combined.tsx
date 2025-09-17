@@ -6,7 +6,26 @@ import LocatemeControl from './LocatemeControl';
 import InfoControl from './InfoControl';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { reservoirPinSVG, reservoirPinSelectedSVG } from './reservoirIcons'; 
 
+/**
+ * Leaflet icons built from the SVGs 
+ */
+export const reservoirIcon = L.divIcon({
+  className: 'reservoir-pin',
+  html: reservoirPinSVG,
+  iconSize: [32, 40],
+  iconAnchor: [16, 38],
+  popupAnchor: [0, -34],
+});
+
+export const reservoirIconSelected = L.divIcon({
+  className: 'reservoir-pin-selected',
+  html: reservoirPinSelectedSVG,
+  iconSize: [40, 48],
+  iconAnchor: [18, 42],
+  popupAnchor: [0, -38],
+});
 
 
 // Fix default marker icon
@@ -15,47 +34,6 @@ L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-});
-
-// Define the SVG string for the reservoir pin
-const reservoirPinSVG = `
-<svg width="32" height="40" viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <defs>
-    <style>
-      .PIN { fill:#2A89FF; }
-      .GLYPH { fill:#2A89FF; stroke:#2A89FF; }
-    </style>
-  </defs>
-
-  <!-- Outer pin -->
-  <path class="PIN"
-        d="M16 1 C8.5 1 3 6.8 3 13.8 C3 23.2 16 39 16 39
-           C16 39 29 23.2 29 13.8 C29 6.8 23.5 1 16 1 Z"/>
-
-  <!-- White inner circle -->
-  <circle cx="16" cy="14" r="9.6" fill="#FFFFFF"/>
-
-  <!-- Trapezoid dam (left vertical, right slanted) -->
-  <!-- Bottom wider: from x=9 to x=14; Top narrower: from x=9 to x=13 -->
-  <path class="GLYPH"
-        d="M9 10 L13 10 L16 19 L9 19 Z" />
-
-  <!-- Two longer wave lines to the right -->
-  <path d="M16 15 q1.8 1.2 3.6 0 q1.8 -1.2 3.6 0"
-        class="GLYPH" fill="none" stroke-width="1.2" stroke-linecap="round"/>
-  <path d="M16 18 q1.8 1.2 3.6 0 q1.8 -1.2 3.6 0"
-        class="GLYPH" fill="none" stroke-width="1.2" stroke-linecap="round"/>
-</svg>
-`;
-
-
-
-const reservoirIcon = L.divIcon({
-  className: 'reservoir-pin',
-  html: reservoirPinSVG,
-  iconSize: [32, 40],   // match the SVG size
-  iconAnchor: [16, 38], // bottom tip aligns with location
-  popupAnchor: [0, -34] // popup above pin
 });
 
 interface WaterFeature {
@@ -141,6 +119,26 @@ function adaptFloodGeoJSON(geojson: any): FloodCatchment[] {
   });
 }
 
+// helper component
+function ClearSelectionOnMapClick({
+  onClear,
+}: {
+  onClear: () => void;
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    const handler = () => onClear();
+    map.on('click', handler);
+
+    // cleanup
+    return () => {
+      map.off('click', handler);
+    };
+  }, [map, onClear]);
+
+  return null;
+}
 
 // Fit map bounds to data
 function FitBounds({
@@ -188,6 +186,7 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
   // Track which catchment ring is hovered (format: `${idx}-${rIdx}`)
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);  
   const [loading, setLoading] = useState(true);
+  const [selectedReservoir, setSelectedReservoir] = useState<number | null>(null);
 
   useEffect(() => {
     fetch('https://bom-cache-worker.yxin0038.workers.dev/water?where=1=1&resultRecordCount=200')
@@ -223,21 +222,57 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
       <LocatemeControl/>
       {/* Left-side: Locate (you already have this), then Info just below it */}
       <InfoControl title="About Flood Fighter">
+      <section>
+        <h2>What is Map Visualization in Flood Fighter?</h2>
         <p>
-          Flood Fighter is an interactive map that brings together basemaps, reservoirs
-          and flood catchments. Use the left-side controls to locate yourself and the
-          top-right controls to switch basemaps and open this legend.
+          Map Visualization inFlood Fighter is an <strong>interactive map</strong> for Australia that
+          brings together <em>basemaps</em>, <em>water storage reservoirs</em>, and
+          <em> flood catchments</em>. It helps you explore water infrastructure and
+          landscapes related to flood risk.
         </p>
-        <p>
-          Data is for informational purposes only. Consult official sources for critical decisions.
+
+        <h3>Main features</h3>
+        <ul>
+          <li><strong>Basemaps</strong>: Switch between Topographic, OpenTopoMap, Satellite, and National Geographic styles.</li>
+          <li><strong>Reservoirs</strong>: Click any pin to view details; the selected reservoir is highlighted.</li>
+          <li><strong>Flood Catchments</strong>: Catchment boundaries are shown; <em>hover</em> to emphasize the hovered catchment.</li>
+          <li><strong>Your Location</strong>: Use the left control to find where you are on the map.</li>
+          <li><strong>Legend & Layers</strong>: Use the right panel to understand symbols and toggle <em>Flood Warning Catchments</em> and <em>Water Storage Points</em>.</li>
+          <li><strong>Preparedness Guides</strong>: Open the Menu for “Be prepared before flood”, “Stay safe during flood”, and “Recover stronger after flood”.</li>
+        </ul>
+
+        <h3>How to use</h3>
+        <ol>
+          <li>Click the left-side <strong>Locate</strong> button 📍 to zoom to your position.</li>
+          <li>Use the right-side <strong>Layers</strong> toggles to show/hide catchments and reservoirs.</li>
+          <li>Try different <strong>Basemaps</strong> from the Basemap panel to change the background style.</li>
+          <li><strong>Click</strong> a reservoir pin for details; <strong>hover</strong> a catchment to highlight it.</li>
+          <li>Open the <strong>Menu</strong> for practical tips before/during/after floods.</li>
+        </ol>
+
+        <p className="ff-disclaimer">
+          ⚠️ <strong>Disclaimer</strong>: This map is for informational purposes only.
+          Always consult official sources and emergency services for critical decisions.
         </p>
+      </section>
       </InfoControl>
 
       <FitBounds waterPoints={waterPoints} catchments={catchments} />
 
       {showWater &&
         waterPoints.map((wp, idx) => (
-          <Marker key={idx} position={[wp.geometry.y, wp.geometry.x]} icon={reservoirIcon}>
+          <Marker 
+            key={idx} 
+            position={[wp.geometry.y, wp.geometry.x]} 
+            icon={selectedReservoir === idx ? reservoirIconSelected : reservoirIcon}
+            zIndexOffset={selectedReservoir === idx ? 1200 : 0}
+            eventHandlers={{
+              click: (e) => {
+                e.originalEvent?.stopPropagation?.(); // avoid map-click clearing first
+                setSelectedReservoir(idx);
+              },
+            }}
+          >
             <Popup>
               <div style={{ minWidth: 200 }}>
                 <h3>{wp.attributes.wstorlname}</h3>
@@ -307,6 +342,8 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
             );
           })
         )}
+        <ClearSelectionOnMapClick onClear={() => setSelectedReservoir(null)} />
     </MapContainer>
+    
   );
 }

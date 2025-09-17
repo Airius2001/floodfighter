@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Card, Typography, List, Divider, Button, Row, Col, message } from "antd";
+import {
+  Card,
+  Typography,
+  List,
+  Divider,
+  Button,
+  Row,
+  Col,
+  message,
+} from "antd";
 import {
   FaListAlt,
   FaDownload,
@@ -13,7 +22,7 @@ import {
   FaFirstAid,
   FaMobileAlt,
   FaMoneyBillWave,
-  FaUserShield
+  FaUserShield,
 } from "react-icons/fa";
 import jsPDF from "jspdf";
 
@@ -23,14 +32,38 @@ export default function EmergencyKit() {
   const [loading, setLoading] = useState(false);
 
   const items = [
-    { icon: <FaTint size={28} color="#0af" />, text: "Drinking Water (3 days supply)" },
-    { icon: <FaUtensils size={28} color="#faad14" />, text: "Non-perishable Food (3 days supply)" },
-    { icon: <FaLightbulb size={28} color="#f5222d" />, text: "Flashlight & Extra Bulbs" },
-    { icon: <FaBatteryFull size={28} color="#52c41a" />, text: "Spare Batteries & Power Bank" },
-    { icon: <FaFirstAid size={28} color="#ff4d4f" />, text: "First Aid Kit with Medicines" },
-    { icon: <FaMobileAlt size={28} color="#13c2c2" />, text: "Charged Mobile Phone & Charger" },
-    { icon: <FaMoneyBillWave size={28} color="#a0d911" />, text: "Cash & Important Documents" },
-    { icon: <FaUserShield size={28} color="#722ed1" />, text: "Warm Clothes & Blankets" },
+    {
+      icon: <FaTint size={28} color="#0af" />,
+      text: "Drinking Water (3 days supply)",
+    },
+    {
+      icon: <FaUtensils size={28} color="#faad14" />,
+      text: "Non-perishable Food (3 days supply)",
+    },
+    {
+      icon: <FaLightbulb size={28} color="#f5222d" />,
+      text: "Flashlight & Extra Bulbs",
+    },
+    {
+      icon: <FaBatteryFull size={28} color="#52c41a" />,
+      text: "Spare Batteries & Power Bank",
+    },
+    {
+      icon: <FaFirstAid size={28} color="#ff4d4f" />,
+      text: "First Aid Kit with Medicines",
+    },
+    {
+      icon: <FaMobileAlt size={28} color="#13c2c2" />,
+      text: "Charged Mobile Phone & Charger",
+    },
+    {
+      icon: <FaMoneyBillWave size={28} color="#a0d911" />,
+      text: "Cash & Important Documents",
+    },
+    {
+      icon: <FaUserShield size={28} color="#722ed1" />,
+      text: "Warm Clothes & Blankets",
+    },
   ];
 
   // Generate PDF
@@ -93,7 +126,8 @@ export default function EmergencyKit() {
                 Emergency Kit Checklist
               </Title>
               <Paragraph style={{ color: "#aaa", fontSize: 16 }}>
-                Essential supplies to keep you and your family safe during floods in Australia.
+                Essential supplies to keep you and your family safe during
+                floods in Australia.
               </Paragraph>
             </div>
 

@@ -17,6 +17,47 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
+// Define the SVG string for the reservoir pin
+const reservoirPinSVG = `
+<svg width="32" height="40" viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <style>
+      .PIN { fill:#2A89FF; }
+      .GLYPH { fill:#2A89FF; stroke:#2A89FF; }
+    </style>
+  </defs>
+
+  <!-- Outer pin -->
+  <path class="PIN"
+        d="M16 1 C8.5 1 3 6.8 3 13.8 C3 23.2 16 39 16 39
+           C16 39 29 23.2 29 13.8 C29 6.8 23.5 1 16 1 Z"/>
+
+  <!-- White inner circle -->
+  <circle cx="16" cy="14" r="9.6" fill="#FFFFFF"/>
+
+  <!-- Trapezoid dam (left vertical, right slanted) -->
+  <!-- Bottom wider: from x=9 to x=14; Top narrower: from x=9 to x=13 -->
+  <path class="GLYPH"
+        d="M9 10 L13 10 L16 19 L9 19 Z" />
+
+  <!-- Two longer wave lines to the right -->
+  <path d="M16 15 q1.8 1.2 3.6 0 q1.8 -1.2 3.6 0"
+        class="GLYPH" fill="none" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M16 18 q1.8 1.2 3.6 0 q1.8 -1.2 3.6 0"
+        class="GLYPH" fill="none" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
+`;
+
+
+
+const reservoirIcon = L.divIcon({
+  className: 'reservoir-pin',
+  html: reservoirPinSVG,
+  iconSize: [32, 40],   // match the SVG size
+  iconAnchor: [16, 38], // bottom tip aligns with location
+  popupAnchor: [0, -34] // popup above pin
+});
+
 interface WaterFeature {
   geometry: { x: number; y: number };
   attributes: {
@@ -196,7 +237,7 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
 
       {showWater &&
         waterPoints.map((wp, idx) => (
-          <Marker key={idx} position={[wp.geometry.y, wp.geometry.x]}>
+          <Marker key={idx} position={[wp.geometry.y, wp.geometry.x]} icon={reservoirIcon}>
             <Popup>
               <div style={{ minWidth: 200 }}>
                 <h3>{wp.attributes.wstorlname}</h3>

@@ -4,7 +4,8 @@ import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 import MapMenu from './MapMenu';
 import MapControls from './MapControls';
-import MapBasemapControl from './MapBasemapControl'; // hamburger-style basemap control
+import MapBasemapControl from './MapBasemapControl'; 
+import LegendControl from './LegendControl';
 
 // Load the map client-side only to avoid SSR issues with Leaflet
 const CombinedMap = dynamic(() => import('./combined').then((m) => m.default), {
@@ -53,6 +54,8 @@ export default function Page() {
       <div style={stackStyle}>
         {/* Menu (unchanged) */}
         <MapMenu />
+
+        <LegendControl />
 
         {/* Layers (prop names must match MapControls.tsx) */}
         <MapControls

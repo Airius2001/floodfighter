@@ -42,7 +42,7 @@ export default function LegendControl() {
 
           {/* Reservoir (normal) */}
           <LegendItem
-            label="Reservoir"
+            label="Water storage points"
             renderIcon={() => (
               <span
                 style={iconBoxStyle}
@@ -53,7 +53,7 @@ export default function LegendControl() {
 
           {/* Reservoir (selected) */}
           <LegendItem
-            label="Reservoir (selected)"
+            label="Water storage points (selected)"
             renderIcon={() => (
               <span
                 style={iconBoxStyle}

@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
+import './globals.css'
 
 export const metadata = {
   title: "Flood Fighter",
   description: "Be Prepared. Stay Safe. Recover Stronger.",
   icons: {
-    icon: "/tab-logo.png",
+    icon: "/logo.jpeg",
   },
 };
 
@@ -14,7 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
         <head>
-    <link rel="icon" href="/tab-logo.png" type="image/png" />
+    <link rel="icon" href="/logo.jpeg" type="image/png" />
   </head>
 
       <body
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           style={{
             flex: 1,
             paddingTop: "64px", // leave some space for nav bar
+            background: '#000'
           }}
         >
           {children}

@@ -16,6 +16,7 @@ body {
   overflow-x: hidden;
 }
 
+
 body {
   color: var(--foreground);
   background: var(--background);
@@ -35,8 +36,30 @@ a {
   text-decoration: none;
 }
 
+.activity-spinner .ant-spin-dot-item {
+  background: #fff !important;
+}
+
 .ant-spin-dot-item {
   background: #000 !important;
+}
+
+.info-card .ant-card-body{
+  padding: 10px!important;
+}
+
+.flex-center{
+      justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.ant-popover{
+  z-index: 9999!important;
+}
+
+.ant-typography, .ant-typography p {
+    margin-bottom: 0em!important;
 }
 
 @media (prefers-color-scheme: dark) {

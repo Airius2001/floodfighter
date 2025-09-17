@@ -81,7 +81,9 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
               fontSize: 18,
             }}
           >
-            Map-based visual data and practical knowledge to face floods in
+            Map-based visual data <br />
+            & <br />
+            practical knowledge to face floods in
             Australia.
           </p>
 
@@ -96,9 +98,6 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
               pointerEvents: "auto",
             }}
           >
-            <button type="button" onClick={onExplore} style={btn}>
-              Explore More &nbsp;<FaArrowRight />
-            </button>
           </div>
         </div>
       </div>

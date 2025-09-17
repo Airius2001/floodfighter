@@ -1,16 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-  Label,
-} from "recharts";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+
+const cardStyle: React.CSSProperties = {
+  background: "rgba(255, 255, 255, 0.08)", // translucent card
+  backdropFilter: "blur(12px)", // glassmorphism blur
+  borderRadius: 20,
+  padding: "32px 28px",
+  border: "1px solid rgba(255, 255, 255, 0.15)", // subtle border
+  boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
+  fontFamily: "Inter, sans-serif",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  transition: "all 0.3s ease",
+};
 
 export function FeatureDuplex() {
   // 1️⃣ create data
@@ -33,201 +38,91 @@ export function FeatureDuplex() {
   return (
     <section
       style={{
-        background: "linear-gradient(135deg, #000 0%, #111827 100%)",
+        background: "#000",
         padding: "80px 0",
       }}
     >
       <div
         style={{
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          paddingTop: "1rem",
-          paddingBottom: "1.5rem",
-          paddingLeft: "1.5rem",
-          paddingRight: "1.5rem",
+          margin: "0 auto",
+          padding: "0px 20px",
+          display: "grid",
+          width: "50%",
+          gap: 32,
         }}
       >
-        {/* title */}
-        <h1
-          style={{
-            fontSize: "30px",
-            fontWeight: 700,
-            marginBottom: "4.5rem",
-            color: "#ffffffff",
-            textAlign: "center",
-            fontFamily: "sans-serif",
-          }}
-        >
-          Australia's national, 2024's area-averaged rainfall total was 602 mm,{" "}
-          <span style={{ color: "red", fontSize: "50px" }}>28%</span> above the
-          1961–1990 average of 466 mm.
-        </h1>
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            maxWidth: "1200px",
-            gap: "2rem",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-          }}
-        >
-          {/* left side explanation */}
-          <div
-            style={{
-              flex: "1 1 300px",
-              color: "#fff",
-              fontSize: "18px",
-              lineHeight: 1.6,
-              marginBottom: "1.5rem",
-              fontFamily: "sans-serif",
-              marginRight: "20px",
-            }}
-          >
-            <p>
-              In recent years, Australia's precipitation has clearly increased
-              compared to the historical average (1961–1990), especially with
-              more frequent fluctuations in rainfall in certain areas. This
-              means that the risk of flooding is increasing, making it
-              particularly important for residents living in flood-prone areas
-              to be informed about flood-related information and response
-              strategies in advance.
-            </p>
-            <p>
-              We strongly recommend that every Australian resident pay attention
-              to flooding issues and actively learn how to face and respond to
-              floods so that they can make timely and informed decisions in
-              emergency situations.
-            </p>
-            <p>
-              Click the button below to access the 'Knowledge about facing
-              flood' page for practical flood prevention tips and guidelines:
-            </p>
-
-            {/* Add button */}
-            <button
-              onClick={handleLearnMore}
+        {/* Card 1 */}
+        <div className="feature-card" style={cardStyle}>
+          <div>
+            <h3
               style={{
-                backgroundColor: "#3b82f6",
-                color: "white",
-                border: "none",
-                padding: "12px 24px",
-                borderRadius: "8px",
-                fontSize: "16px",
-                fontWeight: "bold",
-                cursor: "pointer",
-                marginTop: "20px",
-                transition: "background-color 0.3s ease",
+                fontSize: 24,
+                fontWeight: 700,
+                marginBottom: 12,
+                color: "#f9fafb", // light heading
               }}
-              onMouseOver={(e) => (e.target.style.backgroundColor = "#2563eb")}
-              onMouseOut={(e) => (e.target.style.backgroundColor = "#3b82f6")}
             >
-              Go to learn Flood knowledge
-            </button>
-          </div>
-
-          {/* right side bar chart */}
-          <div
-            style={{
-              flex: "1 1 300px",
-              height: "450px",
-              background: "#1f2937",
-              padding: "1rem",
-              borderRadius: "16px",
-            }}
-          >
-            {rainfallData.length > 0 ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={rainfallData}>
-                  {/* chart title */}
-                  <text
-                    x="50%"
-                    y={10}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    style={{
-                      fill: "#fff",
-                      fontSize: "18px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Australian annual mean rainfall
-                  </text>
-
-                  {/* <CartesianGrid strokeDasharray="3 3" stroke="#374151" /> */}
-
-                  {/* X-axis + name */}
-                  <XAxis dataKey="year" stroke="#fff">
-                    <Label
-                      value="Year"
-                      offset={-5}
-                      position="insideBottom"
-                      style={{ fill: "#fff" }}
-                    />
-                  </XAxis>
-
-                  {/* Y-axis + name */}
-                  <YAxis stroke="#fff">
-                    <Label
-                      value="Rainfall Total (mm)"
-                      angle={-90}
-                      position="insideLeft"
-                      style={{ fill: "#fff", textAnchor: "middle" }}
-                    />
-                  </YAxis>
-
-                  <Tooltip />
-                  <Bar dataKey="total" fill="#3b82f6" radius={[6, 6, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <p
-                style={{
-                  color: "#fff",
-                  textAlign: "center",
-                  paddingTop: "150px",
-                }}
-              >
-                Loading chart...
-              </p>
-            )}
-
-            {/* Add citation source */}
-            <div
+              Explore Australia’s Water & Flood Safety
+            </h3>
+            <p
               style={{
-                textAlign: "left",
-                fontSize: "12px",
-                color: "#9ca3af",
+                color: "#d1d5db", // muted gray text
+                lineHeight: 1.6,
+                fontSize: 16,
+                marginBottom: 20,
                 fontStyle: "italic",
-                marginTop: "0.5rem",
-                paddingRight: "0.5rem",
               }}
             >
-              Data Source By:{" "}
-              <a
-                href="https://www.bom.gov.au/web01/ncc/www/cli_chg/timeseries/rain/0112/aus/latest.txt"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  color: "#93c5fd",
-                  textDecoration: "none",
-                }}
-                onMouseOver={(e) =>
-                  (e.target.style.textDecoration = "underline")
-                }
-                onMouseOut={(e) => (e.target.style.textDecoration = "none")}
-              >
-                Bureau of Meteorology
-              </a>
-            </div>
+              "Discover an interactive map of Australia showing key water
+              reservoirs and official flood warning areas. Stay informed about
+              critical locations that may impact communities, and explore how
+              water management and flood safety are connected across the
+              nation."
+            </p>
           </div>
+          <Link
+            href="/map"
+            className="feature-btn"
+            style={{
+              padding: "14px 22px",
+              borderRadius: 12,
+              background: "#2563eb",
+              color: "#fff",
+              fontWeight: 600,
+              fontSize: 15,
+              textAlign: "center",
+              textDecoration: "none",
+              marginTop: "auto",
+            }}
+          >
+            👉 View Interactive Map
+          </Link>
         </div>
       </div>
+
+      <style jsx>{`
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .feature-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        .feature-btn {
+          transition: background 0.3s ease, transform 0.2s ease;
+          display: inline-block;
+        }
+        .feature-btn:hover {
+          background: #1e40af;
+          transform: translateY(-2px);
+        }
+        .feature-btn.disabled:hover {
+          background: #6b7280;
+          transform: none;
+        }
+      `}</style>
     </section>
   );
 }

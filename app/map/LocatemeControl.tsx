@@ -74,10 +74,13 @@ export default function LeftSideControls() {
                   map.removeLayer(currentMarker);
                 }
 
-                currentMarker = L.marker(latlng, { icon: userIcon })
+                currentMarker = L.marker(latlng, { 
+                  icon: userIcon,
+                  zIndexOffset: 2000
+                })
                   .addTo(map)
                   .bindPopup('You are here', {
-                    offset: L.point(0, -10),
+                    offset: L.point(0, 0),
                     autoPan: true,
                     closeButton: true,
                   })

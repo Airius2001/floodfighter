@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polygon, useMap, Tooltip } from 'react-leaflet';
 import LocatemeControl from './LocatemeControl';
+import InfoControl from './InfoControl';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -179,6 +180,17 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
       />
 
       <LocatemeControl/>
+      {/* Left-side: Locate (you already have this), then Info just below it */}
+      <InfoControl title="About Flood Fighter">
+        <p>
+          Flood Fighter is an interactive map that brings together basemaps, reservoirs
+          and flood catchments. Use the left-side controls to locate yourself and the
+          top-right controls to switch basemaps and open this legend.
+        </p>
+        <p>
+          Data is for informational purposes only. Consult official sources for critical decisions.
+        </p>
+      </InfoControl>
 
       <FitBounds waterPoints={waterPoints} catchments={catchments} />
 
@@ -232,7 +244,7 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
               <Polygon
                 key={keyId}
                 positions={ring.map(([lng, lat]) => [lat, lng] as [number, number])}
-                // ✅ All Leaflet Path options go into pathOptions
+                // All Leaflet Path options go into pathOptions
                 pathOptions={{
                   ...style,
                   interactive: true,

@@ -55,12 +55,12 @@ export default function CheckPostcodePage() {
     try {
       setLoading(true);
 
-      const geoRes = await axios.get("https://bom-cache-worker.yxin0038.workers.dev/geo", {
+      const geoRes = await axios.get("https://floodfighterbackend-uc7p.onrender.com/geo", {
         params: { postcode },
       });
       setLocation(geoRes.data);
 
-      const weatherRes = await axios.get("https://bom-cache-worker.yxin0038.workers.dev/weather", {
+      const weatherRes = await axios.get("https://floodfighterbackend-uc7p.onrender.com/weather", {
         params: {
           lat: geoRes.data.latitude,
           lon: geoRes.data.longitude,

@@ -26,7 +26,7 @@ export function Rainfall() {
   const [toYear, setToYear] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("https://bom-cache-worker.yxin0038.workers.dev/rainfall")
+    fetch("https://floodfighterbackend-uc7p.onrender.com/rainfall")
       .then((res) => res.json())
       .then((data) => {
         const formatted = data.map((d: any) => ({

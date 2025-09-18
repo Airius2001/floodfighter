@@ -6,7 +6,6 @@ import FeatureDuplex from "@/components/sections/FeatureDuplex";
 import { Statistics } from "@/components/sections/Statistics";
 import FloodFighterUI from "@/components/sections/ProjectDetails";
 
-
 export default function HomePage() {
   const [expanded, setExpanded] = useState(true);
   const contentRef = useRef<HTMLDivElement | null>(null);
@@ -17,16 +16,14 @@ export default function HomePage() {
     }
   };
 
-  const handleExplore = () => {
-    
-  };
+  const handleExplore = () => {};
 
   const pageWrap: React.CSSProperties = useMemo(
     () => ({
       position: "relative",
       overflow: expanded ? "visible" : "hidden",
       minHeight: "100vh",
-      backgroundColor: "#000000ff",
+      backgroundColor: "#e6f0ff",
     }),
     [expanded]
   );
@@ -46,10 +43,12 @@ export default function HomePage() {
   return (
     <div style={pageWrap}>
       <Hero onExplore={handleExplore} />
-      {expanded && <div style={revealPanel} ref={contentRef}>
-        <FloodFighterUI />
-        <Statistics />
-      </div>}
+      {expanded && (
+        <div style={revealPanel} ref={contentRef}>
+          <FloodFighterUI />
+          <Statistics />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
-import './globals.css'
+import "./globals.css";
 
 export const metadata = {
   title: "Flood Fighter",
@@ -14,9 +14,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-        <head>
-    <link rel="icon" href="/logo.jpeg" type="image/png" />
-  </head>
+      <head>
+        <link rel="icon" href="/logo.jpeg" type="image/png" />
+      </head>
 
       <body
         style={{
@@ -28,7 +28,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         }}
       >
         {/* make nav bar to stick at the top */}
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 9999 }}>
+        <div
+          style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 9999 }}
+        >
           <Navbar />
         </div>
 
@@ -37,14 +39,22 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           style={{
             flex: 1,
             paddingTop: "64px", // leave some space for nav bar
-            background: '#000'
+            background: "#e6f0ff",
           }}
         >
           {children}
         </main>
 
         {/* footer will be stick at bottom*/}
-        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 999 }}>
+        <div
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 999,
+          }}
+        >
           <Footer />
         </div>
       </body>

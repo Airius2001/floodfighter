@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           style={{
             flex: 1,
             paddingTop: "64px", // leave some space for nav bar
-            background: "#000",
+            background: "#e6f0ff",
           }}
         >
           {children}

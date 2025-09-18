@@ -222,7 +222,7 @@ export default function EmergencyKitPage() {
   return (
     <div
       style={{
-        background: "#000",
+        background: "#bfd6f8ff",
         color: "#fff",
         minHeight: "100vh",
         padding: "50px 20px",
@@ -233,7 +233,7 @@ export default function EmergencyKitPage() {
           {step === "intro" && (
             <Card
               style={{
-                background: "#111",
+                background: "#fff",
                 border: "1px solid #333",
                 borderRadius: "12px",
                 padding: "30px",
@@ -242,7 +242,7 @@ export default function EmergencyKitPage() {
               <Title
                 level={2}
                 style={{
-                  color: "#fff",
+                  color: "#1e40af",
                   textAlign: "center",
                   fontWeight: "bold",
                 }}
@@ -250,14 +250,14 @@ export default function EmergencyKitPage() {
                 Why Prepare an Emergency Kit?
               </Title>
 
-              <Paragraph style={{ color: "#aaa", fontSize: 16 }}>
+              <Paragraph style={{ color: "#1f2937", fontSize: 16 }}>
                 Floods and other natural disasters in Australia often happen
                 with little warning. During these emergencies, basic services
                 such as electricity, clean water, internet, and phone networks
                 can be disrupted for hours—or even days.
               </Paragraph>
 
-              <Paragraph style={{ color: "#aaa", fontSize: 16 }}>
+              <Paragraph style={{ color: "#1f2937", fontSize: 16 }}>
                 Roads may also be blocked, making it difficult to buy essential
                 items at the last moment. By preparing an{" "}
                 <b>Emergency Kit in advance</b>, you ensure that you and your
@@ -265,7 +265,7 @@ export default function EmergencyKitPage() {
                 remain in contact during difficult times.
               </Paragraph>
 
-              <Paragraph style={{ color: "#aaa", fontSize: 16 }}>
+              <Paragraph style={{ color: "#1f2937", fontSize: 16 }}>
                 A well-prepared kit can:
                 <ul style={{ marginTop: 10 }}>
                   <li>Save valuable time when evacuation is needed.</li>
@@ -284,14 +284,14 @@ export default function EmergencyKitPage() {
                 </ul>
               </Paragraph>
 
-              <Paragraph style={{ color: "#aaa", fontSize: 16 }}>
+              <Paragraph style={{ color: "#1f2937", fontSize: 16 }}>
                 Being prepared isn't just about safety—it's about peace of mind.
                 With an emergency kit, you can focus on protecting your loved
                 ones instead of worrying about missing supplies.
               </Paragraph>
 
               <br />
-              <Paragraph style={{ color: "#aaa", fontSize: 16 }}>
+              <Paragraph style={{ color: "#1f2937", fontSize: 16 }}>
                 Our website offers you the ability to create a personalized
                 emergency kit checklist. Click the button below to build a
                 unique and suitable checklist for your family!
@@ -312,7 +312,7 @@ export default function EmergencyKitPage() {
           {step === "form" && (
             <Card
               style={{
-                background: "#111",
+                background: "#fff",
                 border: "1px solid #333",
                 borderRadius: "12px",
                 padding: "30px",
@@ -326,10 +326,10 @@ export default function EmergencyKitPage() {
                   position: "absolute",
                   top: 16,
                   left: 16,
-                  color: "#fff",
+                  color: "#000000ff",
                 }}
               />
-              <Title level={2} style={{ color: "#fff", marginBottom: 20 }}>
+              <Title level={2} style={{ color: "#1e40af", marginBottom: 20 }}>
                 Enter Your Family Details
               </Title>
               <Form
@@ -343,7 +343,7 @@ export default function EmergencyKitPage() {
                 <Form.Item
                   name="adults"
                   label={
-                    <span style={{ color: "#fff" }}>Number of Adults</span>
+                    <span style={{ color: "#1f2937" }}>Number of Adults</span>
                   }
                   rules={[{ required: true }]}
                 >
@@ -359,7 +359,7 @@ export default function EmergencyKitPage() {
                 <Form.Item
                   name="children"
                   label={
-                    <span style={{ color: "#fff" }}>Number of Children</span>
+                    <span style={{ color: "#1f2937" }}>Number of Children</span>
                   }
                   rules={[{ required: true }]}
                 >
@@ -379,7 +379,9 @@ export default function EmergencyKitPage() {
                       <Form.Item
                         name="ageOfChildren"
                         label={
-                          <span style={{ color: "#fff" }}>Age of Children</span>
+                          <span style={{ color: "#1f2937" }}>
+                            Age of Children
+                          </span>
                         }
                         rules={[{ required: true }]}
                       >
@@ -397,7 +399,7 @@ export default function EmergencyKitPage() {
 
                 <Form.Item
                   name="pets"
-                  label={<span style={{ color: "#fff" }}>Pets</span>}
+                  label={<span style={{ color: "#1f2937" }}>Pets</span>}
                   rules={[{ required: true }]}
                 >
                   <Select
@@ -430,7 +432,7 @@ export default function EmergencyKitPage() {
                   top: 16,
                   left: 16,
                   zIndex: 10,
-                  color: "#fff",
+                  color: "#000000ff",
                 }}
               />
 
@@ -439,7 +441,7 @@ export default function EmergencyKitPage() {
                   {/* Emergency Kit Items */}
                   <Card
                     style={{
-                      background: "#111",
+                      background: "#fff",
                       border: "1px solid #333",
                       borderRadius: "12px",
                       padding: "20px",
@@ -448,7 +450,7 @@ export default function EmergencyKitPage() {
                   >
                     <Title
                       level={3}
-                      style={{ color: "#0af", textAlign: "center" }}
+                      style={{ color: "#1e40af", textAlign: "center" }}
                     >
                       Emergency Kit Items
                     </Title>
@@ -460,7 +462,9 @@ export default function EmergencyKitPage() {
                           <List.Item.Meta
                             avatar={item.icon}
                             title={
-                              <span style={{ color: "#fff" }}>{item.text}</span>
+                              <span style={{ color: "#1f2937" }}>
+                                {item.text}
+                              </span>
                             }
                           />
                         </List.Item>
@@ -471,7 +475,7 @@ export default function EmergencyKitPage() {
                   {/* Friendly Reminders */}
                   <Card
                     style={{
-                      background: "#111",
+                      background: "#fff",
                       border: "1px solid #333",
                       borderRadius: "12px",
                       padding: "20px",
@@ -479,7 +483,7 @@ export default function EmergencyKitPage() {
                   >
                     <Title
                       level={3}
-                      style={{ color: "#0af", textAlign: "center" }}
+                      style={{ color: "#1e40af", textAlign: "center" }}
                     >
                       Friendly Reminders
                     </Title>
@@ -491,7 +495,9 @@ export default function EmergencyKitPage() {
                           <List.Item.Meta
                             avatar={item.icon}
                             title={
-                              <span style={{ color: "#fff" }}>{item.text}</span>
+                              <span style={{ color: "#1f2937" }}>
+                                {item.text}
+                              </span>
                             }
                           />
                         </List.Item>

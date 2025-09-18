@@ -36,7 +36,7 @@ export default function KnowledgePage() {
     <Box
       sx={{
         minHeight: "100vh",
-        bgcolor: "black",
+        bgcolor: "#bfd6f8ff",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -84,20 +84,17 @@ export default function KnowledgePage() {
 
                   {/* Picture */}
                   <Box
+                    component="img"
+                    src="/images/before.jpg"
+                    alt="Flood safety"
                     sx={{
-                      bgcolor: "grey.600",
-                      color: "white",
                       width: "100%",
-                      height: 128,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      height: 200,
+                      objectFit: "cover",
                       borderRadius: 2,
                       mb: 2,
                     }}
-                  >
-                    Images
-                  </Box>
+                  />
 
                   {/* list */}
                   <Box textAlign="center">
@@ -160,20 +157,17 @@ export default function KnowledgePage() {
                   </Typography>
 
                   <Box
+                    component="img"
+                    src="/images/during.jpg"
+                    alt="Flood safety"
                     sx={{
-                      bgcolor: "grey.600",
-                      color: "white",
                       width: "100%",
-                      height: 128,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      height: 200,
+                      objectFit: "cover",
                       borderRadius: 2,
                       mb: 2,
                     }}
-                  >
-                    Images
-                  </Box>
+                  />
 
                   <Box textAlign="center">
                     {duringItems.map((item) => (
@@ -235,20 +229,17 @@ export default function KnowledgePage() {
                   </Typography>
 
                   <Box
+                    component="img"
+                    src="/images/after.jpg"
+                    alt="Flood safety"
                     sx={{
-                      bgcolor: "grey.600",
-                      color: "white",
                       width: "100%",
-                      height: 128,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      height: 200,
+                      objectFit: "cover",
                       borderRadius: 2,
                       mb: 2,
                     }}
-                  >
-                    Images
-                  </Box>
+                  />
 
                   <Box textAlign="center">
                     {afterItems.map((item) => (

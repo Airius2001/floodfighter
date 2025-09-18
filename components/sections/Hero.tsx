@@ -8,7 +8,7 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
     width: "100%",
     height: "600px",
     overflow: "hidden",
-    backgroundColor: "#000",
+    backgroundColor: "#bfd6f8ff",
   };
 
   const inner: React.CSSProperties = {
@@ -19,20 +19,6 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
     padding: "200px 16px",
   };
 
-  const btn: React.CSSProperties = {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "12px 20px",
-    borderRadius: 10,
-    background: "#2563eb",
-    color: "#fff",
-    fontWeight: 600,
-    textDecoration: "none",
-    border: 0,
-    cursor: "pointer",
-  };
-
   return (
     <section style={wrap}>
       {/* Orb background */}
@@ -40,7 +26,7 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
         <Orb
           hoverIntensity={0.5}
           rotateOnHover={true}
-          hue={45}
+          hue={204}
           forceHoverState={false}
         />
       </div>
@@ -48,14 +34,21 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
       {/* Content */}
       <div style={inner}>
         {/* pointerEvents: none make title not obstruct Orb */}
-        <div style={{ position: "relative", zIndex: 3, pointerEvents: "none", fontFamily:"sans-serif" }}>
+        <div
+          style={{
+            position: "relative",
+            zIndex: 3,
+            pointerEvents: "none",
+            fontFamily: "sans-serif",
+          }}
+        >
           <h1
             style={{
               fontSize: 50,
               lineHeight: 1.1,
               fontWeight: 800,
               margin: 0,
-              color: "white",
+              color: "#1e3a8a",
             }}
           >
             Flood Fighter
@@ -67,7 +60,7 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
               lineHeight: 1.1,
               fontWeight: 500,
               margin: 20,
-              color: "grey",
+              color: "#1f2937",
             }}
           >
             Be Prepared. Stay Safe. Recover Stronger.
@@ -77,16 +70,14 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
             style={{
               maxWidth: 700,
               margin: "16px auto 0",
-              color: "#ddd",
+              color: "#111",
               fontSize: 18,
             }}
           >
             Map-based visual data <br />
             & <br />
-            practical knowledge to face floods in
-            Australia.
+            practical knowledge to face floods in Australia.
           </p>
-
 
           <div
             style={{
@@ -97,8 +88,7 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
               /* recover pointerEvents, make button works */
               pointerEvents: "auto",
             }}
-          >
-          </div>
+          ></div>
         </div>
       </div>
     </section>

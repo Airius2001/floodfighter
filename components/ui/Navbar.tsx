@@ -32,7 +32,11 @@ const beforeItems = [
     href: "/before/emergency-kit",
     icon: <AiOutlineCheckCircle />,
   },
-  { label: "Family Plan", href: "/before/family-plan", icon: <BsChatDots /> },
+  {
+    label: "Family Flood Plan",
+    href: "/before/family-plan",
+    icon: <BsChatDots />,
+  },
   {
     label: "Property Protection",
     href: "/before/property-protection",

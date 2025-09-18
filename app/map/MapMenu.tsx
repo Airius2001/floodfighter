@@ -1,96 +1,69 @@
 'use client';
 
-import { Button, Popover } from 'antd';
 import Link from 'next/link';
 import { useState } from 'react';
-import { CgClose } from 'react-icons/cg';
-import { FaLocationDot } from 'react-icons/fa6';
-import { FiHome, FiMenu } from 'react-icons/fi';
-import { GiStrong } from 'react-icons/gi';
-import { MdOutlineTipsAndUpdates } from 'react-icons/md';
-import { RiShieldCrossLine } from 'react-icons/ri';
 
 export default function MapMenu() {
   const [open, setOpen] = useState(false);
-
-  const content = (
-   <div style={panelStyle}>
-    <Link href="/" onClick={() => setOpen(false)} style={itemStyle}>
-      <FiHome style={{ marginRight: 8 }} /> Home
-    </Link>
-    <Link href="/check-postcode" onClick={() => setOpen(false)} style={itemStyle}>
-      <FaLocationDot  style={{ marginRight: 8 }} /> Check PostCode
-    </Link>
-    <Link href="/before" onClick={() => setOpen(false)} style={itemStyle}>
-      <MdOutlineTipsAndUpdates style={{ marginRight: 8 }} /> Be prepared before flood
-    </Link>
-    <Link href="/during" onClick={() => setOpen(false)} style={itemStyle}>
-      <RiShieldCrossLine style={{ marginRight: 8 }} /> Stay safe during flood
-    </Link>
-    <Link href="/after" onClick={() => setOpen(false)} style={itemStyle}>
-      <GiStrong style={{ marginRight: 8 }} /> Recover stronger after flood
-    </Link>
-  </div>
-  );
+  const containerWidth = 280;
 
   return (
-    <div style={{ position: 'relative' }}>
-      <Popover
-        content={content}
-        title={<p style={{ color: '#000', margin: 0 }}>Quick Menu</p>}
-        trigger="click"
-        open={open}
-        onOpenChange={setOpen}
-        overlayInnerStyle={{
-          background: '#fff',
-          border: '1px solid #ddd',
-          borderRadius: 12,
-          padding: 12,
-        }}
+    <div style={{ position: 'relative', width: containerWidth, minWidth: containerWidth }}>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open ? 'true' : 'false'}
+        aria-controls="map-quick-nav"
+        style={{ ...btnStyle, width: '100%', boxSizing: 'border-box' }}   // IMPORTANT
       >
-        <Button
-          type="default"
-          shape="circle"
-          icon={open ? <CgClose /> : <FiMenu />}
-          style={btnStyle}
-        />
-      </Popover>
+        {open ? '✕ Menu' : '☰ Menu'}
+      </button>
+
+      {open && (
+        <div
+          id="map-quick-nav"
+          style={{ ...panelStyle, width: '100%', boxSizing: 'border-box' }} // IMPORTANT
+        >
+          <Link href="/" onClick={() => setOpen(false)} style={itemStyle}>Home</Link>
+          <Link href="/before" onClick={() => setOpen(false)} style={itemStyle}>Be prepared before flood</Link>
+          <Link href="/during" onClick={() => setOpen(false)} style={itemStyle}>Stay safe during flood</Link>
+          <Link href="/after" onClick={() => setOpen(false)} style={itemStyle}>Recover stronger after flood</Link>
+        </div>
+      )}
     </div>
   );
 }
 
 const btnStyle: React.CSSProperties = {
-  background: '#111', // dark button
-  border: '1px solid #333',
-  borderRadius: '50%',
-  padding: '18px',
+  background: 'white',
+  border: '1px solid #e5e7eb',
+  borderRadius: 12,
+  padding: '8px 12px',
   cursor: 'pointer',
   fontWeight: 700,
-  color: '#fff', // white icon
-  boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+  color: '#000',
+  boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+  textAlign: 'left',
 };
 
 const panelStyle: React.CSSProperties = {
   marginTop: 8,
-  background: '#fff', // white bg
-  border: '1px solid #ddd',
+  background: 'rgba(255,255,255,0.95)',
+  backdropFilter: 'blur(6px)',
+  border: '1px solid #e5e7eb',
   borderRadius: 12,
-  boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+  boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
   padding: '12px 14px',
   display: 'flex',
   flexDirection: 'column',
-  gap: 8,
+  gap: 5,
   color: '#000',
-  width: '100%',
-  boxSizing: 'border-box',
 };
 
 const itemStyle: React.CSSProperties = {
   textDecoration: 'none',
-  color: '#000', // black text
+  color: '#000',
   fontWeight: 600,
   fontSize: 14,
   padding: '8px 10px',
-  borderRadius: 6,
-  transition: 'background 0.2s ease',
-} as React.CSSProperties;
+  borderRadius: 8,
+};

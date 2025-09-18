@@ -2,18 +2,28 @@
 
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-import MapControls from './MapControls';
 import MapMenu from './MapMenu';
+import MapControls from './MapControls';
+import MapBasemapControl from './MapBasemapControl'; 
+import LegendControl from './LegendControl';
 
+// Load the map client-side only to avoid SSR issues with Leaflet
 const CombinedMap = dynamic(() => import('./combined').then((m) => m.default), {
   ssr: false,
 });
 
-export default function MapPage() {
-  const [showCatchments, setShowCatchments] = useState(true);
-  const [showWaterPoints, setShowWaterPoints] = useState(true);
+// The basemap keys must match what <combined.tsx> understands
+type BasemapKey = 'esriTopo' | 'openTopo' | 'esriImagery' | 'esriNatGeo';
 
-  // lock body scroll on this full-screen page
+export default function Page() {
+  // Layer toggles
+  const [showWaterPoints, setShowWaterPoints] = useState(true);
+  const [showCatchments, setShowCatchments] = useState(true);
+
+  // Current basemap
+  const [basemap, setBasemap] = useState<BasemapKey>('esriNatGeo');
+
+  // Lock body scroll when map is full screen
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -21,35 +31,43 @@ export default function MapPage() {
       document.body.style.overflow = prev;
     };
   }, []);
-  const [loading, setLoading] = useState(true);
+
+  // Shared layout for the floating stack
+  const stackStyle: React.CSSProperties = {
+    position: 'fixed',
+    right: 16,
+    bottom: 36,
+    zIndex: 1200,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 10,
+    paddingRight: 'env(safe-area-inset-right)',
+    paddingTop: 'env(safe-area-inset-top)',
+  };
 
   return (
     <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
-      <CombinedMap loading={loading} setLoading={setLoading} showFlood={showCatchments} showWater={showWaterPoints} />
+      {/* Map canvas */}
+      <CombinedMap showWater={showWaterPoints} showFlood={showCatchments} basemap={basemap} />
 
-      {/* Floating stack on the top-right for both menus */}
-      {!loading && 
-      <div
-        style={{
-          position: 'fixed',
-          bottom: 5,
-          right:10,
-          zIndex: 1200,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 10,
-          paddingRight: 'env(safe-area-inset-right)',
-          paddingTop: 'env(safe-area-inset-top)',
-        }}
-      >
-        {/* <MapMenu /> */}
+      {/* Floating controls: Menu / Layers / Basemap */}
+      <div style={stackStyle}>
+        {/* Menu (unchanged) */}
+        <MapMenu />
+
+        <LegendControl />
+
+        {/* Layers (prop names must match MapControls.tsx) */}
         <MapControls
           showCatchments={showCatchments}
           setShowCatchments={setShowCatchments}
           showWaterPoints={showWaterPoints}
           setShowWaterPoints={setShowWaterPoints}
         />
-      </div>}
+
+        {/* Basemap - hamburger button with an expandable list */}
+        <MapBasemapControl value={basemap} onChange={setBasemap} />
+      </div>
     </div>
   );
 }

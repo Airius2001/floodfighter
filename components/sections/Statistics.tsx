@@ -13,15 +13,14 @@ export function Statistics() {
   return (
     <section
       style={{
-        background: "#000",
+        background: "#bfd6f8ff",
         padding: "20px 20px",
-        color: "#f9fafb",
+        color: "#1f2937",
         fontFamily: "Inter, sans-serif",
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         {/* Section 1 - Impact Stats */}
-        
         <div
           style={{
             display: "grid",
@@ -32,25 +31,41 @@ export function Statistics() {
           }}
         >
           <div>
-            <p style={{ fontSize: 40, fontWeight: 700, color: "#38bdf8" }}>500+</p>
-            <p style={{ color: "#d1d5db" }}>Flood-prone zones mapped</p>
+            <p style={{ fontSize: 40, fontWeight: 700, color: "#1e40af" }}>
+              500+
+            </p>
+            <p style={{ color: "#374151" }}>Flood-prone zones mapped</p>
           </div>
           <div>
-            <p style={{ fontSize: 40, fontWeight: 700, color: "#fbbf24" }}>2M+</p>
-            <p style={{ color: "#d1d5db" }}>Residents informed</p>
+            <p style={{ fontSize: 40, fontWeight: 700, color: "#ca8a04" }}>
+              2M+
+            </p>
+            <p style={{ color: "#374151" }}>Residents informed</p>
           </div>
           <div>
-            <p style={{ fontSize: 40, fontWeight: 700, color: "#4ade80" }}>120+</p>
-            <p style={{ color: "#d1d5db" }}>Reservoirs & rivers tracked</p>
+            <p style={{ fontSize: 40, fontWeight: 700, color: "#15803d" }}>
+              120+
+            </p>
+            <p style={{ color: "#374151" }}>Reservoirs & rivers tracked</p>
           </div>
           <div>
-            <p style={{ fontSize: 40, fontWeight: 700, color: "#f87171" }}>24/7</p>
-            <p style={{ color: "#d1d5db" }}>Live monitoring updates</p>
+            <p style={{ fontSize: 40, fontWeight: 700, color: "#b91c1c" }}>
+              24/7
+            </p>
+            <p style={{ color: "#374151" }}>Live monitoring updates</p>
           </div>
         </div>
 
         {/* Section 2 - Benefits */}
-        <h2 style={{ fontSize: 28, fontWeight: 700, textAlign: "center", marginBottom: 40 }}>
+        <h2
+          style={{
+            fontSize: 28,
+            fontWeight: 700,
+            textAlign: "center",
+            marginBottom: 40,
+            color: "#1e3a8a",
+          }}
+        >
           Why Use Our Map?
         </h2>
         <div
@@ -63,22 +78,22 @@ export function Statistics() {
         >
           {[
             {
-              icon: <FaMapMarkedAlt size={28} color="#38bdf8" />,
+              icon: <FaMapMarkedAlt size={28} color="#1e40af" />,
               title: "Interactive Flood Maps",
               desc: "Visualize real-time flood zones and water bodies to understand risks nearby.",
             },
             {
-              icon: <FaShieldAlt size={28} color="#f87171" />,
+              icon: <FaShieldAlt size={28} color="#b91c1c" />,
               title: "Safety & Preparedness",
               desc: "Step-by-step guides and resources to stay safe during floods.",
             },
             {
-              icon: <FaClock size={28} color="#fbbf24" />,
+              icon: <FaClock size={28} color="#ca8a04" />,
               title: "Real-Time Updates",
               desc: "Timely alerts and updates from trusted agencies to act fast.",
             },
             {
-              icon: <FaUsers size={28} color="#4ade80" />,
+              icon: <FaUsers size={28} color="#15803d" />,
               title: "Community Recovery",
               desc: "Access support and recovery resources for affected communities.",
             },
@@ -86,22 +101,38 @@ export function Statistics() {
             <div
               key={idx}
               style={{
-                background: "rgba(255,255,255,0.05)",
+                background: "rgba(255,255,255,0.85)",
                 padding: 28,
                 borderRadius: 16,
+                color: "#111",
               }}
             >
               {item.icon}
-              <h3 style={{ marginTop: 16, fontSize: 20, fontWeight: 700 }}>
+              <h3
+                style={{
+                  marginTop: 16,
+                  fontSize: 20,
+                  fontWeight: 700,
+                  color: "#1e293b",
+                }}
+              >
                 {item.title}
               </h3>
-              <p style={{ color: "#d1d5db", marginTop: 8 }}>{item.desc}</p>
+              <p style={{ color: "#374151", marginTop: 8 }}>{item.desc}</p>
             </div>
           ))}
         </div>
 
         {/* Section 3 - How It Works */}
-        <h2 style={{ fontSize: 28, fontWeight: 700, textAlign: "center", marginBottom: 40 }}>
+        <h2
+          style={{
+            fontSize: 28,
+            fontWeight: 700,
+            textAlign: "center",
+            marginBottom: 40,
+            color: "#1e3a8a",
+          }}
+        >
           How It Works
         </h2>
         <div
@@ -114,29 +145,45 @@ export function Statistics() {
           }}
         >
           <div>
-            <FaInfoCircle size={40} color="#38bdf8" />
-            <h4 style={{ marginTop: 12 }}>Step 1</h4>
-            <p style={{ color: "#d1d5db" }}>Open the map and explore flood zones near you.</p>
+            <FaInfoCircle size={40} color="#1e40af" />
+            <h4 style={{ marginTop: 12, color: "#1f2937" }}>Step 1</h4>
+            <p style={{ color: "#374151" }}>
+              Open the map and explore flood zones near you.
+            </p>
           </div>
           <div>
-            <FaBookOpen size={40} color="#fbbf24" />
-            <h4 style={{ marginTop: 12 }}>Step 2</h4>
-            <p style={{ color: "#d1d5db" }}>Read practical safety tips and preparation guides.</p>
+            <FaBookOpen size={40} color="#ca8a04" />
+            <h4 style={{ marginTop: 12, color: "#1f2937" }}>Step 2</h4>
+            <p style={{ color: "#374151" }}>
+              Read practical safety tips and preparation guides.
+            </p>
           </div>
           <div>
-            <FaShieldAlt size={40} color="#f87171" />
-            <h4 style={{ marginTop: 12 }}>Step 3</h4>
-            <p style={{ color: "#d1d5db" }}>Get alerts and real-time updates during flood events.</p>
+            <FaShieldAlt size={40} color="#b91c1c" />
+            <h4 style={{ marginTop: 12, color: "#1f2937" }}>Step 3</h4>
+            <p style={{ color: "#374151" }}>
+              Get alerts and real-time updates during flood events.
+            </p>
           </div>
           <div>
-            <FaHandsHelping size={40} color="#4ade80" />
-            <h4 style={{ marginTop: 12 }}>Step 4</h4>
-            <p style={{ color: "#d1d5db" }}>Find recovery resources and support after floods.</p>
+            <FaHandsHelping size={40} color="#15803d" />
+            <h4 style={{ marginTop: 12, color: "#1f2937" }}>Step 4</h4>
+            <p style={{ color: "#374151" }}>
+              Find recovery resources and support after floods.
+            </p>
           </div>
         </div>
 
         {/* Section 4 - Emergency Resources */}
-        <h2 style={{ fontSize: 28, fontWeight: 700, textAlign: "center", marginBottom: 40 }}>
+        <h2
+          style={{
+            fontSize: 28,
+            fontWeight: 700,
+            textAlign: "center",
+            marginBottom: 40,
+            color: "#1e3a8a",
+          }}
+        >
           Emergency Resources
         </h2>
         <div
@@ -147,26 +194,49 @@ export function Statistics() {
             marginBottom: 50,
           }}
         >
-          <div style={{ background: "rgba(255,255,255,0.05)", padding: 24, borderRadius: 12 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 700 }}>Government Alerts</h3>
-            <p style={{ color: "#d1d5db", marginTop: 8 }}>
+          <div
+            style={{
+              background: "rgba(255,255,255,0.85)",
+              padding: 24,
+              borderRadius: 12,
+            }}
+          >
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#1e293b" }}>
+              Government Alerts
+            </h3>
+            <p style={{ color: "#374151", marginTop: 8 }}>
               Official warnings from meteorological and emergency services.
             </p>
           </div>
-          <div style={{ background: "rgba(255,255,255,0.05)", padding: 24, borderRadius: 12 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 700 }}>Preparation Guides</h3>
-            <p style={{ color: "#d1d5db", marginTop: 8 }}>
+          <div
+            style={{
+              background: "rgba(255,255,255,0.85)",
+              padding: 24,
+              borderRadius: 12,
+            }}
+          >
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#1e293b" }}>
+              Preparation Guides
+            </h3>
+            <p style={{ color: "#374151", marginTop: 8 }}>
               Handy checklists and steps to prepare your family and property.
             </p>
           </div>
-          <div style={{ background: "rgba(255,255,255,0.05)", padding: 24, borderRadius: 12 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 700 }}>Recovery Support</h3>
-            <p style={{ color: "#d1d5db", marginTop: 8 }}>
+          <div
+            style={{
+              background: "rgba(255,255,255,0.85)",
+              padding: 24,
+              borderRadius: 12,
+            }}
+          >
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#1e293b" }}>
+              Recovery Support
+            </h3>
+            <p style={{ color: "#374151", marginTop: 8 }}>
               Access resources to rebuild and apply for community assistance.
             </p>
           </div>
         </div>
-
       </div>
     </section>
   );

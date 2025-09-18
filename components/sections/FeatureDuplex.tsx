@@ -1,5 +1,7 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import React from "react";
 
 const cardStyle: React.CSSProperties = {
   background: "rgba(255, 255, 255, 0.08)", // translucent card
@@ -16,6 +18,23 @@ const cardStyle: React.CSSProperties = {
 };
 
 export function FeatureDuplex() {
+  // 1️⃣ create data
+  const [rainfallData, setRainfallData] = useState([]);
+
+  // 2️⃣ useEffect read public/data/rainfall.json
+  useEffect(() => {
+    fetch("/data/rainfall.json")
+      .then((res) => res.json())
+      .then((json) => setRainfallData(json))
+      .catch((err) => console.error("Failed to load rainfall data:", err));
+  }, []);
+
+  // Handle button click event
+  const handleLearnMore = () => {
+    // Here you can add the logic to navigate to the flood knowledge page.
+    alert("Redirecting to Flood Response Knowledge page...(TODO)");
+  };
+
   return (
     <section
       style={{
@@ -24,12 +43,11 @@ export function FeatureDuplex() {
       }}
     >
       <div
-        className="feature-grid"
         style={{
           margin: "0 auto",
           padding: "0px 20px",
           display: "grid",
-          width: '50%',
+          width: "50%",
           gap: 32,
         }}
       >
@@ -58,7 +76,8 @@ export function FeatureDuplex() {
               "Discover an interactive map of Australia showing key water
               reservoirs and official flood warning areas. Stay informed about
               critical locations that may impact communities, and explore how
-              water management and flood safety are connected across the nation."
+              water management and flood safety are connected across the
+              nation."
             </p>
           </div>
           <Link

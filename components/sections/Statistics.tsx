@@ -48,12 +48,6 @@ export function Statistics() {
             </p>
             <p style={{ color: "#374151" }}>Reservoirs & rivers tracked</p>
           </div>
-          <div>
-            <p style={{ fontSize: 40, fontWeight: 700, color: "#b91c1c" }}>
-              24/7
-            </p>
-            <p style={{ color: "#374151" }}>Live monitoring updates</p>
-          </div>
         </div>
 
         {/* Section 2 - Benefits */}
@@ -86,11 +80,6 @@ export function Statistics() {
               icon: <FaShieldAlt size={28} color="#b91c1c" />,
               title: "Safety & Preparedness",
               desc: "Step-by-step guides and resources to stay safe during floods.",
-            },
-            {
-              icon: <FaClock size={28} color="#ca8a04" />,
-              title: "Real-Time Updates",
-              desc: "Timely alerts and updates from trusted agencies to act fast.",
             },
             {
               icon: <FaUsers size={28} color="#15803d" />,
@@ -159,15 +148,8 @@ export function Statistics() {
             </p>
           </div>
           <div>
-            <FaShieldAlt size={40} color="#b91c1c" />
-            <h4 style={{ marginTop: 12, color: "#1f2937" }}>Step 3</h4>
-            <p style={{ color: "#374151" }}>
-              Get alerts and real-time updates during flood events.
-            </p>
-          </div>
-          <div>
             <FaHandsHelping size={40} color="#15803d" />
-            <h4 style={{ marginTop: 12, color: "#1f2937" }}>Step 4</h4>
+            <h4 style={{ marginTop: 12, color: "#1f2937" }}>Step 3</h4>
             <p style={{ color: "#374151" }}>
               Find recovery resources and support after floods.
             </p>

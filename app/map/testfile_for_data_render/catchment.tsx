@@ -38,7 +38,7 @@ export default function FloodMap() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://floodfighterbackend.onrender.com/flood/catchments')
+    fetch('https://bom-cache-worker.yxin0038.workers.dev/flood/catchments')
       .then((res) => res.json())
       .then((data) => {
         // Error prevention handling: ensure it is an array, filter out data where geometry is null.

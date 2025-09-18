@@ -11,13 +11,11 @@ import {
   Spin,
   Row,
   Col,
-  Switch,
+  Tooltip,
 } from "antd";
 import dynamic from "next/dynamic";
 import axios from "axios";
-import {
-  BsFillPinMapFill
-} from "react-icons/bs";
+import { BsFillPinMapFill } from "react-icons/bs";
 import {
   FaCheckCircle,
   FaExclamationTriangle,
@@ -25,10 +23,11 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 import { MdOutlineGpsFixed } from "react-icons/md";
+import { Timer } from "lucide-react";
+import { FaRankingStar } from "react-icons/fa6";
 
 const { Title, Text } = Typography;
 
-// ✅ Dynamically import Ant Design Charts (disable SSR)
 const Line = dynamic(() => import("@ant-design/charts").then((mod) => mod.Line), {
   ssr: false,
 });
@@ -36,13 +35,16 @@ const Column = dynamic(
   () => import("@ant-design/charts").then((mod) => mod.Column),
   { ssr: false }
 );
+const Pie = dynamic(() => import("@ant-design/charts").then((mod) => mod.Pie), {
+  ssr: false,
+});
 
 export default function CheckPostcodePage() {
   const [postcode, setPostcode] = useState("");
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState<any>(null);
   const [weather, setWeather] = useState<any>(null);
-  const [chartType, setChartType] = useState<"line" | "bar">("line"); // 👈 toggle chart type
+  const [chartType, setChartType] = useState<"line" | "bar" | "pie">("line");
 
   const fetchData = async () => {
     if (!postcode) {
@@ -53,14 +55,12 @@ export default function CheckPostcodePage() {
     try {
       setLoading(true);
 
-      // Call Geo API
-      const geoRes = await axios.get("https://floodfighterbackend.onrender.com/geo", {
+      const geoRes = await axios.get("https://bom-cache-worker.yxin0038.workers.dev/geo", {
         params: { postcode },
       });
       setLocation(geoRes.data);
 
-      // Call Weather API
-      const weatherRes = await axios.get("https://floodfighterbackend.onrender.com/weather", {
+      const weatherRes = await axios.get("https://bom-cache-worker.yxin0038.workers.dev/weather", {
         params: {
           lat: geoRes.data.latitude,
           lon: geoRes.data.longitude,
@@ -110,13 +110,32 @@ export default function CheckPostcodePage() {
       precipitation: t.precipitation ?? 0,
     })) || [];
 
+  const getPieData = () => {
+    if (!chartData.length) return [];
+
+    let low = 0, medium = 0, high = 0;
+    chartData.forEach((item: any) => {
+      const val = Number(item.precipitation) || 0;
+      if (val <= 1.5) low++;
+      else if (val <= 2) medium++;
+      else high++;
+    });
+
+    return [
+      { type: "Low Risk", value: low },
+      { type: "Medium Risk", value: medium },
+      { type: "High Risk", value: high },
+    ];
+  };
+
+
   return (
     <div
       style={{
         padding: 30,
-        maxWidth: 900,
+        maxWidth: 1200,
         margin: "0 auto",
-        minHeight: "100vh"
+        minHeight: "100vh",
       }}
     >
       <Card>
@@ -162,102 +181,32 @@ export default function CheckPostcodePage() {
                 >
                   {icon} Flood Status: {weather.status}
                 </h4>
-                <Card
-                  className="info-card"
-                  style={{
-                    borderRadius: 12,
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                    marginBottom: 20,
-                  }}
-                >
-                  <Row gutter={16} align="middle">
-                    {/* Left Side Info */}
-                    <Col xs={24} md={16}>
-                      <p style={{ display: "flex", alignItems: "center" }}>
-                        <FaMapMarkerAlt
-                          style={{ color: "#1890ff", marginRight: 8 }}
-                        />
-                        <strong>Postcode : </strong>{" "}
-                        <Text>{location.location.split(",")[0]}</Text>
-                      </p>
-                      <p style={{ display: "flex", alignItems: "center" }}>
-                        <MdOutlineGpsFixed
-                          style={{ color: "green", marginRight: 8 }}
-                        />
-                        <strong>Latitude : </strong>{" "}
-                        <Text>{weather.latitude}</Text>
-                      </p>
-                      <p style={{ display: "flex", alignItems: "center" }}>
-                        <MdOutlineGpsFixed
-                          style={{ color: "red", marginRight: 8 }}
-                        />
-                        <strong>Longitude : </strong>{" "}
-                        <Text>{weather.longitude}</Text>
-                      </p>
-                      <p>
-                        <BsFillPinMapFill
-                          style={{
-                            color: "orange",
-                            marginRight: 8,
-                            marginTop: 5,
-                          }}
-                        />
-                        <strong>Location : </strong>{" "}
-                        <Text>
-                          {location.location
-                            .split(",")
-                            .slice(1)
-                            .join(", ")
-                            .trim()}
-                        </Text>
-                      </p>
-                    </Col>
 
-                    {/* Right Side Note Box */}
-                    <Col xs={24} md={8}>
-                      <Card
-                        size="small"
-                        title="Precipitation Levels"
-                        style={{
-                          borderLeft: "4px solid #1890ff",
-                          background: "#fafafa",
-                          borderRadius: 8,
-                        }}
-                      >
-                        <p>
-                          <Text type="success">&lt; 1 Low</Text>
-                        </p>
-                        <p>
-                          <Text type="warning">&gt; 1 Medium</Text>
-                        </p>
-                        <p>
-                          <Text type="danger">&gt; 2 Risk</Text>
-                        </p>
-                      </Card>
-                    </Col>
-                  </Row>
-                </Card>
-
-                {/* Switch to toggle chart type */}
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    marginBottom: 10,
-                  }}
-                >
-                  <span style={{ marginRight: 8 }}>Bar</span>
-                  <Switch
-                    checked={chartType === "line"}
-                    onChange={(checked) =>
-                      setChartType(checked ? "line" : "bar")
-                    }
-                  />
-                  <span style={{ marginLeft: 8 }}>Line</span>
+                <Card className="info-card" style={{ borderRadius: 12, boxShadow: "0 4px 12px rgba(0,0,0,0.08)", marginBottom: 20, }} > <Row gutter={16} align="middle"> {/* Left Side Info */} <Col xs={24} md={16}> <p style={{ display: "flex", alignItems: "center" }}> <FaMapMarkerAlt style={{ color: "#1890ff", marginRight: 8 }} /> <strong>Postcode : </strong>{" "} <Text>{location.location.split(",")[0]}</Text> </p> <p style={{ display: "flex", alignItems: "center" }}> <MdOutlineGpsFixed style={{ color: "green", marginRight: 8 }} /> <strong>Latitude : </strong>{" "} <Text>{weather.latitude}</Text> </p> <p style={{ display: "flex", alignItems: "center" }}> <MdOutlineGpsFixed style={{ color: "red", marginRight: 8 }} /> <strong>Longitude : </strong>{" "} <Text>{weather.longitude}</Text> </p> <p style={{ display: "flex", alignItems: "center" }}> <Timer size={14} style={{ color: "#1890ff", marginRight: 8 }} /> <strong>Timezone : </strong>{" "} <Text>{" "}{weather.raw.timezone} {" | "} {weather.raw.timezone_abbreviation}</Text> </p> <p style={{ display: "flex", alignItems: "center" }}> <FaRankingStar size={14} style={{ color: "green", marginRight: 8 }} /> <strong>Rank of Place : </strong>{" "} <Text>{" "}{location.raw[0].place_rank}</Text> </p> <p> <BsFillPinMapFill style={{ color: "orange", marginRight: 8, marginTop: 5, }} /> <strong>Location : </strong>{" "} <Text> {location.location.split(",").slice(1).join(", ").trim()} </Text> </p> </Col> {/* Right Side Note Box */} <Col xs={24} md={8}> <Card size="small" title="Precipitation Levels" style={{ borderLeft: "4px solid #1890ff", background: "#fafafa", borderRadius: 8, }} > <p> <Tooltip title="Indicates a safe level with minimal concern."> <Text type="success" style={{ cursor: "pointer" }}> &lt; 1 Low </Text> </Tooltip> </p> <p> <Tooltip title="Moderate caution required, monitor closely."> <Text type="warning" style={{ cursor: "pointer" }}> &gt; 1.5 Medium </Text> </Tooltip> </p> <p> <Tooltip title="High risk, immediate action may be needed."> <Text type="danger" style={{ cursor: "pointer" }}> &gt; 2 Risk </Text> </Tooltip> </p> </Card> </Col> </Row> </Card>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10 }}>
+                  <Button.Group>
+                    <Button
+                      type={chartType === "bar" ? "primary" : "default"}
+                      onClick={() => setChartType("bar")}
+                    >
+                      Bar
+                    </Button>
+                    <Button
+                      type={chartType === "line" ? "primary" : "default"}
+                      onClick={() => setChartType("line")}
+                    >
+                      Line
+                    </Button>
+                    <Button
+                      type={chartType === "pie" ? "primary" : "default"}
+                      onClick={() => setChartType("pie")}
+                    >
+                      Pie
+                    </Button>
+                  </Button.Group>
                 </div>
 
-                {/* Chart */}
-                {chartType === "line" ? (
+                {chartType === "line" && (
                   <Line
                     data={chartData}
                     xField="time"
@@ -269,7 +218,8 @@ export default function CheckPostcodePage() {
                     xAxis={{ title: { text: "Time (hours)" } }}
                     height={350}
                   />
-                ) : (
+                )}
+                {chartType === "bar" && (
                   <Column
                     data={chartData}
                     xField="time"
@@ -280,6 +230,34 @@ export default function CheckPostcodePage() {
                     xAxis={{ title: { text: "Time (hours)" } }}
                     height={350}
                   />
+                )}
+                {chartType === "pie" && (
+                  <Card style={{ marginTop: 20 }}>
+                    <Title level={4}>📊 Risk Distribution</Title>
+                    <Pie
+                      data={getPieData()}
+                      angleField="value"
+                      colorField="type"
+                      radius={0.9}
+                      innerRadius={0.2}
+                      startAngle={0}
+                      endAngle={Math.PI * 2}
+                      label={{
+                        type: "inner",
+                        content: ({ percent, type }: any) =>
+                          `${type}\n${(percent * 100).toFixed(0)}%`,
+                        style: {
+                          fontSize: 12,
+                          fontWeight: 700,
+                          textAlign: "center",
+                        },
+                      }}
+                      tooltip={false}
+                      color={["#52c41a", "#faad14", "#f5222d"]}
+                      legend={{ position: "bottom" }}
+                      height={350}
+                    />
+                  </Card>
                 )}
               </div>
             ) : (

@@ -1,5 +1,6 @@
 'use client';
 
+import { Switch } from 'antd';
 import { useState } from 'react';
 
 interface MapControlsProps {
@@ -71,14 +72,38 @@ export default function MapControls({
       </button>
 
       {open && (
-        <div
-          id="map-layer-controls"
-          style={{ ...panelStyle, width: '100%', boxSizing: 'border-box' }} // IMPORTANT
-        >
-          <Toggle checked={showCatchments} onChange={() => setShowCatchments(!showCatchments)} label="Flood Warning Catchments" />
-          <Toggle checked={showWaterPoints} onChange={() => setShowWaterPoints(!showWaterPoints)} label="Water Storage Points" />
-        </div>
-      )}
+  <div
+    id="map-layer-controls"
+    style={{ ...panelStyle, width: "100%", boxSizing: "border-box" }}
+  >
+    <div style={{ marginBottom: 8 }}>
+      <Switch
+        checked={showCatchments}
+        onChange={(checked) => setShowCatchments(checked)}
+        checkedChildren="Show"
+        unCheckedChildren="Hide"
+        style={{
+          backgroundColor: showCatchments ? "black" : "darkgray",
+        }}
+      />{" "}
+      Flood Warning Catchments
+    </div>
+
+    <div style={{ marginBottom: 8 }}>
+      <Switch
+        checked={showWaterPoints}
+        onChange={(checked) => setShowWaterPoints(checked)}
+        checkedChildren="Show"
+        unCheckedChildren="Hide"
+        style={{
+          backgroundColor: showWaterPoints ? "black" : "darkgray",
+        }}
+      />{" "}
+      Water Storage Points
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

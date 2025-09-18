@@ -268,7 +268,7 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
           (features) => { if (!cancelled) pushFlood(features); }
         );
 
-        if (!cancelled) setLoading(false); // 首屏可用
+        if (!cancelled) setLoading(false); 
       } catch (e) {
         console.error(e);
         if (!cancelled) setLoading(false);
@@ -345,40 +345,38 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
 
       <LocatemeControl />
 
-      <InfoControl title="About Flood Fighter">
+      <InfoControl title=" ">
       <section>
-        <h2>What is Map Visualization in Flood Fighter?</h2>
-          <p>
-            Map Visualization inFlood Fighter is an <strong>interactive map</strong> for Australia that
-            brings together <em>basemaps</em>, <em>water storage reservoirs</em>, and
-            <em> flood catchments</em>. It helps you explore water infrastructure and
-            landscapes related to flood risk.
-          </p>
+      <h2>What is Map Visualization in Flood Fighter?</h2>
+        <p>
+          Map Visualization inFlood Fighter is an <strong>interactive map</strong> for Australia that
+          brings together <em>basemaps</em>, <em>water storage reservoirs</em>, and
+          <em> flood catchments</em>. It helps you explore water infrastructure and
+          landscapes related to flood risk.
+        </p>
 
-          <h3>Main features</h3>
-          <ul>
-            <li><strong>Basemaps</strong>: Switch between Topographic, OpenTopoMap, Satellite, and National Geographic styles.</li>
-            <li><strong>Reservoirs</strong>: Click any pin to view details; the selected reservoir is highlighted.</li>
-            <li><strong>Flood Catchments</strong>: Catchment boundaries are shown; <em>hover</em> to emphasize the hovered catchment.</li>
-            <li><strong>Your Location</strong>: Use the left control to find where you are on the map.</li>
-            <li><strong>Legend & Layers</strong>: Use the right panel to understand symbols and toggle <em>Flood Warning Catchments</em> and <em>Water Storage Points</em>.</li>
-            <li><strong>Preparedness Guides</strong>: Open the Menu for “Be prepared before flood”, “Stay safe during flood”, and “Recover stronger after flood”.</li>
-          </ul>
+        <h3>Main features</h3>
+        <ul>
+          <li><strong>Basemaps</strong>: Switch between Topographic, OpenTopoMap, Satellite, and National Geographic styles.</li>
+          <li><strong>Water Storage Points</strong>: Click any pin to view details; the selected Water Storage Points is highlighted.</li>
+          <li><strong>Flood Catchments</strong>: Catchment boundaries are shown; <em>hover</em> to emphasize the hovered catchment.</li>
+          <li><strong>Your Location</strong>: Use the left control to find where you are on the map.</li>
+          <li><strong>Legend & Layers</strong>: Use the right panel to understand symbols and toggle <em>Flood Warning Catchments</em> and <em>Water Storage Points</em>.</li>
+        </ul>
 
-          <h3>How to use</h3>
-          <ol>
-            <li>Click the left-side <strong>Locate</strong> button 📍 to zoom to your position.</li>
-            <li>Use the right-side <strong>Layers</strong> toggles to show/hide catchments and reservoirs.</li>
-            <li>Try different <strong>Basemaps</strong> from the Basemap panel to change the background style.</li>
-            <li><strong>Click</strong> a reservoir pin for details; <strong>hover</strong> a catchment to highlight it.</li>
-            <li>Open the <strong>Menu</strong> for practical tips before/during/after floods.</li>
-          </ol>
+        <h3>How to use</h3>
+        <ol>
+          <li>Click the left-side <strong>Locate me</strong> button to zoom to your position.</li>
+          <li>Use the right-side <strong>Layers</strong> toggles to show/hide catchments and reservoirs.</li>
+          <li>Try different <strong>Basemaps</strong> from the Basemap panel to change the background style.</li>
+          <li><strong>Click</strong> a Water Storage Point pin for details; <strong>hover</strong> a catchment to highlight it.</li>
+        </ol>
 
-          <p className="ff-disclaimer">
-            ⚠️ <strong>Disclaimer</strong>: This map is for informational purposes only.
-            Always consult official sources and emergency services for critical decisions.
-          </p>
-        </section>
+        <p className="ff-disclaimer">
+          ⚠️ <strong>Disclaimer</strong>: This map is for informational purposes only.
+          Always consult official sources and emergency services for critical decisions.
+        </p>
+      </section>
       </InfoControl>
 
       {/* Fit to current loaded data */}

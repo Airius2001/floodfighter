@@ -23,14 +23,14 @@ export default function Page() {
   // Current basemap
   const [basemap, setBasemap] = useState<BasemapKey>('esriNatGeo');
 
-  // Lock body scroll when map is full screen
-  useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, []);
+  // // Lock body scroll when map is full screen
+  // useEffect(() => {
+  //   const prev = document.body.style.overflow;
+  //   document.body.style.overflow = 'hidden';
+  //   return () => {
+  //     document.body.style.overflow = prev;
+  //   };
+  // }, []);
 
   // Shared layout for the floating stack
   const stackStyle: React.CSSProperties = {
@@ -53,7 +53,7 @@ export default function Page() {
       {/* Floating controls: Menu / Layers / Basemap */}
       <div style={stackStyle}>
         {/* Menu (unchanged) */}
-        <MapMenu />
+        {/* <MapMenu /> */}
 
         <LegendControl />
 

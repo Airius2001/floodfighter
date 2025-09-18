@@ -40,7 +40,7 @@ export default function LegendControl() {
             )}
           />
 
-          {/* Reservoir (normal) */}
+          {/* Water storage points (normal) */}
           <LegendItem
             label="Water storage points"
             renderIcon={() => (
@@ -51,7 +51,7 @@ export default function LegendControl() {
             )}
           />
 
-          {/* Reservoir (selected) */}
+          {/* Water storage points (selected) */}
           <LegendItem
             label="Water storage points (selected)"
             renderIcon={() => (
@@ -62,9 +62,9 @@ export default function LegendControl() {
             )}
           />
 
-          {/* Flood catchment: blue dashed + filled */}
+          {/* Flood warning catchment: blue dashed + filled */}
           <LegendItem
-            label="Flood catchment"
+            label="Flood warning catchment"
             renderIcon={() => (
               <span style={iconBoxStyle}>
                 <span

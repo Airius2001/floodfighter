@@ -1,15 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polygon, useMap, Tooltip } from 'react-leaflet';
+import { Spin, Switch } from 'antd';
 import LocatemeControl from './LocatemeControl';
 import InfoControl from './InfoControl';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { reservoirPinSVG, reservoirPinSelectedSVG } from './reservoirIcons'; 
+import { reservoirPinSVG, reservoirPinSelectedSVG } from './reservoirIcons';
 
 /**
- * Leaflet icons built from the SVGs 
+ * Leaflet icons built from the SVGs
  */
 export const reservoirIcon = L.divIcon({
   className: 'reservoir-pin',
@@ -26,7 +27,6 @@ export const reservoirIconSelected = L.divIcon({
   iconAnchor: [18, 42],
   popupAnchor: [0, -38],
 });
-
 
 // Fix default marker icon
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -53,7 +53,7 @@ interface FloodCatchment {
   geometry: { rings: number[][][] } | null;
 }
 
-/** Added: basemap registry (minimal, no style changes elsewhere) */
+/** basemap registry */
 const BASEMAPS = {
   esriTopo: {
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
@@ -82,7 +82,7 @@ const BASEMAPS = {
 } as const;
 type BasemapKey = keyof typeof BASEMAPS;
 
-// Convert the reservoir returned by the Worker to the GeoJSON → existing ArcGIS style
+// Convert the reservoir returned by the Worker (GeoJSON) to the ArcGIS-like shape you use
 function adaptWaterGeoJSON(geojson: any): WaterFeature[] {
   if (!geojson || !geojson.features) return [];
   return geojson.features.map((f: any) => ({
@@ -98,7 +98,7 @@ function adaptWaterGeoJSON(geojson: any): WaterFeature[] {
   }));
 }
 
-// Convert the flood returned by the Worker to the GeoJSON → existing ArcGIS style
+// Convert flood GeoJSON to your ArcGIS-like shape
 function adaptFloodGeoJSON(geojson: any): FloodCatchment[] {
   if (!geojson || !geojson.features) return [];
   return geojson.features.map((f: any) => {
@@ -120,18 +120,12 @@ function adaptFloodGeoJSON(geojson: any): FloodCatchment[] {
 }
 
 // helper component
-function ClearSelectionOnMapClick({
-  onClear,
-}: {
-  onClear: () => void;
-}) {
+function ClearSelectionOnMapClick({ onClear }: { onClear: () => void }) {
   const map = useMap();
 
   useEffect(() => {
     const handler = () => onClear();
     map.on('click', handler);
-
-    // cleanup
     return () => {
       map.off('click', handler);
     };
@@ -140,8 +134,8 @@ function ClearSelectionOnMapClick({
   return null;
 }
 
-// Fit map bounds to data
-function FitBounds({
+// Fit map bounds to data (kept as-is)
+function FitBoundsOnce({
   waterPoints,
   catchments,
 }: {
@@ -149,8 +143,11 @@ function FitBounds({
   catchments: FloodCatchment[];
 }) {
   const map = useMap();
+  const fitDoneRef = useRef(false);
 
   useEffect(() => {
+    if (fitDoneRef.current) return; // If it has already been executed, it will not be executed
+
     const allCoords: [number, number][] = [];
 
     waterPoints.forEach((wp) => {
@@ -165,52 +162,179 @@ function FitBounds({
 
     if (allCoords.length) {
       map.fitBounds(L.latLngBounds(allCoords), { padding: [20, 20] });
+      fitDoneRef.current = true; // The tag is executed only once
     }
-  }, [waterPoints, catchments, map]);
+  }, [map, waterPoints, catchments]);
 
   return null;
 }
 
+
 interface CombinedMapProps {
   showWater: boolean;
   showFlood: boolean;
-  /** Added: current basemap key */
   basemap: BasemapKey;
 }
 
+/* ----------------------- NEW: incremental paged fetch ----------------------- */
 
+// one page
+async function fetchPage(
+  baseUrl: string,
+  where: string,
+  offset: number,
+  pageSize = 200
+) {
+  const url =
+    `${baseUrl}` +
+    (baseUrl.includes('?') ? '&' : '?') +
+    `where=${encodeURIComponent(where)}&resultRecordCount=${pageSize}&resultOffset=${offset}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+  return (await res.json()) as { features?: any[] };
+}
+
+// all pages, incrementally
+async function fetchAllPagedIncremental(
+  baseUrl: string,
+  where: string,
+  onChunk: (features: any[]) => void,
+  pageSize = 200,
+  maxPages = 999
+) {
+  let offset = 0;
+  for (let i = 0; i < maxPages; i++) {
+    const { features = [] } = await fetchPage(baseUrl, where, offset, pageSize);
+    if (!features.length) break;
+    onChunk(features);
+    if (features.length < pageSize) break;
+    offset += pageSize;
+  }
+}
+
+/* -------------------------- Component: CombinedMap -------------------------- */
 
 export default function CombinedMap({ showWater, showFlood, basemap }: CombinedMapProps) {
   const [waterPoints, setWaterPoints] = useState<WaterFeature[]>([]);
   const [catchments, setCatchments] = useState<FloodCatchment[]>([]);
-  // Track which catchment ring is hovered (format: `${idx}-${rIdx}`)
-  const [hoveredKey, setHoveredKey] = useState<string | null>(null);  
+  const [hoveredKey, setHoveredKey] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedReservoir, setSelectedReservoir] = useState<number | null>(null);
 
+  // Worker base URLs
+  const WATER_BASE = 'https://bom-cache-worker.yxin0038.workers.dev/water';
+  const FLOOD_BASE = 'https://bom-cache-worker.yxin0038.workers.dev/flood';
+
+  // State loading order: VIC first, other background filling
+  const STATES_ORDER = ['VIC', 'NSW', 'QLD', 'SA', 'WA', 'TAS', 'NT', 'ACT'];
+
+  // water with full name; flood with state abbreviation (named after your data)
+  const stateCodeToFullName: Record<string, string> = {
+    VIC: 'Victoria',
+    NSW: 'New South Wales',
+    QLD: 'Queensland',
+    SA: 'South Australia',
+    WA: 'Western Australia',
+    TAS: 'Tasmania',
+    NT: 'Northern Territory',
+    ACT: 'Australian Capital Territory',
+  };
+
+  // Incremental addition
+  const pushWater = (features: any[]) => {
+    const adapted = adaptWaterGeoJSON({ features });
+    setWaterPoints((prev) => [...prev, ...adapted]);
+  };
+  const pushFlood = (features: any[]) => {
+    const adapted = adaptFloodGeoJSON({ features });
+    setCatchments((prev) => [...prev, ...adapted]);
+  };
+
+  // Phase 1: Victoria only, show the map first
   useEffect(() => {
-    fetch('https://bom-cache-worker.yxin0038.workers.dev/water?where=1=1&resultRecordCount=200')
-      .then((res) => res.json())
-      .then((data) => setWaterPoints(adaptWaterGeoJSON(data)))
-      .catch(console.error);
+    let cancelled = false;
+
+    (async () => {
+      try {
+        await fetchAllPagedIncremental(
+          WATER_BASE,
+          `state_name = '${stateCodeToFullName.VIC}'`,
+          (features) => { if (!cancelled) pushWater(features); }
+        );
+
+        await fetchAllPagedIncremental(
+          FLOOD_BASE,
+          `state_code = 'VIC'`,
+          (features) => { if (!cancelled) pushFlood(features); }
+        );
+
+        if (!cancelled) setLoading(false); // 首屏可用
+      } catch (e) {
+        console.error(e);
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Phase 2: The background increment pulls other states
   useEffect(() => {
-    fetch('https://bom-cache-worker.yxin0038.workers.dev/flood?where=1=1&resultRecordCount=200')
-      .then((res) => res.json())
-      .then((data) => {
-        setCatchments(adaptFloodGeoJSON(data));
-        setLoading(false);
-      })
-      .catch(console.error);
+    let cancelled = false;
+
+    (async () => {
+      const rest = STATES_ORDER.filter(s => s !== 'VIC');
+
+      for (const s of rest) {
+        // water
+        const full = stateCodeToFullName[s];
+        await fetchAllPagedIncremental(
+          WATER_BASE,
+          `state_name = '${full}'`,
+          (features) => { if (!cancelled) pushWater(features); }
+        );
+
+        // flood
+        await fetchAllPagedIncremental(
+          FLOOD_BASE,
+          `state_code = '${s}'`,
+          (features) => { if (!cancelled) pushFlood(features); }
+        );
+
+        if (cancelled) break;
+      }
+    })();
+
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading) return <div>Loading map...</div>;
+  if (loading)
+    return (
+      <div
+        style={{
+          height: "80vh",
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: 'column',
+          alignItems: "center",
+        }}
+      >
+        <Spin className="activity-spinner" size="large" />
+        <p style={{ marginTop: 10, color: '#fff' }}>Loading Map...</p>
+      </div>
+    );
 
-  
   return (
-    <MapContainer center={[-25, 133]} zoom={4} style={{ height: '100vh', width: '100%' }}>
-      {/* Minimal change: use selected basemap instead of fixed OSM */}
+    <MapContainer
+      // Giving Victoria a suitable perspective from the beginning, 
+      // FitBounds will be further fitted when the first batch arrives
+      center={[-37.5, 144.5]}
+      zoom={6}
+      style={{ height: '100vh', width: '100%' }}
+    >
+      {/* basemap */}
       <TileLayer
         key={basemap}
         url={BASEMAPS[basemap].url}
@@ -219,56 +343,58 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
         maxNativeZoom={BASEMAPS[basemap].maxNativeZoom}
       />
 
-      <LocatemeControl/>
-      {/* Left-side: Locate (you already have this), then Info just below it */}
+      <LocatemeControl />
+
       <InfoControl title="About Flood Fighter">
       <section>
         <h2>What is Map Visualization in Flood Fighter?</h2>
-        <p>
-          Map Visualization inFlood Fighter is an <strong>interactive map</strong> for Australia that
-          brings together <em>basemaps</em>, <em>water storage reservoirs</em>, and
-          <em> flood catchments</em>. It helps you explore water infrastructure and
-          landscapes related to flood risk.
-        </p>
+          <p>
+            Map Visualization inFlood Fighter is an <strong>interactive map</strong> for Australia that
+            brings together <em>basemaps</em>, <em>water storage reservoirs</em>, and
+            <em> flood catchments</em>. It helps you explore water infrastructure and
+            landscapes related to flood risk.
+          </p>
 
-        <h3>Main features</h3>
-        <ul>
-          <li><strong>Basemaps</strong>: Switch between Topographic, OpenTopoMap, Satellite, and National Geographic styles.</li>
-          <li><strong>Reservoirs</strong>: Click any pin to view details; the selected reservoir is highlighted.</li>
-          <li><strong>Flood Catchments</strong>: Catchment boundaries are shown; <em>hover</em> to emphasize the hovered catchment.</li>
-          <li><strong>Your Location</strong>: Use the left control to find where you are on the map.</li>
-          <li><strong>Legend & Layers</strong>: Use the right panel to understand symbols and toggle <em>Flood Warning Catchments</em> and <em>Water Storage Points</em>.</li>
-          <li><strong>Preparedness Guides</strong>: Open the Menu for “Be prepared before flood”, “Stay safe during flood”, and “Recover stronger after flood”.</li>
-        </ul>
+          <h3>Main features</h3>
+          <ul>
+            <li><strong>Basemaps</strong>: Switch between Topographic, OpenTopoMap, Satellite, and National Geographic styles.</li>
+            <li><strong>Reservoirs</strong>: Click any pin to view details; the selected reservoir is highlighted.</li>
+            <li><strong>Flood Catchments</strong>: Catchment boundaries are shown; <em>hover</em> to emphasize the hovered catchment.</li>
+            <li><strong>Your Location</strong>: Use the left control to find where you are on the map.</li>
+            <li><strong>Legend & Layers</strong>: Use the right panel to understand symbols and toggle <em>Flood Warning Catchments</em> and <em>Water Storage Points</em>.</li>
+            <li><strong>Preparedness Guides</strong>: Open the Menu for “Be prepared before flood”, “Stay safe during flood”, and “Recover stronger after flood”.</li>
+          </ul>
 
-        <h3>How to use</h3>
-        <ol>
-          <li>Click the left-side <strong>Locate</strong> button 📍 to zoom to your position.</li>
-          <li>Use the right-side <strong>Layers</strong> toggles to show/hide catchments and reservoirs.</li>
-          <li>Try different <strong>Basemaps</strong> from the Basemap panel to change the background style.</li>
-          <li><strong>Click</strong> a reservoir pin for details; <strong>hover</strong> a catchment to highlight it.</li>
-          <li>Open the <strong>Menu</strong> for practical tips before/during/after floods.</li>
-        </ol>
+          <h3>How to use</h3>
+          <ol>
+            <li>Click the left-side <strong>Locate</strong> button 📍 to zoom to your position.</li>
+            <li>Use the right-side <strong>Layers</strong> toggles to show/hide catchments and reservoirs.</li>
+            <li>Try different <strong>Basemaps</strong> from the Basemap panel to change the background style.</li>
+            <li><strong>Click</strong> a reservoir pin for details; <strong>hover</strong> a catchment to highlight it.</li>
+            <li>Open the <strong>Menu</strong> for practical tips before/during/after floods.</li>
+          </ol>
 
-        <p className="ff-disclaimer">
-          ⚠️ <strong>Disclaimer</strong>: This map is for informational purposes only.
-          Always consult official sources and emergency services for critical decisions.
-        </p>
-      </section>
+          <p className="ff-disclaimer">
+            ⚠️ <strong>Disclaimer</strong>: This map is for informational purposes only.
+            Always consult official sources and emergency services for critical decisions.
+          </p>
+        </section>
       </InfoControl>
 
-      <FitBounds waterPoints={waterPoints} catchments={catchments} />
+      {/* Fit to current loaded data */}
+      <FitBoundsOnce waterPoints={waterPoints} catchments={catchments} />
 
+      {/* water (reservoirs) */}
       {showWater &&
         waterPoints.map((wp, idx) => (
-          <Marker 
-            key={idx} 
-            position={[wp.geometry.y, wp.geometry.x]} 
+          <Marker
+            key={idx}
+            position={[wp.geometry.y, wp.geometry.x]}
             icon={selectedReservoir === idx ? reservoirIconSelected : reservoirIcon}
             zIndexOffset={selectedReservoir === idx ? 1200 : 0}
             eventHandlers={{
               click: (e) => {
-                e.originalEvent?.stopPropagation?.(); // avoid map-click clearing first
+                e.originalEvent?.stopPropagation?.();
                 setSelectedReservoir(idx);
               },
             }}
@@ -276,9 +402,7 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
             <Popup>
               <div style={{ minWidth: 200 }}>
                 <h3>{wp.attributes.wstorlname}</h3>
-                <p>
-                  <b>Capacity:</b> {wp.attributes.total_capacity_ml} ML
-                </p>
+                <p><b>Capacity:</b> {wp.attributes.total_capacity_ml} ML</p>
                 {wp.attributes.surface_area_m2 && (
                   <p>Surface Area: {wp.attributes.surface_area_m2.toLocaleString()} m²</p>
                 )}
@@ -291,14 +415,14 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
             </Popup>
           </Marker>
         ))}
-      
+
+      {/* flood (catchments) */}
       {showFlood &&
         catchments.map((c, idx) =>
           c.geometry?.rings.map((ring, rIdx) => {
             const keyId = `${idx}-${rIdx}`;
             const isHovered = hoveredKey === keyId;
 
-            // Strong & obvious hover style
             const baseStyle = {
               color: 'blue',
               weight: 1,
@@ -307,11 +431,11 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
             };
 
             const hoverStyle = {
-              color: '#ff2d55',        // vivid pink stroke
-              weight: 3,               // thicker border
-              dashArray: '6 3',        // dashed stroke on hover
-              fillColor: '#ffd1dd',    // light pink fill
-              fillOpacity: 0.70,
+              color: '#ff2d55',
+              weight: 3,
+              dashArray: '6 3',
+              fillColor: '#ffd1dd',
+              fillOpacity: 0.7,
             };
 
             const style = isHovered ? hoverStyle : baseStyle;
@@ -320,30 +444,27 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
               <Polygon
                 key={keyId}
                 positions={ring.map(([lng, lat]) => [lat, lng] as [number, number])}
-                // All Leaflet Path options go into pathOptions
                 pathOptions={{
                   ...style,
                   interactive: true,
-                  bubblingMouseEvents: false, // put here, not as a top-level prop
+                  bubblingMouseEvents: false,
                 }}
                 eventHandlers={{
                   mouseover: (e) => {
                     setHoveredKey(keyId);
-                    (e.target as L.Path).bringToFront(); // ensure it's on top
+                    (e.target as L.Path).bringToFront();
                   },
-                  mouseout: (e) => {
-                    setHoveredKey((prev) => (prev === keyId ? null : prev));
-                  },
+                  mouseout: () => setHoveredKey((prev) => (prev === keyId ? null : prev)),
                 }}
               >
-                {/* Hover feedback that's impossible to miss */}
                 <Tooltip sticky>{c.name}</Tooltip>
               </Polygon>
             );
           })
         )}
-        <ClearSelectionOnMapClick onClear={() => setSelectedReservoir(null)} />
+
+      {/* click empty map to clear selection */}
+      <ClearSelectionOnMapClick onClear={() => setSelectedReservoir(null)} />
     </MapContainer>
-    
   );
 }

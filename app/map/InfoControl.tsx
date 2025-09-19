@@ -197,7 +197,7 @@ function injectOnce() {
 
   /* Top-right close button */
   .ff-modal-close{
-    position:absolute; top:16px; right:18px;
+    position:absolute; top:80px; right:18px;
     background:transparent; border:none; color:#fff;
     font-size:22px; line-height:1; cursor:pointer; z-index:100001;
   }
@@ -213,8 +213,13 @@ function injectOnce() {
     color:#fff; font-size:28px; font-weight:700; margin:0;
   }
   .ff-modal-content{
-    color:#eaeaea; max-width:min(900px, 90vw);
-    line-height:1.65; font-size:16px;
+    color:#eaeaea; 
+    max-width:min(900px, 90vw);
+    line-height:1.65; 
+    font-size:16px;
+    max-height: 70vh;     
+    overflow-y: auto;     
+    padding-right: 8px; 
   }`;
 
   const style = document.createElement('style');

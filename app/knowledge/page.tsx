@@ -5,13 +5,12 @@ import {
   Card,
   CardContent,
   Typography,
-  Grid,
   Box,
   Button,
   Breadcrumbs,
+  Fade,
 } from "@mui/material";
 import { FaArrowLeft } from "react-icons/fa";
-import { Fade } from "@mui/material";
 
 const beforeItems = [
   { label: "Emergency Kit", href: "/before/emergency-kit" },
@@ -29,6 +28,30 @@ const afterItems = [
   { label: "Safety check", href: "/after/safety-check" },
   { label: "Clean & Disinfection", href: "/after/clean-disinfection" },
   { label: "Mental support", href: "/after/mental-support" },
+];
+
+const cardData = [
+  {
+    title: "Be prepared",
+    subtitle: "Prepared today save lives tomorrow",
+    img: "/images/before.jpg",
+    items: beforeItems,
+    delay: 0,
+  },
+  {
+    title: "Stay safe",
+    subtitle: "Act fast, stay save, protect your family",
+    img: "/images/during.jpg",
+    items: duringItems,
+    delay: 200,
+  },
+  {
+    title: "Recover stronger",
+    subtitle: "Flood over? It's time to rebuild safely",
+    img: "/images/after.jpg",
+    items: afterItems,
+    delay: 400,
+  },
 ];
 
 export default function KnowledgePage() {
@@ -59,7 +82,7 @@ export default function KnowledgePage() {
         <FaArrowLeft size={20} />
       </Button>
 
-      {/* navigate breadcrumb */}
+      {/* Breadcrumb */}
       <Box sx={{ mb: 4, width: "100%", maxWidth: 1200, mx: "auto" }}>
         <Box
           sx={{
@@ -85,281 +108,95 @@ export default function KnowledgePage() {
         </Box>
       </Box>
 
-      {/* Main content area - Center using flex layout */}
+      {/* Main content */}
       <Box
         sx={{
-          flex: 1,
           display: "flex",
-          alignItems: "center",
+          flexWrap: "wrap",
           justifyContent: "center",
+          alignItems: "center",
+          gap: 4,
+          flex: 1,
           width: "100%",
+          maxWidth: 1200,
+          mx: "auto",
+          minHeight: "60vh",
         }}
       >
-        {/* Grid container */}
-        <Grid
-          container
-          spacing={4}
-          sx={{
-            maxWidth: 1200,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {/* Before Flood */}
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            lg={4}
-            sx={{ display: "flex", justifyContent: "center" }}
+        {cardData.map((card) => (
+          <Fade
+            in
+            timeout={1000}
+            style={{ transitionDelay: `${card.delay}ms` }}
+            key={card.title}
           >
-            <Fade in={true} timeout={1000} style={{ transitionDelay: "0ms" }}>
-              <Card
+            <Card
+              sx={{
+                borderRadius: 3,
+                boxShadow: 6,
+                width: { xs: "100%", sm: 360 },
+                height: 480,
+                bgcolor: "white",
+                transition: "transform 0.3s ease, boxShadow 0.3s ease",
+                "&:hover": { transform: "translateY(-8px)", boxShadow: 8 },
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <CardContent
                 sx={{
-                  borderRadius: 3,
-                  boxShadow: 6,
-                  width: 360,
-                  height: 480,
-                  bgcolor: "white",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  "&:hover": {
-                    transform: "translateY(-8px)",
-                    boxShadow: 8,
-                  },
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  p: 3,
                 }}
               >
-                <CardContent
+                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                  {card.title}
+                </Typography>
+                <Typography color="text.secondary" variant="body2" gutterBottom>
+                  {card.subtitle}
+                </Typography>
+                <Box
+                  component="img"
+                  src={card.img}
+                  alt={card.title}
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    p: 3,
+                    width: "100%",
+                    height: 200,
+                    objectFit: "cover",
+                    borderRadius: 2,
+                    mb: 2,
                   }}
-                >
-                  <Typography variant="h6" fontWeight="bold" gutterBottom>
-                    Be prepared
-                  </Typography>
-                  <Typography
-                    color="text.secondary"
-                    variant="body2"
-                    gutterBottom
-                  >
-                    Prepared today save lives tomorrow
-                  </Typography>
-
-                  <Box
-                    component="img"
-                    src="/images/before.jpg"
-                    alt="Flood safety"
-                    sx={{
-                      width: "100%",
-                      height: 200,
-                      objectFit: "cover",
-                      borderRadius: 2,
-                      mb: 2,
-                    }}
-                  />
-
-                  <Box textAlign="center" width="100%">
-                    {beforeItems.map((item) => (
-                      <Box key={item.href} sx={{ mb: 2 }}>
-                        <Button
-                          component={Link}
-                          href={item.href}
-                          variant="outlined"
-                          color="primary"
-                          fullWidth
-                          sx={{
-                            borderRadius: 2,
-                            py: 1.2,
-                            textTransform: "none",
-                            fontWeight: "bold",
-                            color: "black",
-                            "&:hover": {
-                              bgcolor: "primary.light",
-                            },
-                          }}
-                        >
-                          {item.label}
-                        </Button>
-                      </Box>
-                    ))}
-                  </Box>
-                </CardContent>
-              </Card>
-            </Fade>
-          </Grid>
-
-          {/* During Flood */}
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            lg={4}
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
-            <Fade in={true} timeout={1000} style={{ transitionDelay: "200ms" }}>
-              <Card
-                sx={{
-                  borderRadius: 3,
-                  boxShadow: 6,
-                  width: 360,
-                  height: 480,
-                  bgcolor: "white",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  "&:hover": {
-                    transform: "translateY(-8px)",
-                    boxShadow: 8,
-                  },
-                }}
-              >
-                <CardContent
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    p: 3,
-                  }}
-                >
-                  <Typography variant="h6" fontWeight="bold" gutterBottom>
-                    Stay safe
-                  </Typography>
-                  <Typography
-                    color="text.secondary"
-                    variant="body2"
-                    gutterBottom
-                  >
-                    Act fast, stay save, protect your family
-                  </Typography>
-
-                  <Box
-                    component="img"
-                    src="/images/during.jpg"
-                    alt="Flood safety"
-                    sx={{
-                      width: "100%",
-                      height: 200,
-                      objectFit: "cover",
-                      borderRadius: 2,
-                      mb: 2,
-                    }}
-                  />
-
-                  <Box textAlign="center" width="100%">
-                    {duringItems.map((item) => (
-                      <Box key={item.href} sx={{ mb: 2 }}>
-                        <Button
-                          component={Link}
-                          href={item.href}
-                          variant="outlined"
-                          color="primary"
-                          fullWidth
-                          sx={{
-                            borderRadius: 2,
-                            py: 1.2,
-                            textTransform: "none",
-                            fontWeight: "bold",
-                            color: "black",
-                            "&:hover": {
-                              bgcolor: "primary.light",
-                            },
-                          }}
-                        >
-                          {item.label}
-                        </Button>
-                      </Box>
-                    ))}
-                  </Box>
-                </CardContent>
-              </Card>
-            </Fade>
-          </Grid>
-
-          {/* After Flood */}
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            lg={4}
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
-            <Fade in={true} timeout={1000} style={{ transitionDelay: "400ms" }}>
-              <Card
-                sx={{
-                  borderRadius: 3,
-                  boxShadow: 6,
-                  width: 360,
-                  height: 480,
-                  bgcolor: "white",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  "&:hover": {
-                    transform: "translateY(-8px)",
-                    boxShadow: 8,
-                  },
-                }}
-              >
-                <CardContent
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    p: 3,
-                  }}
-                >
-                  <Typography variant="h6" fontWeight="bold" gutterBottom>
-                    Recover stronger
-                  </Typography>
-                  <Typography
-                    color="text.secondary"
-                    variant="body2"
-                    gutterBottom
-                  >
-                    Flood over? It's time to rebuild safely
-                  </Typography>
-
-                  <Box
-                    component="img"
-                    src="/images/after.jpg"
-                    alt="Flood safety"
-                    sx={{
-                      width: "100%",
-                      height: 200,
-                      objectFit: "cover",
-                      borderRadius: 2,
-                      mb: 2,
-                    }}
-                  />
-
-                  <Box textAlign="center" width="100%">
-                    {afterItems.map((item) => (
-                      <Box key={item.href} sx={{ mb: 2 }}>
-                        <Button
-                          component={Link}
-                          href={item.href}
-                          variant="outlined"
-                          color="primary"
-                          fullWidth
-                          sx={{
-                            borderRadius: 2,
-                            py: 1.2,
-                            textTransform: "none",
-                            fontWeight: "bold",
-                            color: "black",
-                            "&:hover": {
-                              bgcolor: "primary.light",
-                            },
-                          }}
-                        >
-                          {item.label}
-                        </Button>
-                      </Box>
-                    ))}
-                  </Box>
-                </CardContent>
-              </Card>
-            </Fade>
-          </Grid>
-        </Grid>
+                />
+                <Box textAlign="center" width="100%">
+                  {card.items.map((item) => (
+                    <Box key={item.href} sx={{ mb: 2 }}>
+                      <Button
+                        component={Link}
+                        href={item.href}
+                        variant="outlined"
+                        color="primary"
+                        fullWidth
+                        sx={{
+                          borderRadius: 2,
+                          py: 1.2,
+                          textTransform: "none",
+                          fontWeight: "bold",
+                          color: "black",
+                          "&:hover": { bgcolor: "primary.light" },
+                        }}
+                      >
+                        {item.label}
+                      </Button>
+                    </Box>
+                  ))}
+                </Box>
+              </CardContent>
+            </Card>
+          </Fade>
+        ))}
       </Box>
     </Box>
   );

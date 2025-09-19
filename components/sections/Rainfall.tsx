@@ -27,7 +27,7 @@ export function Rainfall() {
   const [toYear, setToYear] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("https://floodfighterbackend-uc7p.onrender.com/rainfall")
+    fetch("/data/rainfall.json")
       .then((res) => res.json())
       .then((data) => {
         const formatted = data.map((d: any) => ({

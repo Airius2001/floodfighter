@@ -170,9 +170,9 @@ export function Navbar() {
         >
           {/* Knowledge of Facing Flood (MUI Menu) */}
           <div style={{ display: "flex", alignItems: "center" }}>
-            {/* 添加可点击跳转的主按钮 */}
+            {/* Add a main button that can be clicked to jump to another page. */}
             <Link
-              href="/knowledge" // 添加您想要跳转的页面路径
+              href="/knowledge"
               style={{
                 ...navLinkStyle(mounted && pathname.startsWith("/knowledge")),
                 borderTopRightRadius: 0,
@@ -322,7 +322,7 @@ export function Navbar() {
       {menuOpen && (
         <div className="mobile-nav">
           <Link
-            href="/knowledge" // 添加移动端的跳转链接
+            href="/knowledge"
             onClick={() => setMenuOpen(false)}
             className="mobile-link"
           >

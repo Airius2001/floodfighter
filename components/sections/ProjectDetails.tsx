@@ -35,26 +35,6 @@ export default function SectionCard() {
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px" }}>
-        {/* Section Title */}
-        <div style={{ textAlign: "center", marginBottom: 60 }}>
-          <Title level={1} style={{ color: "#1e3a8a" }}>
-            Flood Fighter at a Glance
-          </Title>
-          <Paragraph
-            style={{
-              color: "#1f2937",
-              fontSize: 20,
-              maxWidth: 800,
-              margin: "0 auto",
-            }}
-          >
-            Flood Fighter: Stay Ready, Stay Safe is an interactive website
-            designed to help communities prepare before, during, and after
-            floods. Unlike existing platforms that focus mainly on alerts, Flood
-            Fighter provides clear, practical steps to protect families, keep
-            water safe, and maintain hygiene during emergencies.
-          </Paragraph>
-        </div>
         <Rainfall />
       </div>
     </section>

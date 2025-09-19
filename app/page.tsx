@@ -2,7 +2,6 @@
 
 import { useMemo, useRef, useState } from "react";
 import Hero from "@/components/sections/Hero";
-import FeatureDuplex from "@/components/sections/FeatureDuplex";
 import { Statistics } from "@/components/sections/Statistics";
 import FloodFighterUI from "@/components/sections/ProjectDetails";
 

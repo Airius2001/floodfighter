@@ -14,6 +14,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import { Switch, Select } from "antd";
+import Link from "next/link";
 
 const { Option } = Select;
 
@@ -44,13 +45,6 @@ export function Rainfall() {
       .catch((err) => console.error("Failed to load rainfall data:", err));
   }, []);
 
-  const handleLearnMore = () => {
-    window.open(
-      "https://www.ga.gov.au/education/natural-hazards/flood",
-      "_blank"
-    );
-  };
-
   // Filter data based on selected years
   const filteredData = rainfallData.filter((d) => {
     const yearNum = parseInt(d.year);
@@ -63,28 +57,27 @@ export function Rainfall() {
   return (
     <section
       style={{
-        background: "linear-gradient(135deg, #000 0%, #111827 100%)",
+        background: "linear-gradient(135deg, #abcbfcff)",
         padding: "20px 0",
-        borderRadius: '12px'
+        borderRadius: "12px",
       }}
     >
       <div
         style={{
-          minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           padding: "1rem 1.5rem",
         }}
       >
-        <h1 style={{color:'#fff', textAlign:'center', marginBottom:20}}>
-            Australian annual mean rainfall
+        <h1 style={{ color: "#1e3a8a", textAlign: "center", marginBottom: 20 }}>
+          Australian annual mean rainfall
         </h1>
         <h4
           style={{
             fontSize: "28px",
             marginBottom: "2rem",
-            color: "#ffffffff",
+            color: "#1f2937",
             textAlign: "center",
             fontFamily: "sans-serif",
           }}
@@ -95,18 +88,25 @@ export function Rainfall() {
         </h4>
 
         {/* Chart switch */}
-        <div style={{
-          marginBottom: "1rem", color: "#fff", display: "flex", gap: "1rem", alignItems: "center",
-          justifyContent: "end",
-          width: "100%",
-          marginRight: "10px"
-        }}>
+        <div
+          style={{
+            marginBottom: "1rem",
+            color: "#fff",
+            display: "flex",
+            gap: "1rem",
+            alignItems: "center",
+            justifyContent: "end",
+            width: "100%",
+            marginRight: "10px",
+          }}
+        >
           <Switch
             checkedChildren="Line"
             unCheckedChildren="Bar"
             onChange={(checked) => setShowLineChart(checked)}
-            style={{ backgroundColor: showLineChart ? 'rgb(59, 130, 246)' : 'gray' }}
-
+            style={{
+              backgroundColor: showLineChart ? "rgb(59, 130, 246)" : "gray",
+            }}
           />
 
           {/* Year filter dropdowns */}
@@ -157,7 +157,7 @@ export function Rainfall() {
           <div
             style={{
               flex: "1 1 300px",
-              color: "#fff",
+              color: "#1f2937",
               fontSize: "18px",
               lineHeight: 1.6,
               marginBottom: "1.5rem",
@@ -181,29 +181,30 @@ export function Rainfall() {
               flood' page for practical flood prevention tips and guidelines:
             </p>
 
-            <button
-              onClick={handleLearnMore}
-              style={{
-                backgroundColor: "#3b82f6",
-                color: "white",
-                border: "none",
-                padding: "12px 24px",
-                borderRadius: "8px",
-                fontSize: "16px",
-                fontWeight: "bold",
-                cursor: "pointer",
-                marginTop: "20px",
-                transition: "background-color 0.3s ease",
-              }}
-              onMouseOver={(e) =>
-                (e.currentTarget.style.backgroundColor = "#2563eb")
-              }
-              onMouseOut={(e) =>
-                (e.currentTarget.style.backgroundColor = "#3b82f6")
-              }
-            >
-              Go to learn Flood knowledge
-            </button>
+            <Link href="/knowledge" passHref>
+              <button
+                style={{
+                  backgroundColor: "#3b82f6",
+                  color: "white",
+                  border: "none",
+                  padding: "12px 24px",
+                  borderRadius: "8px",
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  marginTop: "20px",
+                  transition: "background-color 0.3s ease",
+                }}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#2563eb")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#3b82f6")
+                }
+              >
+                Go to learn Flood knowledge
+              </button>
+            </Link>
           </div>
 
           {/* right side chart */}
@@ -224,7 +225,12 @@ export function Rainfall() {
                     <XAxis
                       dataKey="year"
                       stroke="#fff"
-                      label={{ value: "Year", position: "insideBottom", offset: -5, fill: "#fff" }}
+                      label={{
+                        value: "Year",
+                        position: "insideBottom",
+                        offset: -5,
+                        fill: "#fff",
+                      }}
                     />
                     <YAxis
                       stroke="#fff"
@@ -253,7 +259,6 @@ export function Rainfall() {
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={filteredData}>
-
                     <XAxis dataKey="year" stroke="#fff">
                       <Label
                         value="Year"
@@ -273,13 +278,12 @@ export function Rainfall() {
                     </YAxis>
 
                     <Tooltip
-                      formatter={(value: number) => [Math.round(value), "Total"]}
+                      formatter={(value: number) => [
+                        Math.round(value),
+                        "Total",
+                      ]}
                     />
-                    <Bar
-                      dataKey="Total"
-                      fill="#3b82f6"
-                      radius={[6, 6, 0, 0]}
-                    />
+                    <Bar dataKey="Total" fill="#3b82f6" radius={[6, 6, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               )
@@ -300,9 +304,9 @@ export function Rainfall() {
               style={{
                 textAlign: "left",
                 fontSize: "12px",
-                color: "#9ca3af",
+                color: "#000000ff",
                 paddingRight: "0.5rem",
-                marginTop:'20px'
+                marginTop: "20px",
               }}
             >
               Data Source By:{" "}
@@ -311,7 +315,7 @@ export function Rainfall() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  color: "#93c5fd",
+                  color: "#0851b7ff",
                   textDecoration: "none",
                 }}
                 onMouseOver={(e) =>

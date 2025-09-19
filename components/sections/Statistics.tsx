@@ -2,7 +2,6 @@ import React from "react";
 import {
   FaMapMarkedAlt,
   FaShieldAlt,
-  FaClock,
   FaUsers,
   FaInfoCircle,
   FaHandsHelping,
@@ -28,6 +27,7 @@ export function Statistics() {
             gap: 32,
             marginBottom: 50,
             textAlign: "center",
+            paddingTop: "20px",
           }}
         >
           <div>

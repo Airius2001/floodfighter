@@ -1,211 +1,169 @@
 "use client";
 
-import { useState } from "react";
-import { Card, Typography, List, Divider, Button, Row, Col, message } from "antd";
-import {
-  FaHome,
-  FaDownload,
-  FaShareAlt,
-  FaUsers,
-  FaPhoneAlt,
-  FaMapMarkedAlt,
-  FaSuitcase,
-} from "react-icons/fa";
-import jsPDF from "jspdf";
+import { Card, Typography, List, Button, Breadcrumb } from "antd";
+import { FaArrowLeft } from "react-icons/fa";
+import Image from "next/image";
 
 const { Title, Paragraph } = Typography;
 
 export default function FamilyPlan() {
-  const [loading, setLoading] = useState(false);
-
   const planSteps = [
     {
-      icon: <FaPhoneAlt size={26} color="#0af" />,
-      text: "Prepare an updated emergency contact list (family, neighbors, SES 132 500, Triple Zero 000).",
+      text: "Step 1: -----------\n(Info)",
     },
     {
-      icon: <FaMapMarkedAlt size={26} color="#52c41a" />,
-      text: "Decide on a safe meeting point (local shelter, high ground, community centre).",
-    },
-    {
-      icon: <FaUsers size={26} color="#faad14" />,
-      text: "Plan responsibilities for each family member (who grabs the kit, who helps children/elders/pets).",
-    },
-    {
-      icon: <FaSuitcase size={26} color="#ff4d4f" />,
-      text: "Pack and keep an emergency grab-bag ready with food, water, documents, cash, medicine.",
+      text: "Step 2: -----------\n(Info)",
     },
   ];
 
-  // Extra PDF-only plans (not shown in UI)
-  const extraPdfPlans = [
-    "Keep a waterproof pouch for important documents such as passports, insurance papers, and medical records.",
-    "Practice your evacuation route at least once a year with the entire family.",
-    "Identify the safest power cut-off points (electricity, gas, water) and learn how to turn them off.",
-    "Arrange a communication backup plan in case mobile networks fail (e.g., meeting at a neighbour’s house).",
-    "Store extra pet food and supplies to ensure animals are safe during displacement.",
-    "Keep a small solar charger or power bank ready for phones and essential devices.",
+  // Breadcrumb navigation
+  const breadcrumbItems = [
+    {
+      title: <span style={{ color: "#1f2937" }}>Homepage</span>,
+    },
+    {
+      title: (
+        <span style={{ color: "#1f2937" }}>Knowledge of Facing Flood</span>
+      ),
+    },
+    {
+      title: (
+        <span style={{ color: "#1e40af", fontWeight: "bold" }}>
+          Family Flood Plan
+        </span>
+      ),
+    },
   ];
 
-  // Generate styled PDF (without autotable)
-  const handleDownload = () => {
-    setLoading(true);
-    const doc = new jsPDF();
-
-    // Title
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(20);
-    doc.text("Family Flood Plan", 105, 20, { align: "center" });
-
-    // Subtitle
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-    doc.text(
-      "A step-by-step plan to keep your family safe during floods in Australia.",
-      20,
-      35
-    );
-
-    // Main steps
-    let y = 50;
-    planSteps.forEach((step, i) => {
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(14);
-      doc.setTextColor(30, 144, 255); // blue for step number
-      doc.text(`Step ${i + 1}:`, 20, y);
-
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0); // black for content
-      doc.text(doc.splitTextToSize(step.text, 170), 40, y);
-
-      y += 20; // spacing
-    });
-
-    // Divider line
-    y += 5;
-    doc.setDrawColor(200, 200, 200);
-    doc.line(20, y, 190, y);
-    y += 10;
-
-    // Extra Plans
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(16);
-    doc.setTextColor(0, 128, 0);
-    doc.text("Additional Safety Measures:", 20, y);
-    y += 10;
-
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0);
-
-    extraPdfPlans.forEach((plan, i) => {
-      const bullet = `• ${plan}`;
-      const wrapped = doc.splitTextToSize(bullet, 170);
-      doc.text(wrapped, 25, y);
-      y += wrapped.length * 7; // adjust spacing dynamically
-    });
-
-    // Footer
-    y += 10;
-    doc.setFontSize(10);
-    doc.setTextColor(100);
-    doc.text("Stay prepared, stay safe. — Flood Safety Guide", 105, y, {
-      align: "center",
-    });
-
-    doc.save("family-flood-plan.pdf");
-    setLoading(false);
-  };
-
-  // Share feature
-  const handleShare = async () => {
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: "Family Flood Plan",
-          text: "Here’s our family flood plan to stay safe and prepared.",
-          url: window.location.href,
-        });
-      } else {
-        await navigator.clipboard.writeText(window.location.href);
-        message.success("Plan link copied to clipboard!");
-      }
-    } catch (err) {
-      message.error("Sharing failed. Please try again.");
-    }
+  const handleBack = () => {
+    window.history.back();
   };
 
   return (
     <div
       style={{
-        background: "#000",
-        color: "#fff",
-        minHeight: "100vh",
-        padding: "50px 20px",
+        minHeight: "90vh",
+        background: "#bfd6f8ff",
+        padding: "20px",
+        position: "relative",
       }}
     >
-      <Row justify="center">
-        <Col xs={24} md={20} lg={16}>
-          <Card
+      {/* Back button */}
+      <Button
+        type="text"
+        icon={<FaArrowLeft />}
+        onClick={handleBack}
+        style={{
+          position: "absolute",
+          top: 16,
+          left: 16,
+          color: "#000000ff",
+          zIndex: 10,
+        }}
+      />
+
+      {/* Breadcrumb navigation */}
+      <div
+        style={{ marginBottom: 20, maxWidth: 1200, margin: "0 auto 20px auto" }}
+      >
+        <Breadcrumb
+          items={breadcrumbItems}
+          separator="→"
+          style={{
+            padding: "10px 20px",
+            background: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "8px",
+            backdropFilter: "blur(10px)",
+          }}
+        />
+      </div>
+
+      {/* Main content area */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "calc(100vh - 120px)",
+          padding: "20px 0",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: "24px",
+            maxWidth: "1000px",
+            width: "100%",
+            alignItems: "flex-start",
+          }}
+        >
+          {/* Left side: Image area */}
+          <div
             style={{
-              background: "#111",
-              border: "1px solid #333",
-              borderRadius: "12px",
-              padding: "30px",
+              width: "500px",
+              height: "400px",
+              background: "#eee",
+              borderRadius: 12,
+              overflow: "hidden",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transform: "translateX(-140px) translateY(-40px)",
+              boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
             }}
           >
-            <div style={{ textAlign: "center", marginBottom: 30 }}>
-              <FaHome size={50} color="#0af" />
-              <Title
-                level={2}
-                style={{ color: "#fff", marginTop: 15, fontWeight: "bold" }}
-              >
-                Family Flood Plan
-              </Title>
-              <Paragraph style={{ color: "#aaa", fontSize: 16 }}>
-                A step-by-step plan to keep your family safe during floods.
-              </Paragraph>
-            </div>
+            <Image
+              src="/mnt/data/1c964acb-fbf4-4a8f-bfba-1dc3c31b5ada.png"
+              alt="Family Flood Plan"
+              width={400}
+              height={400}
+              style={{ objectFit: "cover", width: "100%", height: "100%" }}
+            />
+          </div>
 
-            <Divider style={{ backgroundColor: "#333" }} />
+          {/* Right side: Information area */}
+          <Card
+            style={{
+              borderRadius: 12,
+              flex: 1,
+              boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+              border: "1px solid rgba(255,255,255,0.2)",
+            }}
+          >
+            <Title level={2} style={{ color: "#1e40af", marginBottom: 16 }}>
+              Family Flood Plan
+            </Title>
+            <Paragraph
+              style={{ color: "#1f2937", fontSize: 16, marginBottom: 24 }}
+            >
+              A detailed plan for you to follow, easy to facing flood
+            </Paragraph>
 
             <List
-              itemLayout="horizontal"
               dataSource={planSteps}
-              renderItem={(item) => (
-                <List.Item style={{ borderBottom: "1px solid #222" }}>
+              renderItem={(item, index) => (
+                <List.Item
+                  style={{
+                    borderBottom: "1px solid #f0f0f0",
+                    padding: "16px 0",
+                  }}
+                >
                   <List.Item.Meta
-                    avatar={item.icon}
                     title={
-                      <span style={{ color: "#fff", fontSize: 16 }}>
-                        {item.text}
+                      <span style={{ color: "#1f2937", fontSize: 16 }}>
+                        <strong style={{ color: "#1e40af" }}>
+                          Step {index + 1}:
+                        </strong>{" "}
+                        {item.text.replace(/^Step \d+: /, "")}
                       </span>
                     }
                   />
                 </List.Item>
               )}
             />
-
-            <Divider style={{ backgroundColor: "#111" }} />
-
-            <div style={{ textAlign: "center" }}>
-              <Button
-                type="primary"
-                icon={<FaDownload />}
-                style={{ marginRight: 10 }}
-                loading={loading}
-                onClick={handleDownload}
-              >
-                Download Plan PDF
-              </Button>
-              <Button icon={<FaShareAlt />} onClick={handleShare}>
-                Share with Family
-              </Button>
-            </div>
           </Card>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 }

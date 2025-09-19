@@ -44,10 +44,10 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
         >
           <h1
             style={{
-              fontSize: 50,
+              fontSize: 60,
               lineHeight: 1.1,
               fontWeight: 800,
-              margin: 0,
+              margin: 25,
               color: "#1e3a8a",
             }}
           >
@@ -56,7 +56,7 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
 
           <h2
             style={{
-              fontSize: 25,
+              fontSize: 30,
               lineHeight: 1.1,
               fontWeight: 500,
               margin: 20,
@@ -65,19 +65,6 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
           >
             Be Prepared. Stay Safe. Recover Stronger.
           </h2>
-
-          <p
-            style={{
-              maxWidth: 700,
-              margin: "16px auto 0",
-              color: "#111",
-              fontSize: 18,
-            }}
-          >
-            Map-based visual data <br />
-            & <br />
-            practical knowledge to face floods in Australia.
-          </p>
 
           <div
             style={{

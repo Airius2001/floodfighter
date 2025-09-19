@@ -1,151 +1,160 @@
 "use client";
 
-import { useState } from "react";
-import { Card, Typography, List, Divider, Button, Row, Col, message } from "antd";
-import {
-  FaShieldAlt,
-  FaDownload,
-  FaShareAlt,
-  FaWater,
-  FaBoxOpen,
-  FaPlug,
-  FaHammer,
-  FaTree,
-} from "react-icons/fa";
-import jsPDF from "jspdf";
+import { Card, Typography, List, Button, Breadcrumb } from "antd";
+import { FaArrowLeft } from "react-icons/fa";
+import Image from "next/image";
 
 const { Title, Paragraph } = Typography;
 
-export default function PropertyProtection() {
-  const [loading, setLoading] = useState(false);
-
-  const protectionSteps = [
+export default function FamilyPlan() {
+  const planSteps = [
     {
-      icon: <FaWater size={28} color="#0af" />,
-      text: "Elevate electrical appliances and power outlets above potential flood levels.",
+      text: "Step 1: -----------\n(Info)",
     },
     {
-      icon: <FaBoxOpen size={28} color="#52c41a" />,
-      text: "Store valuables and important documents in waterproof containers.",
-    },
-    {
-      icon: <FaPlug size={28} color="#ff4d4f" />,
-      text: "Install backflow valves to prevent sewage from entering your home.",
-    },
-    {
-      icon: <FaHammer size={28} color="#faad14" />,
-      text: "Seal foundation cracks and gaps to reduce water entry points.",
-    },
-    {
-      icon: <FaTree size={28} color="#13c2c2" />,
-      text: "Maintain gutters, drains, and clear debris to improve water flow.",
+      text: "Step 2: -----------\n(Info)",
     },
   ];
 
-  // Generate styled PDF
-  const handleDownload = () => {
-    setLoading(true);
-    const doc = new jsPDF();
+  // Breadcrumb navigation
+  const breadcrumbItems = [
+    {
+      title: <span style={{ color: "#1f2937" }}>Homepage</span>,
+    },
+    {
+      title: (
+        <span style={{ color: "#1f2937" }}>Knowledge of Facing Flood</span>
+      ),
+    },
+    {
+      title: (
+        <span style={{ color: "#1e40af", fontWeight: "bold" }}>
+          Property Protection
+        </span>
+      ),
+    },
+  ];
 
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(20);
-    doc.text("Property Protection Plan", 105, 20, { align: "center" });
-
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-    doc.text(
-      "Steps to protect your home and belongings from flood damage in Australia.",
-      20,
-      35
-    );
-
-    let y = 50;
-    protectionSteps.forEach((step, i) => {
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(14);
-      doc.setTextColor(30, 144, 255);
-      doc.text(`Step ${i + 1}:`, 20, y);
-
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0);
-      const wrapped = doc.splitTextToSize(step.text, 170);
-      doc.text(wrapped, 40, y);
-      y += wrapped.length * 7 + 10;
-    });
-
-    y += 10;
-    doc.setFont("helvetica", "italic");
-    doc.setFontSize(11);
-    doc.setTextColor(100);
-    doc.text("Stay safe: Regular maintenance is key to reducing flood damage.", 20, y);
-
-    doc.save("property-protection.pdf");
-    setLoading(false);
-  };
-
-  // Share feature
-  const handleShare = async () => {
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: "Property Protection Plan",
-          text: "Steps to protect your home and belongings from flood damage.",
-          url: window.location.href,
-        });
-      } else {
-        await navigator.clipboard.writeText(window.location.href);
-        message.success("Plan link copied to clipboard!");
-      }
-    } catch (err) {
-      message.error("Sharing failed. Please try again.");
-    }
+  const handleBack = () => {
+    window.history.back();
   };
 
   return (
     <div
       style={{
-        background: "#000",
-        color: "#fff",
-        minHeight: "100vh",
-        padding: "50px 20px",
+        minHeight: "90vh",
+        background: "#bfd6f8ff",
+        padding: "20px",
+        position: "relative",
       }}
     >
-      <Row justify="center">
-        <Col xs={24} md={20} lg={16}>
-          <Card
+      {/* back button */}
+      <Button
+        type="text"
+        icon={<FaArrowLeft />}
+        onClick={handleBack}
+        style={{
+          position: "absolute",
+          top: 16,
+          left: 16,
+          color: "#000000ff",
+          zIndex: 10,
+        }}
+      />
+
+      {/* Breadcrumb navigation */}
+      <div
+        style={{ marginBottom: 20, maxWidth: 1200, margin: "0 auto 20px auto" }}
+      >
+        <Breadcrumb
+          items={breadcrumbItems}
+          separator="→"
+          style={{
+            padding: "10px 20px",
+            background: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "8px",
+            backdropFilter: "blur(10px)",
+          }}
+        />
+      </div>
+
+      {/* Main content area */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "calc(100vh - 120px)",
+          padding: "20px 0",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: "24px",
+            maxWidth: "1000px",
+            width: "100%",
+            alignItems: "flex-start",
+          }}
+        >
+          {/* Left side: Image area */}
+          <div
             style={{
-              background: "#111",
-              border: "1px solid #333",
-              borderRadius: "12px",
-              padding: "30px",
+              width: "500px",
+              height: "400px",
+              background: "#eee",
+              borderRadius: 12,
+              overflow: "hidden",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transform: "translateX(-140px) translateY(-40px)",
+              boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
             }}
           >
-            <div style={{ textAlign: "center", marginBottom: 30 }}>
-              <FaShieldAlt size={50} color="#0af" />
-              <Title
-                level={2}
-                style={{ color: "#fff", marginTop: 15, fontWeight: "bold" }}
-              >
-                Property Protection
-              </Title>
-              <Paragraph style={{ color: "#aaa", fontSize: 16 }}>
-                Practical steps to safeguard your home and reduce flood damage.
-              </Paragraph>
-            </div>
+            <Image
+              src="/mnt/data/1c964acb-fbf4-4a8f-bfba-1dc3c31b5ada.png"
+              alt="Property Protection"
+              width={400}
+              height={400}
+              style={{ objectFit: "cover", width: "100%", height: "100%" }}
+            />
+          </div>
 
-            <Divider style={{ backgroundColor: "#333" }} />
+          {/* Right side: Information area */}
+          <Card
+            style={{
+              borderRadius: 12,
+              flex: 1,
+              boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+              border: "1px solid rgba(255,255,255,0.2)",
+            }}
+          >
+            <Title level={2} style={{ color: "#1e40af", marginBottom: 16 }}>
+              Property Protection
+            </Title>
+            <Paragraph
+              style={{ color: "#1f2937", fontSize: 16, marginBottom: 24 }}
+            >
+              Things to protect your home and belongings from flood damage
+            </Paragraph>
 
             <List
-              itemLayout="horizontal"
-              dataSource={protectionSteps}
-              renderItem={(item) => (
-                <List.Item style={{ borderBottom: "1px solid #222" }}>
+              dataSource={planSteps}
+              renderItem={(item, index) => (
+                <List.Item
+                  style={{
+                    borderBottom: "1px solid #f0f0f0",
+                    padding: "16px 0",
+                  }}
+                >
                   <List.Item.Meta
-                    avatar={item.icon}
                     title={
-                      <span style={{ color: "#fff", fontSize: 16 }}>
-                        {item.text}
+                      <span style={{ color: "#1f2937", fontSize: 16 }}>
+                        <strong style={{ color: "#1e40af" }}>
+                          Step {index + 1}:
+                        </strong>{" "}
+                        {item.text.replace(/^Step \d+: /, "")}
                       </span>
                     }
                   />
@@ -153,8 +162,8 @@ export default function PropertyProtection() {
               )}
             />
           </Card>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 }

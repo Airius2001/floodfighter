@@ -5,13 +5,13 @@ import {
   Card,
   Typography,
   List,
-  Divider,
   Button,
   Row,
   Col,
   message,
   Select,
   Form,
+  Breadcrumb,
 } from "antd";
 import {
   FaListAlt,
@@ -20,11 +20,7 @@ import {
   FaTint,
   FaUtensils,
   FaLightbulb,
-  FaBatteryFull,
   FaFirstAid,
-  FaMobileAlt,
-  FaMoneyBillWave,
-  FaUserShield,
   FaDog,
   FaBaby,
   FaArrowLeft,
@@ -59,6 +55,67 @@ export default function EmergencyKitPage() {
 
   const [kitItems, setKitItems] = useState<CustomItem[]>([]);
   const [reminderItems, setReminderItems] = useState<CustomItem[]>([]);
+
+  // Generate breadcrumb items based on the current steps.
+  const getBreadcrumbItems = () => {
+    const baseItems = [
+      {
+        title: <span style={{ color: "#1f2937" }}>Homepage</span>,
+      },
+      {
+        title: (
+          <span style={{ color: "#1f2937" }}>Knowledge of Facing Flood</span>
+        ),
+      },
+    ];
+
+    switch (step) {
+      case "intro":
+        return [
+          ...baseItems,
+          {
+            title: (
+              <span style={{ color: "#1e40af", fontWeight: "bold" }}>
+                Emergency Kit
+              </span>
+            ),
+          },
+        ];
+      case "form":
+        return [
+          ...baseItems,
+          {
+            title: <span style={{ color: "#1f2937" }}>Emergency Kit</span>,
+          },
+          {
+            title: (
+              <span style={{ color: "#1e40af", fontWeight: "bold" }}>
+                Family Details
+              </span>
+            ),
+          },
+        ];
+      case "checklist":
+        return [
+          ...baseItems,
+          {
+            title: <span style={{ color: "#1f2937" }}>Emergency Kit</span>,
+          },
+          {
+            title: <span style={{ color: "#1f2937" }}>Family Details</span>,
+          },
+          {
+            title: (
+              <span style={{ color: "#1e40af", fontWeight: "bold" }}>
+                Your Checklist
+              </span>
+            ),
+          },
+        ];
+      default:
+        return baseItems;
+    }
+  };
 
   // optimize generateCustomChecklist
   const generateCustomChecklist = (values: FormValues): void => {
@@ -225,9 +282,25 @@ export default function EmergencyKitPage() {
         background: "#bfd6f8ff",
         color: "#fff",
         minHeight: "100vh",
-        padding: "50px 20px",
+        padding: "20px",
       }}
     >
+      {/* Breadcrumb Navigation - Global Display */}
+      <div
+        style={{ marginBottom: 20, maxWidth: 1200, margin: "0 auto 20px auto" }}
+      >
+        <Breadcrumb
+          items={getBreadcrumbItems()}
+          separator="→"
+          style={{
+            padding: "10px 20px",
+            background: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "8px",
+            backdropFilter: "blur(10px)",
+          }}
+        />
+      </div>
+
       <Row justify="center">
         <Col xs={24} md={20} lg={16}>
           {step === "intro" && (
@@ -237,14 +310,29 @@ export default function EmergencyKitPage() {
                 border: "1px solid #333",
                 borderRadius: "12px",
                 padding: "30px",
+                position: "relative",
               }}
             >
+              <Button
+                type="text"
+                icon={<FaArrowLeft />}
+                onClick={() => window.history.back()}
+                style={{
+                  position: "absolute",
+                  top: 16,
+                  left: 16,
+                  color: "#000000ff",
+                  zIndex: 10,
+                }}
+              />
+
               <Title
                 level={2}
                 style={{
                   color: "#1e40af",
                   textAlign: "center",
                   fontWeight: "bold",
+                  marginTop: 20,
                 }}
               >
                 Why Prepare an Emergency Kit?
@@ -316,6 +404,7 @@ export default function EmergencyKitPage() {
                 border: "1px solid #333",
                 borderRadius: "12px",
                 padding: "30px",
+                position: "relative",
               }}
             >
               <Button
@@ -327,9 +416,18 @@ export default function EmergencyKitPage() {
                   top: 16,
                   left: 16,
                   color: "#000000ff",
+                  zIndex: 10,
                 }}
               />
-              <Title level={2} style={{ color: "#1e40af", marginBottom: 20 }}>
+              <Title
+                level={2}
+                style={{
+                  color: "#1e40af",
+                  marginBottom: 20,
+                  marginTop: 20,
+                  textAlign: "center",
+                }}
+              >
                 Enter Your Family Details
               </Title>
               <Form
@@ -412,7 +510,7 @@ export default function EmergencyKitPage() {
                 </Form.Item>
 
                 <div style={{ textAlign: "center", marginTop: 20 }}>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" size="large">
                     Generate Checklist
                   </Button>
                 </div>
@@ -458,7 +556,9 @@ export default function EmergencyKitPage() {
                       itemLayout="horizontal"
                       dataSource={kitItems}
                       renderItem={(item) => (
-                        <List.Item style={{ borderBottom: "1px solid #222" }}>
+                        <List.Item
+                          style={{ borderBottom: "1px solid #f0f0f0" }}
+                        >
                           <List.Item.Meta
                             avatar={item.icon}
                             title={
@@ -491,7 +591,9 @@ export default function EmergencyKitPage() {
                       itemLayout="horizontal"
                       dataSource={reminderItems}
                       renderItem={(item) => (
-                        <List.Item style={{ borderBottom: "1px solid #222" }}>
+                        <List.Item
+                          style={{ borderBottom: "1px solid #f0f0f0" }}
+                        >
                           <List.Item.Meta
                             avatar={item.icon}
                             title={
@@ -513,6 +615,7 @@ export default function EmergencyKitPage() {
                       style={{ marginRight: 10 }}
                       loading={loading}
                       onClick={handleDownload}
+                      size="large"
                     >
                       Download Checklist PDF
                     </Button>
@@ -520,6 +623,7 @@ export default function EmergencyKitPage() {
                       icon={<FaShareAlt />}
                       style={{ marginRight: 10 }}
                       onClick={handleShare}
+                      size="large"
                     >
                       Share to your family
                     </Button>

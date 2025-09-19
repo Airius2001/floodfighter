@@ -23,7 +23,7 @@ export default function InfoControl({
   appendToLocateBar?: boolean;
 }) {
   const map = useMap();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   // ESC key closes the modal
   useEffect(() => {

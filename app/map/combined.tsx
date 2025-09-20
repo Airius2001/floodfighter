@@ -376,6 +376,17 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
           ⚠️ <strong>Disclaimer</strong>: This map is for informational purposes only.
           Always consult official sources and emergency services for critical decisions.
         </p>
+        <p className="ff-source">
+          📊 <strong>Data Sources</strong>:  
+          Flood Gauge Network & Water Storage Points from  
+          <a href="https://hosting.wsapi.cloud.bom.gov.au/arcgis/rest/services/flood/National_Flood_Gauge_Network/FeatureServer/1/query" target="_blank" rel="noopener noreferrer">
+            BOM ArcGIS – National Flood Gauge Network
+          </a>  
+          and  
+          <a href="https://hosting.wsapi.cloud.bom.gov.au/arcgis/rest/services/Australia_Water_Storages/MapServer/0/query" target="_blank" rel="noopener noreferrer">
+            BOM ArcGIS – Australia Water Storages
+          </a>.
+        </p>
       </section>
       </InfoControl>
 

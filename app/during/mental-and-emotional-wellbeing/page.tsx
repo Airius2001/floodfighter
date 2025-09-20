@@ -188,10 +188,10 @@ export default function SaveShelter() {
                 }}
               >
                 <Image
-                  src="/Mental-And-Emontional-Wellbeing.jpg"
+                  src="/images/Mental.png"
                   alt="Mental-And-Emontional-Wellbeinge"
                   width={500}
-                  height={320}
+                  height={450}
                   style={{
                     borderRadius: 12,
                     objectFit: "cover",

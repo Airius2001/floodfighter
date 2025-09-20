@@ -144,7 +144,7 @@ export default function FamilyPlan() {
             }}
           >
             <Image
-              src="/mnt/data/1c964acb-fbf4-4a8f-bfba-1dc3c31b5ada.png"
+              src="/images/property.png"
               alt="Property Protection"
               width={400}
               height={400}

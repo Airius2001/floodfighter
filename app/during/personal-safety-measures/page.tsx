@@ -154,10 +154,10 @@ export default function SaveShelter() {
                 }}
               >
                 <Image
-                  src="/personal-safety-measure.jpg"
+                  src="/images/personal_safety.png"
                   alt="Personal-safety-measure-image"
                   width={500}
-                  height={320}
+                  height={450}
                   style={{
                     borderRadius: 12,
                     objectFit: "cover",

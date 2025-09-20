@@ -131,7 +131,7 @@ export default function FamilyPlan() {
           <div
             style={{
               width: "500px",
-              height: "400px",
+              height: "500px",
               background: "#eee",
               borderRadius: 12,
               overflow: "hidden",
@@ -143,7 +143,7 @@ export default function FamilyPlan() {
             }}
           >
             <Image
-              src="/mnt/data/1c964acb-fbf4-4a8f-bfba-1dc3c31b5ada.png"
+              src="/images/family.png"
               alt="Family Flood Plan"
               width={400}
               height={400}

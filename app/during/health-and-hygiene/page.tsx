@@ -155,10 +155,10 @@ export default function SaveShelter() {
                 }}
               >
                 <Image
-                  src="/health-and-hygiene.jpg"
+                  src="/images/health.png"
                   alt="health-and-hygiene"
                   width={500}
-                  height={320}
+                  height={450}
                   style={{
                     borderRadius: 12,
                     objectFit: "cover",

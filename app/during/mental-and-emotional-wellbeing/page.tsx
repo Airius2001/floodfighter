@@ -23,7 +23,7 @@ export default function SaveShelter() {
     {
       title: (
         <span style={{ color: "#1e40af", fontWeight: "bold" }}>
-          Mental And Emontional Wellbeing
+          Mental And Emotional Wellbeing
         </span>
       ),
     },
@@ -101,7 +101,73 @@ export default function SaveShelter() {
                   marginTop: 20,
                 }}
               >
-                Text needs to be fill in
+                 <li>
+                    It’s normal to feel shock, fear, sadness or anger after a
+                    flood—these feelings usually ease with time. Reach out early
+                    for support if they persist.
+                  </li>
+                  <li>
+                    Stay connected: talk to family, friends, neighbours or a
+                    GP. Use community and helpline supports such as{" "}
+                    <a
+                      href="https://www.beyondblue.org.au/mental-health/natural-disasters"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Beyond Blue (1300 22 4636)
+                    </a>{" "}
+                    or{" "}
+                    <a
+                      href="https://www.redcross.org.au/emergencies/coping-after-a-crisis/returning-home-and-coping-after-a-crisis/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Australian Red Cross
+                    </a>
+                    .
+                  </li>
+                  <li>
+                    Limit doom-scrolling: set specific check-in times for news
+                    and stick to trusted sources to reduce anxiety.
+                  </li>
+                  <li>
+                    Keep simple routines where possible—regular meals, movement,
+                    and consistent sleep/wake times help your brain recover.
+                  </li>
+                  <li>
+                    Help children feel safe: explain what’s happening in simple,
+                    honest terms; keep them close; maintain routines; limit
+                    distressing media.
+                  </li>
+                  <li>
+                    Try brief grounding tools: slow breathing (inhale 4s, exhale
+                    6s) for a few minutes, gentle stretching, short walks, or
+                    naming five things you can see/hear/feel.
+                  </li>
+                  <li>
+                    Set small, achievable tasks (tidy one area, call one person)
+                    to rebuild a sense of control and progress.
+                  </li>
+                  <li>
+                    Know urgent supports in your state:{" "}
+                    <a
+                      href="https://www.qld.gov.au/emergency/dealing-disasters/disaster-types/flood/flood-health-and-safety"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      QLD Health flood health & safety
+                    </a>
+                    ,{" "}
+                    <a
+                      href="https://www.nsw.gov.au/emergency/recovery/mental-health-support"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      NSW mental health disaster support
+                    </a>
+                    . If there is immediate danger, call{" "}
+                    <strong>000</strong>.
+                  </li>
               </Paragraph>
             </div>
           </Col>
@@ -172,10 +238,53 @@ export default function SaveShelter() {
                       fontStyle: "italic",
                     }}
                   >
-                    "Text to fill in expert opinion"
+                     “After floods, strong emotions are common. Stay connected,
+                    keep a simple routine, limit distressing media, and use slow
+                    breathing or short walks to calm the body. If distress
+                    persists or affects daily life, reach out to services like
+                    Beyond Blue or your GP.”
                   </Paragraph>
                   <Text strong style={{ color: "#666", fontSize: 14 }}>
-                    — Name of the expert
+                    — Adapted from{" "}
+                      <a
+                        href="https://www.beyondblue.org.au/mental-health/natural-disasters"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Beyond Blue
+                      </a>
+                      ,{" "}
+                      <a
+                        href="https://www.redcross.org.au/how-disasters-impact-mental-health/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Australian Red Cross
+                      </a>
+                      ,{" "}
+                      <a
+                        href="https://www.who.int/health-topics/floods/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        WHO
+                      </a>
+                      ,{" "}
+                      <a
+                        href="https://www.qld.gov.au/emergency/dealing-disasters/disaster-types/flood/flood-health-and-safety"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        QLD Government
+                      </a>{" "}
+                      &{" "}
+                      <a
+                        href="https://www.nsw.gov.au/emergency/recovery/mental-health-support"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        NSW Government
+                      </a>
                   </Text>
                 </div>
               </div>

@@ -101,7 +101,39 @@ export default function SaveShelter() {
                   marginTop: 20,
                 }}
               >
-                Text needs to be fill in
+                <li>
+                    Assume all floodwater is contaminated — do not drink it,
+                    swim in it, or let children and pets near it.
+                  </li>
+                  <li>
+                    Use only bottled or pre-stored safe water. If unsure, boil
+                    for 1 minute (rolling boil). If boiling isn’t possible,
+                    disinfect clear water with unscented household bleach: 2
+                    drops per litre (4 if cloudy), stir and wait 30 minutes.
+                  </li>
+                  <li>
+                    If you must enter floodwater, wear gloves and waterproof
+                    boots; avoid walking alone in water and keep communication
+                    open.
+                  </li>
+                  <li>
+                    Cover cuts and wounds with waterproof dressings to prevent
+                    infection; wash hands with soap and safe water (or use
+                    sanitiser when water is limited).
+                  </li>
+                  <li>
+                    Eat only sealed, canned, or dry food; discard anything
+                    exposed to floodwater. Clean utensils and food surfaces with
+                    safe water and disinfectant before use.
+                  </li>
+                  <li>
+                    If toilets or septic systems fail, use lined bags or buckets
+                    for waste; seal and store safely until proper disposal.
+                  </li>
+                  <li>
+                    Follow SES and BOM alerts closely for boil-water advisories
+                    and evacuation orders.
+                  </li>
               </Paragraph>
             </div>
           </Col>
@@ -172,10 +204,30 @@ export default function SaveShelter() {
                       fontStyle: "italic",
                     }}
                   >
-                    "Text to fill in expert opinion"
+                    “During floods, always treat floodwater as contaminated. Do
+                    not swim, walk, or let children and pets play in it. Use
+                    only bottled or pre-stored safe water; if uncertain, boil it
+                    for 1 minute or disinfect with bleach. When cleaning or
+                    entering floodwater, wear waterproof boots and gloves, and
+                    cover any cuts to prevent infection.”
                   </Paragraph>
                   <Text strong style={{ color: "#666", fontSize: 14 }}>
-                    — Name of the expert
+                    — Adapted from{" "}
+                      <a
+                        href="https://www.who.int/news-room/questions-and-answers/item/how-do-i-protect-my-health-in-a-flood"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        WHO
+                      </a>{" "}
+                      &{" "}
+                      <a
+                        href="https://www.health.nsw.gov.au/emergency_preparedness/weather/factsheets/staying-healthy-during-after-floods.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        NSW Health
+                      </a>
                   </Text>
                 </div>
               </div>

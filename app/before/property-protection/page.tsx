@@ -9,10 +9,40 @@ const { Title, Paragraph } = Typography;
 export default function FamilyPlan() {
   const planSteps = [
     {
-      text: "Step 1: -----------\n(Info)",
+      text:
+        "Clear drains, gutters, and downpipes to ensure water can flow away from the house.",
     },
     {
-      text: "Step 2: -----------\n(Info)",
+      text:
+        "Prepare sandbags or temporary flood barriers for doors, garage entries, and low vents.",
+    },
+    {
+      text:
+        "Move valuables, furniture, appliances, and important documents to higher levels.",
+    },
+    {
+      text:
+        "Seal or cover low-level vents and gaps; check and secure doors, windows, and weather seals.",
+    },
+    {
+      text:
+        "Ensure electrical pumps, wiring, and switchboards are protected from water; switch off power at the mains if advised.",
+    },
+    {
+      text:
+        "Check wells/bores and external pumps: caps should be watertight and above expected flood level; confirm backflow protection.",
+    },
+    {
+      text:
+        "Secure lids on toilets, septic tanks, and sewage access points to prevent overflow/backflow.",
+    },
+    {
+      text:
+        "Relocate household chemicals, fuels, and gas bottles to safe elevated locations; store tightly sealed.",
+    },
+    {
+      text:
+        "Create safe access/egress routes; keep paths clear for evacuation and emergency access.",
     },
   ];
 

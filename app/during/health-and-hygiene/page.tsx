@@ -101,7 +101,40 @@ export default function SaveShelter() {
                   marginTop: 20,
                 }}
               >
-                Text needs to be fill in
+                <li>
+                    Use only bottled or pre-stored safe water. If unsure, boil
+                    water for <strong>1 minute (rolling boil)</strong>; if you
+                    cannot boil, disinfect clear water with unscented household
+                    bleach: <strong>2 drops/L</strong> (clear) or{" "}
+                    <strong>4 drops/L</strong> (cloudy), stir, then wait{" "}
+                    <strong>30 minutes</strong>.
+                  </li>
+                  <li>
+                    Keep “drinking-only” water <strong>separate</strong> and
+                    clearly labelled to prevent cross-use.
+                  </li>
+                  <li>
+                    Wash hands with soap and safe water before eating, after
+                    toilet use, and after contact with floodwater; use hand
+                    sanitiser when water is limited.
+                  </li>
+                  <li>
+                    Eat only sealed, canned, or dry food.{" "}
+                    <strong>Discard</strong> anything touched by floodwater.
+                  </li>
+                  <li>
+                    Clean utensils and food-prep surfaces with <strong>safe</strong>{" "}
+                    water and disinfectant before use.
+                  </li>
+                  <li>
+                    If toilets or septic systems fail, use{" "}
+                    <strong>lined bags or buckets</strong> for waste; seal and
+                    store safely until disposal is possible.
+                  </li>
+                  <li>
+                    Avoid contact with floodwater where possible; cover any
+                    cuts with <strong>waterproof dressings</strong>.
+                  </li>
               </Paragraph>
             </div>
           </Col>
@@ -172,10 +205,28 @@ export default function SaveShelter() {
                       fontStyle: "italic",
                     }}
                   >
-                    "Text to fill in expert opinion"
+                    “Safe water and clean hands save lives in floods. Boil
+                    uncertain water for 1 minute or disinfect with household
+                    bleach, keep drinking water separate, and discard any food
+                    touched by floodwater.”
                   </Paragraph>
                   <Text strong style={{ color: "#666", fontSize: 14 }}>
-                    — Name of the expert
+                    — Adapted from{" "}
+                      <a
+                        href="https://www.who.int/news-room/questions-and-answers/item/how-do-i-protect-my-health-in-a-flood"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        WHO
+                      </a>{" "}
+                      &{" "}
+                      <a
+                        href="https://www.health.nsw.gov.au/emergency_preparedness/weather/factsheets/staying-healthy-during-after-floods.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        NSW Health
+                      </a>
                   </Text>
                 </div>
               </div>

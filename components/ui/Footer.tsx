@@ -7,13 +7,13 @@ export function Footer() {
     alignItems: "center",
     justifyContent: "space-between",
     fontSize: 14,
-    color: "#eee",
+    color: "#000",
   };
   return (
-    <footer style={{ background: "#000" }}>
+    <footer style={{ background: "#fff" }}>
       <div style={row}>
         <p>© {new Date().getFullYear()} Flood Fighter</p>
-        <p>Australia - Flood - Map-based Data</p>
+        <p>Australia - Flood Knowledge Education - Map-based Data</p>
       </div>
     </footer>
   );

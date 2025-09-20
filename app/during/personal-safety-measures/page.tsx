@@ -39,6 +39,7 @@ export default function SaveShelter() {
         alignItems: "flex-start",
         padding: "20px",
         paddingTop: "20px",
+        paddingBottom: "64px",
       }}
     >
       {/* Breadcrumb Navigation - Global Display */}

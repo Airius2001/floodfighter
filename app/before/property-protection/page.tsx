@@ -125,6 +125,7 @@ export default function FamilyPlan() {
             maxWidth: "1000px",
             width: "100%",
             alignItems: "flex-start",
+            flexWrap: "wrap",
           }}
         >
           {/* Left side: Image area */}
@@ -138,7 +139,7 @@ export default function FamilyPlan() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              transform: "translateX(-140px) translateY(-40px)",
+              // transform: "translateX(-140px) translateY(-40px)",
               boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
             }}
           >

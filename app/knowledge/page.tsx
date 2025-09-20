@@ -15,13 +15,19 @@ import { FaArrowLeft } from "react-icons/fa";
 const beforeItems = [
   { label: "Emergency Kit", href: "/before/emergency-kit" },
   { label: "Family Flood Plan", href: "/before/family-plan" },
-  { label: "Property protection", href: "/before/property-protection" },
+  { label: "Property Protection", href: "/before/property-protection" },
 ];
 
 const duringItems = [
-  { label: "Save Shelter", href: "/during/save-shelter" },
-  { label: "Communication", href: "/during/communication" },
-  { label: "Protect Yourself", href: "/during/protect-yourself" },
+  {
+    label: "Personal Safety Measures",
+    href: "/during/personal-safety-measures",
+  },
+  { label: "Health & Hygiene", href: "/during/health-and-hygiene" },
+  {
+    label: "Mental & Emotional Wellbeing",
+    href: "/during/mental-and-emotional-wellbeing",
+  },
 ];
 
 const afterItems = [

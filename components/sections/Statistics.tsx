@@ -19,7 +19,6 @@ export function Statistics() {
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        {/* Section 1 - Impact Stats */}
         <div
           style={{
             display: "grid",
@@ -50,7 +49,6 @@ export function Statistics() {
           </div>
         </div>
 
-        {/* Section 2 - Benefits */}
         <h2
           style={{
             fontSize: 28,
@@ -112,7 +110,6 @@ export function Statistics() {
           ))}
         </div>
 
-        {/* Section 3 - How It Works */}
         <h2
           style={{
             fontSize: 28,
@@ -156,7 +153,6 @@ export function Statistics() {
           </div>
         </div>
 
-        {/* Section 4 - Emergency Resources */}
         <h2
           style={{
             fontSize: 28,

@@ -99,7 +99,7 @@ export default function KnowledgePage() {
           }}
         >
           <Breadcrumbs aria-label="breadcrumb" separator="→">
-            <span style={{ color: "#1f2937" }}>Homepage</span>
+            <span style={{ color: "#1f2937" }}>Home</span>
             <Typography
               sx={{
                 color: "#1e40af",
@@ -127,6 +127,7 @@ export default function KnowledgePage() {
           maxWidth: 1200,
           mx: "auto",
           minHeight: "60vh",
+          height:'100vh'
         }}
       >
         {cardData.map((card) => (
@@ -141,13 +142,14 @@ export default function KnowledgePage() {
                 borderRadius: 3,
                 boxShadow: 6,
                 width: { xs: "100%", sm: 360 },
-                height: 480,
+                height: 520,
                 bgcolor: "white",
                 transition: "transform 0.3s ease, boxShadow 0.3s ease",
                 "&:hover": { transform: "translateY(-8px)", boxShadow: 8 },
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                marginBottom: '20px'
               }}
             >
               <CardContent
@@ -180,22 +182,34 @@ export default function KnowledgePage() {
                   {card.items.map((item) => (
                     <Box key={item.href} sx={{ mb: 2 }}>
                       <Button
-                        component={Link}
-                        href={item.href}
-                        variant="outlined"
-                        color="primary"
-                        fullWidth
-                        sx={{
-                          borderRadius: 2,
-                          py: 1.2,
-                          textTransform: "none",
-                          fontWeight: "bold",
-                          color: "black",
-                          "&:hover": { bgcolor: "primary.light" },
-                        }}
-                      >
-                        {item.label}
-                      </Button>
+  component={Link}
+  href={item.href}
+  variant="contained"
+  fullWidth
+  sx={{
+    borderRadius: 3,
+    py: 1.5,
+    textTransform: "none",
+    fontWeight: 600,
+    fontSize: "1rem",
+    color: "white",
+    background: "linear-gradient(135deg, #6C63FF 0%, #9B5DE5 100%)",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+    transition: "all 0.3s ease",
+    "&:hover": {
+      background: "linear-gradient(135deg, #5A4DDD 0%, #7F3FBF 100%)",
+      transform: "translateY(-2px)",
+      boxShadow: "0 6px 16px rgba(0,0,0,0.25)",
+    },
+    "&:active": {
+      transform: "translateY(0px)",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+    },
+  }}
+>
+  {item.label}
+</Button>
+
                     </Box>
                   ))}
                 </Box>

@@ -321,8 +321,8 @@ export default function CombinedMap({ showWater, showFlood, basemap }: CombinedM
           alignItems: "center",
         }}
       >
-        <Spin className="activity-spinner" size="large" />
-        <p style={{ marginTop: 10, color: '#fff' }}>Loading Map...</p>
+        <Spin size="large" />
+        <p style={{ marginTop: 10 }}>Loading Map...</p>
       </div>
     );
 

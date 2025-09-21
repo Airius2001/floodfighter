@@ -36,7 +36,6 @@ export function Rainfall() {
         }));
         setRainfallData(formatted);
 
-        // Set default from and to year
         if (formatted.length > 0) {
           setFromYear(formatted[0].year);
           setToYear(formatted[formatted.length - 1].year);
@@ -45,7 +44,6 @@ export function Rainfall() {
       .catch((err) => console.error("Failed to load rainfall data:", err));
   }, []);
 
-  // Filter data based on selected years
   const filteredData = rainfallData.filter((d) => {
     const yearNum = parseInt(d.year);
     return (
@@ -87,7 +85,6 @@ export function Rainfall() {
           1961–1990 average of 466 mm.
         </h4>
 
-        {/* Chart switch */}
         <div
           style={{
             marginBottom: "1rem",
@@ -109,7 +106,6 @@ export function Rainfall() {
             }}
           />
 
-          {/* Year filter dropdowns */}
           {rainfallData.length > 0 && (
             <>
               <span>From:</span>
@@ -153,7 +149,6 @@ export function Rainfall() {
             flexWrap: "wrap",
           }}
         >
-          {/* left side explanation */}
           <div
             style={{
               flex: "1 1 300px",
@@ -207,7 +202,6 @@ export function Rainfall() {
             </Link>
           </div>
 
-          {/* right side chart */}
           <div
             style={{
               flex: "1 1 300px",

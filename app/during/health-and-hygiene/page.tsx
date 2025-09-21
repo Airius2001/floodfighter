@@ -13,7 +13,7 @@ export default function SaveShelter() {
 
   const getBreadcrumbItems = () => [
     {
-      title: <span style={{ color: "#1f2937" }}>Homepage</span>,
+      title: <span style={{ color: "#1f2937" }}>Home</span>,
     },
     {
       title: (

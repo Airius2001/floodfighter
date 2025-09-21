@@ -49,7 +49,7 @@ export default function FamilyPlan() {
   // Breadcrumb navigation
   const breadcrumbItems = [
     {
-      title: <span style={{ color: "#1f2937" }}>Homepage</span>,
+      title: <span style={{ color: "#1f2937" }}>Home</span>,
     },
     {
       title: (

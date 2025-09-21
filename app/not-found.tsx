@@ -1,4 +1,3 @@
-// app/not-found.tsx
 "use client";
 
 import { Empty, Button } from "antd";

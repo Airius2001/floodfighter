@@ -3,8 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-// Icons
 import { BsShieldCheck } from "react-icons/bs";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { MdOutlineCleaningServices } from "react-icons/md";
@@ -12,7 +10,6 @@ import { FaMapLocationDot, FaLocationDot } from "react-icons/fa6";
 import { BsChatDots } from "react-icons/bs";
 import { ChevronDown } from "lucide-react";
 
-// Material UI
 import {
   Menu,
   MenuItem,
@@ -78,7 +75,6 @@ const afterItems = [
   },
 ];
 
-// ------------------- Style Helper -------------------
 function navLinkStyle(active: boolean): React.CSSProperties {
   return {
     padding: "10px 14px",
@@ -96,14 +92,10 @@ function navLinkStyle(active: boolean): React.CSSProperties {
   };
 }
 
-// ------------------- Navbar -------------------
 export function Navbar() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  const [openflood, setOpenflood] = useState(false);
-
-  // Material UI Menu control
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -113,7 +105,6 @@ export function Navbar() {
     setAnchorEl(null);
   };
 
-  // Mobile menu control
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -163,14 +154,11 @@ export function Navbar() {
           Flood Fighter
         </Link>
 
-        {/* Desktop Nav */}
         <nav
           className="desktop-nav"
           style={{ display: "flex", gap: 8, alignItems: "center" }}
         >
-          {/* Knowledge of Facing Flood (MUI Menu) */}
           <div style={{ display: "flex", alignItems: "center" }}>
-            {/* Add a main button that can be clicked to jump to another page. */}
             <Link
               href="/knowledge"
               style={{
@@ -182,13 +170,14 @@ export function Navbar() {
               <BsShieldCheck /> Knowledge of Facing Flood
             </Link>
 
-            {/* 下拉按钮 */}
             <Button
               id="knowledge-button"
               aria-controls={open ? "knowledge-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
+              onMouseEnter={handleClick}
+              onMouseLeave={handleClose}
               style={{
                 textTransform: "none",
                 minWidth: "auto",
@@ -211,12 +200,12 @@ export function Navbar() {
                 vertical: "bottom",
                 horizontal: "left",
               }}
+              disableScrollLock
               transformOrigin={{
                 vertical: "top",
                 horizontal: "left",
               }}
             >
-              {/* Before Flood */}
               <Typography sx={{ px: 2, py: 1, fontWeight: 600 }}>
                 Before Flood
               </Typography>
@@ -239,7 +228,6 @@ export function Navbar() {
               ))}
               <Divider />
 
-              {/* During Flood */}
               <Typography sx={{ px: 2, py: 1, fontWeight: 600 }}>
                 During Flood
               </Typography>

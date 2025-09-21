@@ -25,6 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           color: "#111827",
           display: "flex",
           flexDirection: "column",
+          padding:'0px !important'
         }}
       >
         {/* make nav bar to stick at the top */}

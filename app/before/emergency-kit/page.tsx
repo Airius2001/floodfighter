@@ -60,7 +60,7 @@ export default function EmergencyKitPage() {
   const getBreadcrumbItems = () => {
     const baseItems = [
       {
-        title: <span style={{ color: "#1f2937" }}>Homepage</span>,
+        title: <span style={{ color: "#1f2937" }}>Home</span>,
       },
       {
         title: (

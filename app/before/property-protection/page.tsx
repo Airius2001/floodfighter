@@ -3,10 +3,11 @@
 import { Card, Typography, List, Button, Breadcrumb } from "antd";
 import { FaArrowLeft } from "react-icons/fa";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const { Title, Paragraph } = Typography;
 
-export default function FamilyPlan() {
+export default function PropertyProtection() {
   const planSteps = [
     {
       text:
@@ -46,16 +47,21 @@ export default function FamilyPlan() {
     },
   ];
 
+    const router = useRouter()
+  
   // Breadcrumb navigation
   const breadcrumbItems = [
-    {
-      title: <span style={{ color: "#1f2937" }}>Home</span>,
-    },
-    {
-      title: (
-        <span style={{ color: "#1f2937" }}>Knowledge of Facing Flood</span>
-      ),
-    },
+     {
+        title: <span style={{ color: "#1f2937", cursor:"pointer" }}>Home</span>,
+        onClick: () => router.push("/"),
+      },
+      {
+        title: (
+          <span style={{ color: "#1f2937", cursor:"pointer"  }}>Knowledge of Facing Flood</span>
+        ),
+        onClick: () => router.push("/knowledge"),
+
+      },
     {
       title: (
         <span style={{ color: "#1e40af", fontWeight: "bold" }}>

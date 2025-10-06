@@ -3,6 +3,7 @@
 import { Card, Typography, List, Button, Breadcrumb } from "antd";
 import { FaArrowLeft } from "react-icons/fa";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const { Title, Paragraph } = Typography;
 
@@ -45,16 +46,21 @@ export default function FamilyPlan() {
     },
   ];
 
+  const router = useRouter()
+
   // Breadcrumb navigation
   const breadcrumbItems = [
-    {
-      title: <span style={{ color: "#1f2937" }}>Home</span>,
-    },
-    {
-      title: (
-        <span style={{ color: "#1f2937" }}>Knowledge of Facing Flood</span>
-      ),
-    },
+     {
+        title: <span style={{ color: "#1f2937", cursor:"pointer" }}>Home</span>,
+        onClick: () => router.push("/"),
+      },
+      {
+        title: (
+          <span style={{ color: "#1f2937", cursor:"pointer"  }}>Knowledge of Facing Flood</span>
+        ),
+        onClick: () => router.push("/knowledge"),
+
+      },
     {
       title: (
         <span style={{ color: "#1e40af", fontWeight: "bold" }}>
@@ -117,82 +123,85 @@ export default function FamilyPlan() {
           padding: "20px 0",
         }}
       >
-        <div
+       <div
+  style={{
+    display: "flex",
+    gap: "24px",
+    maxWidth: "1200px",
+    width: "100%",
+    alignItems: "stretch", // ✅ Make both sides match height
+    flexWrap: "wrap",
+  }}
+>
+  {/* Left side: Image area */}
+  <div
+    style={{
+      flex: "0 0 500px", // fixed width
+      borderRadius: 12,
+      overflow: "hidden",
+      background: "#eee",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+    }}
+  >
+    <Image
+      src="/images/family.png"
+      alt="Family Flood Plan"
+      width={500}
+      height={500}
+      style={{
+        objectFit: "cover",
+        width: "100%",
+        height: "100%", // ✅ fills container height dynamically
+      }}
+    />
+  </div>
+
+  {/* Right side: Information area */}
+  <Card
+    style={{
+      flex: 1,
+      borderRadius: 12,
+      boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+      border: "1px solid rgba(255,255,255,0.2)",
+      display: "flex",
+      flexDirection: "column",
+    }}
+  >
+    <Title level={2} style={{ color: "#1e40af", marginBottom: 16 }}>
+      Family Flood Plan
+    </Title>
+    <Paragraph style={{ color: "#1f2937", fontSize: 16, marginBottom: 24 }}>
+      A detailed plan for you to follow, easy to facing flood
+    </Paragraph>
+
+    <List
+      dataSource={planSteps}
+      renderItem={(item, index) => (
+        <List.Item
           style={{
-            display: "flex",
-            gap: "24px",
-            maxWidth: "1000px",
-            width: "100%",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
+            borderBottom: "1px solid #f0f0f0",
+            padding: "16px 0",
           }}
         >
-          {/* Left side: Image area */}
-          <div
-            style={{
-              width: "500px",
-              height: "500px",
-              background: "#eee",
-              borderRadius: 12,
-              overflow: "hidden",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              // transform: "translateX(-140px) translateY(-40px)",
-              boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-            }}
-          >
-            <Image
-              src="/images/family.png"
-              alt="Family Flood Plan"
-              width={400}
-              height={400}
-              style={{ objectFit: "cover", width: "100%", height: "100%" }}
-            />
-          </div>
+          <List.Item.Meta
+            title={
+              <span style={{ color: "#1f2937", fontSize: 16 }}>
+                <strong style={{ color: "#1e40af" }}>
+                  Step {index + 1}:
+                </strong>{" "}
+                {item.text.replace(/^Step \d+: /, "")}
+              </span>
+            }
+          />
+        </List.Item>
+      )}
+    />
+  </Card>
+</div>
 
-          {/* Right side: Information area */}
-          <Card
-            style={{
-              borderRadius: 12,
-              flex: 1,
-              boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-              border: "1px solid rgba(255,255,255,0.2)",
-            }}
-          >
-            <Title level={2} style={{ color: "#1e40af", marginBottom: 16 }}>
-              Family Flood Plan
-            </Title>
-            <Paragraph
-              style={{ color: "#1f2937", fontSize: 16, marginBottom: 24 }}
-            >
-              A detailed plan for you to follow, easy to facing flood
-            </Paragraph>
-
-            <List
-              dataSource={planSteps}
-              renderItem={(item, index) => (
-                <List.Item
-                  style={{
-                    borderBottom: "1px solid #f0f0f0",
-                    padding: "16px 0",
-                  }}
-                >
-                  <List.Item.Meta
-                    title={
-                      <span style={{ color: "#1f2937", fontSize: 16 }}>
-                        <strong style={{ color: "#1e40af" }}>
-                          Step {index + 1}:
-                        </strong>{" "}
-                        {item.text.replace(/^Step \d+: /, "")}
-                      </span>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-          </Card>
-        </div>
       </div>
     </div>
   );

@@ -58,8 +58,8 @@ export default function CleanDisinfection() {
     <div
       style={{
         minHeight: "100vh",
-        backgroundColor: "#000",
-        color: "#fff",
+        backgroundColor: "rgb(191, 214, 248)", // ✅ white background
+        color: "#111", // ✅ all text black
         padding: "3rem 1rem",
       }}
     >
@@ -68,58 +68,57 @@ export default function CleanDisinfection() {
           {/* Header */}
           <div style={{ textAlign: "center", marginBottom: "2rem" }}>
             <MdOutlineCleaningServices size={70} color="#0af" />
-            <Title level={2} style={{ color: "#fff", marginTop: "1rem" }}>
+            <Title level={2} style={{ color: "#111", marginTop: "1rem" }}>
               Clean & Disinfection
             </Title>
-            <Paragraph style={{ color: "#aaa", fontSize: "1.1rem" }}>
+            <Paragraph style={{ color: "#333", fontSize: "1.1rem" }}>
               Steps to sanitize your home after flooding in Australia
             </Paragraph>
           </div>
 
           {/* Content */}
           <Row gutter={[16, 16]}>
-  {tips.map((tip, index) => (
-    <Col xs={24} sm={12} key={index} style={{ display: "flex" }}>
-      <Card
-        bordered={false}
-        style={{
-          background: "#111",
-          color: "#fff",
-          borderRadius: 12,
-          padding: "1rem",
-          display: "flex",
-          flexDirection: "column",
-          flex: 1, // makes all cards take equal height
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            gap: "1rem",
-          }}
-        >
-          <div style={{ flexShrink: 0 }}>{tip.icon}</div>
-          <Paragraph
-            style={{
-              color: "#fff",
-              margin: 0,
-              fontSize: "1rem",
-              lineHeight: 1.5,
-            }}
-          >
-            {tip.text}
-          </Paragraph>
-        </div>
-      </Card>
-    </Col>
-  ))}
-</Row>
-
+            {tips.map((tip, index) => (
+              <Col xs={24} sm={12} key={index} style={{ display: "flex" }}>
+                <Card
+                  bordered={false}
+                  style={{
+                    background: "#f5f5f5", // light card background
+                    color: "#111",
+                    borderRadius: 12,
+                    padding: "1rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    flex: 1,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: "1rem",
+                    }}
+                  >
+                    <div style={{ flexShrink: 0 }}>{tip.icon}</div>
+                    <Paragraph
+                      style={{
+                        color: "#111",
+                        margin: 0,
+                        fontSize: "1rem",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {tip.text}
+                    </Paragraph>
+                  </div>
+                </Card>
+              </Col>
+            ))}
+          </Row>
 
           {/* Footer Info */}
           <div style={{ marginTop: "3rem", textAlign: "center" }}>
-            <Paragraph style={{ color: "#777", fontSize: "0.95rem" }}>
+            <Paragraph style={{ color: "#555", fontSize: "0.95rem" }}>
               ℹ️ For detailed guidance, visit{" "}
               <a
                 href="https://www.health.gov.au/topics/environmental-health/emergencies/floods"

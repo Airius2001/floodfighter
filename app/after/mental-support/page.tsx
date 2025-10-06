@@ -38,8 +38,8 @@ export default function MentalSupport() {
   return (
     <div
       style={{
-        background: "#000",
-        color: "#fff",
+        background: "rgb(191, 214, 248)", // ✅ white background
+        color: "#111", // ✅ main text color black
         minHeight: "100vh",
         padding: "50px 20px",
       }}
@@ -48,8 +48,8 @@ export default function MentalSupport() {
         <Col xs={24} md={20} lg={16}>
           <Card
             style={{
-              background: "#111",
-              border: "1px solid #333",
+              background: "#f5f5f5", // ✅ light card background
+              border: "1px solid #ccc", // lighter border
               borderRadius: "12px",
               padding: "30px",
             }}
@@ -58,27 +58,27 @@ export default function MentalSupport() {
               <BsChatDots size={50} color="#0af" />
               <Title
                 level={2}
-                style={{ color: "#fff", marginTop: 15, fontWeight: "bold" }}
+                style={{ color: "#111", marginTop: 15, fontWeight: "bold" }}
               >
                 Mental Support
               </Title>
-              <Paragraph style={{ color: "#aaa", fontSize: 16 }}>
+              <Paragraph style={{ color: "#333", fontSize: 16 }}>
                 Taking care of your mental health after a flood is just as
                 important as physical recovery.
               </Paragraph>
             </div>
 
-            <Divider style={{ backgroundColor: "#333" }} />
+            <Divider style={{ backgroundColor: "#ccc" }} />
 
             <List
               itemLayout="horizontal"
               dataSource={tips}
               renderItem={(item) => (
-                <List.Item style={{ borderBottom: "1px solid #222" }}>
+                <List.Item style={{ borderBottom: "1px solid #ddd" }}>
                   <List.Item.Meta
                     avatar={item.icon}
                     title={
-                      <span style={{ color: "#fff", fontSize: 16 }}>
+                      <span style={{ color: "#111", fontSize: 16 }}>
                         {item.text}
                       </span>
                     }
@@ -87,11 +87,11 @@ export default function MentalSupport() {
               )}
             />
 
-            <Divider style={{ backgroundColor: "#333" }} />
+            <Divider style={{ backgroundColor: "#ccc" }} />
 
             <Paragraph
               style={{
-                color: "#ccc",
+                color: "#555",
                 fontStyle: "italic",
                 textAlign: "center",
                 marginTop: 20,

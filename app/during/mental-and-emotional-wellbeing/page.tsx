@@ -3,6 +3,7 @@
 import { Button, Card, Typography, Row, Col, Breadcrumb } from "antd";
 import { FaArrowLeft, FaInfoCircle, FaQuoteLeft, FaHome } from "react-icons/fa";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -11,15 +12,20 @@ export default function SaveShelter() {
     window.history.back();
   };
 
+     const router = useRouter()
+  
   const getBreadcrumbItems = () => [
     {
-      title: <span style={{ color: "#1f2937" }}>Home</span>,
-    },
-    {
-      title: (
-        <span style={{ color: "#1f2937" }}>Knowledge Of Facing Flood</span>
-      ),
-    },
+           title: <span style={{ color: "#1f2937", cursor:"pointer" }}>Home</span>,
+           onClick: () => router.push("/"),
+         },
+         {
+           title: (
+             <span style={{ color: "#1f2937", cursor:"pointer"  }}>Knowledge of Facing Flood</span>
+           ),
+           onClick: () => router.push("/knowledge"),
+   
+         },
     {
       title: (
         <span style={{ color: "#1e40af", fontWeight: "bold" }}>

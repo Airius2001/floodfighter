@@ -27,7 +27,7 @@ import {
 } from "react-icons/fa";
 import jsPDF from "jspdf";
 import type { ReactElement } from "react";
-
+import { useRouter } from "next/navigation";
 const { Title, Paragraph } = Typography;
 
 // Define the type of form value
@@ -56,16 +56,20 @@ export default function EmergencyKitPage() {
   const [kitItems, setKitItems] = useState<CustomItem[]>([]);
   const [reminderItems, setReminderItems] = useState<CustomItem[]>([]);
 
+  const router = useRouter();
   // Generate breadcrumb items based on the current steps.
   const getBreadcrumbItems = () => {
     const baseItems = [
       {
-        title: <span style={{ color: "#1f2937" }}>Home</span>,
+        title: <span style={{ color: "#1f2937", cursor:"pointer" }}>Home</span>,
+        onClick: () => router.push("/"),
       },
       {
         title: (
-          <span style={{ color: "#1f2937" }}>Knowledge of Facing Flood</span>
+          <span style={{ color: "#1f2937", cursor:"pointer"  }}>Knowledge of Facing Flood</span>
         ),
+        onClick: () => router.push("/knowledge"),
+
       },
     ];
 

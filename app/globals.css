@@ -3,6 +3,35 @@
   --foreground: #171717;
 }
 
+.leaflet-bar.ff-info-control,
+.leaflet-bar.ff-left-controls
+{
+  position: absolute;
+  top: 150px;
+  left: 10px; /* adjust for your design */
+  z-index: 10000; /* always above map layers */
+}
+
+.leaflet-bar.leaflet-control-zoom
+{
+  position: absolute;
+  top: 80px;
+  left: 10px; /* adjust for your design */
+  z-index: 10000; /* always above map layers */
+}
+
+.leaflet-touch .leaflet-bar a {
+    width: 32px;
+}
+
+.leaflet-bottom {
+  bottom: -20!important;
+}
+
+.leaflet-left .leaflet-control {
+ margin-left: 0px; 
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

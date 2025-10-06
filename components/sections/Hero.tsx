@@ -56,7 +56,7 @@ export default function Hero({ onExplore }: { onExplore?: () => void }) {
 
           <h2
             style={{
-              fontSize: 30,
+              fontSize: 20,
               lineHeight: 1.1,
               fontWeight: 500,
               margin: 20,

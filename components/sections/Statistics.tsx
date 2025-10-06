@@ -12,50 +12,71 @@ export function Statistics() {
   return (
     <section
       style={{
-        background: "#bfd6f8ff",
-        padding: "20px 20px",
+        background:
+          "rgb(191, 214, 248)",
+        padding: "60px 20px",
         color: "#1f2937",
         fontFamily: "Inter, sans-serif",
+        overflow: "hidden",
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        {/* ======= Statistics Section ======= */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: 32,
-            marginBottom: 50,
+            gap: 40,
             textAlign: "center",
-            paddingTop: "20px",
+            marginBottom: 60,
           }}
         >
-          <div>
-            <p style={{ fontSize: 40, fontWeight: 700, color: "#1e40af" }}>
-              500+
-            </p>
-            <p style={{ color: "#374151" }}>Flood-prone zones mapped</p>
-          </div>
-          <div>
-            <p style={{ fontSize: 40, fontWeight: 700, color: "#ca8a04" }}>
-              2M+
-            </p>
-            <p style={{ color: "#374151" }}>Residents informed</p>
-          </div>
-          <div>
-            <p style={{ fontSize: 40, fontWeight: 700, color: "#15803d" }}>
-              120+
-            </p>
-            <p style={{ color: "#374151" }}>Reservoirs & rivers tracked</p>
-          </div>
+          {[
+            { number: "500+", label: "Flood-prone zones mapped", color: "#1e3a8a" },
+            { number: "2M+", label: "Residents informed", color: "#ca8a04" },
+            { number: "120+", label: "Reservoirs & rivers tracked", color: "#15803d" },
+          ].map((stat, i) => (
+            <div
+              key={i}
+              style={{
+                background: "white",
+                borderRadius: 20,
+                boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
+                padding: 30,
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-6px)";
+                e.currentTarget.style.boxShadow = "0 10px 25px rgba(0,0,0,0.12)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.08)";
+              }}
+            >
+              <p
+                style={{
+                  fontSize: 44,
+                  fontWeight: 800,
+                  color: stat.color,
+                  marginBottom: 6,
+                }}
+              >
+                {stat.number}
+              </p>
+              <p style={{ color: "#374151", fontSize: 16 }}>{stat.label}</p>
+            </div>
+          ))}
         </div>
 
+        {/* ======= Why Use Our Map ======= */}
         <h2
           style={{
-            fontSize: 28,
-            fontWeight: 700,
+            fontSize: 32,
+            fontWeight: 800,
             textAlign: "center",
-            marginBottom: 40,
             color: "#1e3a8a",
+            marginBottom: 40,
           }}
         >
           Why Use Our Map?
@@ -63,60 +84,71 @@ export function Statistics() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: 32,
-            marginBottom: 50,
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: 36,
+            marginBottom: 60,
           }}
         >
           {[
             {
-              icon: <FaMapMarkedAlt size={28} color="#1e40af" />,
+              icon: <FaMapMarkedAlt size={32} color="#1e40af" />,
               title: "Interactive Flood Maps",
-              desc: "Visualize real-time flood zones and water bodies to understand risks nearby.",
+              desc: "Visualize real-time flood zones and track water body levels instantly.",
             },
             {
-              icon: <FaShieldAlt size={28} color="#b91c1c" />,
+              icon: <FaShieldAlt size={32} color="#b91c1c" />,
               title: "Safety & Preparedness",
-              desc: "Step-by-step guides and resources to stay safe during floods.",
+              desc: "Stay informed with alerts, survival checklists, and live safety tips.",
             },
             {
-              icon: <FaUsers size={28} color="#15803d" />,
+              icon: <FaUsers size={32} color="#15803d" />,
               title: "Community Recovery",
-              desc: "Access support and recovery resources for affected communities.",
+              desc: "Collaborate with local volunteers and access recovery resources.",
             },
           ].map((item, idx) => (
             <div
               key={idx}
               style={{
-                background: "rgba(255,255,255,0.85)",
+                background: "white",
+                borderRadius: 18,
+                boxShadow: "0 6px 18px rgba(0,0,0,0.06)",
                 padding: 28,
-                borderRadius: 16,
-                color: "#111",
+                textAlign: "center",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.03)";
+                e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.1)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "0 6px 18px rgba(0,0,0,0.06)";
               }}
             >
-              {item.icon}
+              <div style={{ marginBottom: 12 }}>{item.icon}</div>
               <h3
                 style={{
-                  marginTop: 16,
                   fontSize: 20,
                   fontWeight: 700,
                   color: "#1e293b",
+                  marginBottom: 10,
                 }}
               >
                 {item.title}
               </h3>
-              <p style={{ color: "#374151", marginTop: 8 }}>{item.desc}</p>
+              <p style={{ color: "#374151", fontSize: 15 }}>{item.desc}</p>
             </div>
           ))}
         </div>
 
+        {/* ======= How It Works ======= */}
         <h2
           style={{
-            fontSize: 28,
-            fontWeight: 700,
+            fontSize: 32,
+            fontWeight: 800,
             textAlign: "center",
-            marginBottom: 40,
             color: "#1e3a8a",
+            marginBottom: 40,
           }}
         >
           How It Works
@@ -124,42 +156,68 @@ export function Statistics() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: 32,
-            marginBottom: 50,
+            gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
+            gap: 36,
             textAlign: "center",
+            marginBottom: 60,
           }}
         >
-          <div>
-            <FaInfoCircle size={40} color="#1e40af" />
-            <h4 style={{ marginTop: 12, color: "#1f2937" }}>Step 1</h4>
-            <p style={{ color: "#374151" }}>
-              Open the map and explore flood zones near you.
-            </p>
-          </div>
-          <div>
-            <FaBookOpen size={40} color="#ca8a04" />
-            <h4 style={{ marginTop: 12, color: "#1f2937" }}>Step 2</h4>
-            <p style={{ color: "#374151" }}>
-              Read practical safety tips and preparation guides.
-            </p>
-          </div>
-          <div>
-            <FaHandsHelping size={40} color="#15803d" />
-            <h4 style={{ marginTop: 12, color: "#1f2937" }}>Step 3</h4>
-            <p style={{ color: "#374151" }}>
-              Find recovery resources and support after floods.
-            </p>
-          </div>
+          {[
+            {
+              icon: <FaInfoCircle size={42} color="#1e40af" />,
+              step: "Step 1",
+              desc: "Open the map to explore real-time flood zones near your area.",
+            },
+            {
+              icon: <FaBookOpen size={42} color="#ca8a04" />,
+              step: "Step 2",
+              desc: "Follow easy safety tips and family preparation guides.",
+            },
+            {
+              icon: <FaHandsHelping size={42} color="#15803d" />,
+              step: "Step 3",
+              desc: "Find help centers and recovery resources post-floods.",
+            },
+          ].map((step, i) => (
+            <div key={i} style={{ maxWidth: 320, margin: "0 auto" }}>
+              <div
+                style={{
+                  background: "white",
+                  borderRadius: "50%",
+                  width: 80,
+                  height: 80,
+                  margin: "0 auto 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0 6px 14px rgba(0,0,0,0.08)",
+                }}
+              >
+                {step.icon}
+              </div>
+              <h4
+                style={{
+                  fontSize: 18,
+                  fontWeight: 700,
+                  marginBottom: 6,
+                  color: "#1f2937",
+                }}
+              >
+                {step.step}
+              </h4>
+              <p style={{ color: "#374151", fontSize: 15 }}>{step.desc}</p>
+            </div>
+          ))}
         </div>
 
+        {/* ======= Emergency Resources ======= */}
         <h2
           style={{
-            fontSize: 28,
-            fontWeight: 700,
+            fontSize: 32,
+            fontWeight: 800,
             textAlign: "center",
-            marginBottom: 40,
             color: "#1e3a8a",
+            marginBottom: 40,
           }}
         >
           Emergency Resources
@@ -169,51 +227,53 @@ export function Statistics() {
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
             gap: 32,
-            marginBottom: 50,
           }}
         >
-          <div
-            style={{
-              background: "rgba(255,255,255,0.85)",
-              padding: 24,
-              borderRadius: 12,
-            }}
-          >
-            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#1e293b" }}>
-              Government Alerts
-            </h3>
-            <p style={{ color: "#374151", marginTop: 8 }}>
-              Official warnings from meteorological and emergency services.
-            </p>
-          </div>
-          <div
-            style={{
-              background: "rgba(255,255,255,0.85)",
-              padding: 24,
-              borderRadius: 12,
-            }}
-          >
-            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#1e293b" }}>
-              Preparation Guides
-            </h3>
-            <p style={{ color: "#374151", marginTop: 8 }}>
-              Handy checklists and steps to prepare your family and property.
-            </p>
-          </div>
-          <div
-            style={{
-              background: "rgba(255,255,255,0.85)",
-              padding: 24,
-              borderRadius: 12,
-            }}
-          >
-            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#1e293b" }}>
-              Recovery Support
-            </h3>
-            <p style={{ color: "#374151", marginTop: 8 }}>
-              Access resources to rebuild and apply for community assistance.
-            </p>
-          </div>
+          {[
+            {
+              title: "Government Alerts",
+              desc: "Get real-time weather warnings and official emergency notifications.",
+            },
+            {
+              title: "Preparation Guides",
+              desc: "Checklists and instructions to protect your home and family.",
+            },
+            {
+              title: "Recovery Support",
+              desc: "Rehabilitation and relief resources for post-disaster recovery.",
+            },
+          ].map((res, i) => (
+            <div
+              key={i}
+              style={{
+                background: "rgba(255,255,255,0.9)",
+                padding: 28,
+                borderRadius: 14,
+                boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow = "0 10px 25px rgba(0,0,0,0.1)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.06)";
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: 20,
+                  fontWeight: 700,
+                  color: "#1e293b",
+                  marginBottom: 8,
+                }}
+              >
+                {res.title}
+              </h3>
+              <p style={{ color: "#374151", fontSize: 15 }}>{res.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

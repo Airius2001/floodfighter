@@ -11,6 +11,7 @@ import {
   Fade,
 } from "@mui/material";
 import { FaArrowLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const beforeItems = [
   { label: "Emergency Kit", href: "/before/emergency-kit" },
@@ -60,7 +61,11 @@ const cardData = [
   },
 ];
 
+
+
 export default function KnowledgePage() {
+       const router = useRouter()
+
   return (
     <Box
       sx={{
@@ -73,20 +78,7 @@ export default function KnowledgePage() {
       }}
     >
       {/* Back button */}
-      <Button
-        onClick={() => window.history.back()}
-        sx={{
-          position: "absolute",
-          top: 16,
-          left: 16,
-          color: "#000",
-          minWidth: "auto",
-          p: 2,
-          zIndex: 10,
-        }}
-      >
-        <FaArrowLeft size={20} />
-      </Button>
+     
 
       {/* Breadcrumb */}
       <Box sx={{ mb: 4, width: "100%", maxWidth: 1200, mx: "auto" }}>
@@ -99,17 +91,37 @@ export default function KnowledgePage() {
           }}
         >
           <Breadcrumbs aria-label="breadcrumb" separator="→">
-            <span style={{ color: "#1f2937" }}>Home</span>
-            <Typography
-              sx={{
-                color: "#1e40af",
-                fontWeight: "bold",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              Knowledge of Facing Flood
-            </Typography>
+            <span
+  style={{ color: "#1f2937", cursor: "pointer" }}
+  onClick={() => router.push("/")}
+>
+   <Button
+        onClick={() => window.history.back()}
+        sx={{
+          color: "#000",
+          minWidth: "auto",
+          p: 2,
+          zIndex: 10,
+        }}
+      >
+        <FaArrowLeft size={20} />
+      </Button>
+  Home
+</span>
+
+<Typography
+  sx={{
+    color: "#1e40af",
+    fontWeight: "bold",
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer", // add this for visual feedback
+  }}
+  onClick={() => router.push("/knowledge")}
+>
+  Knowledge of Facing Flood
+</Typography>
+
           </Breadcrumbs>
         </Box>
       </Box>

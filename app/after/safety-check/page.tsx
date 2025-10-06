@@ -10,8 +10,8 @@ export default function SafetyCheck() {
     <div
       style={{
         minHeight: "100vh",
-        backgroundColor: "#000",
-        color: "#fff",
+        backgroundColor: "rgb(191, 214, 248)", // ✅ white background
+        color: "#111", // ✅ main text color black
         padding: "3rem 1rem",
       }}
     >
@@ -20,10 +20,10 @@ export default function SafetyCheck() {
           {/* Header */}
           <div style={{ textAlign: "center", marginBottom: "2rem" }}>
             <AiOutlineCheckCircle size={60} color="#0af" />
-            <Title level={2} style={{ color: "#fff", marginTop: "1rem" }}>
+            <Title level={2} style={{ color: "#111", marginTop: "1rem" }}>
               Safety Check
             </Title>
-            <Paragraph style={{ color: "#aaa", fontSize: "1.1rem" }}>
+            <Paragraph style={{ color: "#333", fontSize: "1.1rem" }}>
               Ensure safety before re-entering your home
             </Paragraph>
           </div>
@@ -40,13 +40,13 @@ export default function SafetyCheck() {
                 <Card
                   bordered={false}
                   style={{
-                    background: "#111",
-                    color: "#fff",
+                    background: "#f5f5f5", // ✅ light card background
+                    color: "#111",
                     borderRadius: 12,
                     height: "100%",
                   }}
                 >
-                  <Paragraph style={{ color: "#fff", fontSize: "1rem" }}>
+                  <Paragraph style={{ color: "#111", fontSize: "1rem" }}>
                     {tip}
                   </Paragraph>
                 </Card>
@@ -54,13 +54,13 @@ export default function SafetyCheck() {
             ))}
           </Row>
 
-          <Divider style={{ borderColor: "#333", margin: "3rem 0" }} />
+          <Divider style={{ borderColor: "#ccc", margin: "3rem 0" }} />
 
           {/* Footer Info */}
           <Paragraph
             style={{
               textAlign: "center",
-              color: "#777",
+              color: "#555",
               fontSize: "0.95rem",
               maxWidth: 600,
               margin: "0 auto",

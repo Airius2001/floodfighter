@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import "./globals.css";
+import ChatbotWrapper from "@/components/ui/ChatbotWrapper";
 
 export const metadata = {
   title: "Flood Fighter",
@@ -12,6 +13,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+
   return (
     <html lang="en">
       <head>
@@ -41,6 +43,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             flex: 1,
             paddingTop: "64px", // leave some space for nav bar
             background: "#e6f0ff",
+            paddingBottom: '20px'
           }}
         >
           {children}
@@ -58,6 +61,19 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           <Footer />
         </div>
+
+        <div
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 999,
+          }}
+        >
+          <Footer />
+        </div>
+        <ChatbotWrapper />
       </body>
     </html>
   );

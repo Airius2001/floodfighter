@@ -195,62 +195,84 @@ export default function MentalHealthAfter() {
                   >
                     <FaInfoCircle
                       style={{ fontSize: 20, color: "#1890ff", marginRight: 8 }}
+                      aria-hidden
                     />
                     <Title level={3} style={{ color: "#1890ff", margin: 0 }}>
                       Resources & Support
                     </Title>
                   </div>
 
+                  {/* Hotlines */}
                   <Title level={4} style={{ marginTop: 0 }}>
-                    Telephone and Online Services
+                    24/7 Hotlines
                   </Title>
-                  <Paragraph style={{ fontSize: 16, lineHeight: 1.7, color: "#333" }}>
-                    To talk to someone, call:
-                  </Paragraph>
                   <ul style={{ paddingLeft: 20, fontSize: 16, lineHeight: 1.7 }}>
                     <li>
-                      <a href="https://www.lifeline.org.au/">Lifeline</a> on{" "}
-                      <a href="tel:134357">13 43 57 (13HELP)</a>
+                      <strong>Lifeline:</strong> 13 11 14 — Crisis support &
+                      suicide prevention.
                     </li>
                     <li>
-                      <a href="https://www.beyondblue.org.au/">Beyond Blue</a> on{" "}
-                      <a href="tel:1300224636">1300 22 4636</a>
+                      <strong>Beyond Blue:</strong> 1300 22 4636 — Mental health
+                      support for anxiety, depression, disaster recovery.
                     </li>
                     <li>
-                      13YARN (<a href="tel:139276">13 92 76</a>), provides 24/7 crisis
-                      support for Aboriginal and Torres Strait Islander people
-                    </li>
-                    <li>
-                      <a href="https://mensline.org.au/">MensLine</a> on{" "}
-                      <a href="tel:1300789978">1300 78 99 78</a>
-                    </li>
-                    <li>
-                      <a href="https://www.lifeline.org.au/crisis-text/">Lifeline Text</a> on{" "}
-                      <a href="tel:0477131114">0477 13 11 14</a>
-                    </li>
-                    <li>
-                      <a href="https://kidshelpline.com.au/">Kids Helpline</a> on{" "}
-                      <a href="tel:1800551800">1800 551 800</a> (children under 12 years)
-                    </li>
-                    <li>
-                      <a href="https://www.openarms.gov.au/">
-                        Open Arms – Veteran Family and Counselling
-                      </a>{" "}
-                      on <a href="tel:1800011046">1800 011 046</a>
-                    </li>
-                    <li>
-                      <a href="https://opan.org.au/">
-                        Older Persons Advocacy Network
-                      </a>{" "}
-                      on <a href="tel:1800700600">1800 700 600</a>
+                      <strong>Emergency:</strong> 000 — Immediate danger.
                     </li>
                   </ul>
+
+                  {/* Consultation channels */}
+                  <Title level={4} style={{ marginTop: 16 }}>
+                    Consultation Channels
+                  </Title>
+                  <ul style={{ paddingLeft: 20, fontSize: 16, lineHeight: 1.7 }}>
+                    <li>
+                      <a
+                        href="https://www.redcross.org.au/how-disasters-impact-mental-health/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="blue"
+                      >
+                        Australian Red Cross
+                      </a>{" "}
+                      — Community recovery, coping guides, outreach.
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.healthdirect.gov.au/mental-health-helplines"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="blue"
+                      >
+                        Healthdirect Helplines
+                      </a>{" "}
+                      — Find local phone/online counselling.
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.qld.gov.au/emergency/dealing-disasters/disaster-types/flood/flood-health-and-safety"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="blue"
+                      >
+                        QLD Health: Flood health & safety
+                      </a>{" "}
+                      |{" "}
+                      <a
+                        href="https://www.nsw.gov.au/emergency/recovery/mental-health-support"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="blue"
+                      >
+                        NSW Disaster Mental Health
+                      </a>
+                    </li>
+                  </ul>
+
                 </div>
               </div>
             </Card>
           </Col>
         </Row>
-
       </div>
     </div>
   );

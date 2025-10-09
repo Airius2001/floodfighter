@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 export default function ChatbotWrapper() {
   const pathname = usePathname();
-  if (pathname !== "/") return null;
+  if (pathname !== "/home") return null;
 
   return (
     <>

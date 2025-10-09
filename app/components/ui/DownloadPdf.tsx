@@ -3,63 +3,41 @@
 import React, { useEffect, useRef } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import EmergencyKitPage from "@/app/before/emergency-kit/page";
+import FamilyPlan from "@/app/before/family-plan/page";
 
 export default function DownloadPdf() {
-    const pdfRef = useRef<HTMLDivElement>(null);
+  const pdfRef = useRef<HTMLDivElement>(null);
 
-     useEffect(() => {
+  useEffect(() => {
     const generatePDF = async () => {
-       if (!pdfRef.current) return;
+      if (!pdfRef.current) return;
 
-    const element = pdfRef.current;
-    const canvas = await html2canvas(element, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-      scrollY: -window.scrollY,
-      windowWidth: element.scrollWidth,
-      windowHeight: element.scrollHeight,
-    });
+      const canvas = await html2canvas(pdfRef.current, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
 
-    const imgData = canvas.toDataURL("image/jpeg", 0.9);
-    const pdf = new jsPDF("p", "pt", "a4");
-
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-
-    const imgWidth = pageWidth - 40;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    let heightLeft = imgHeight;
-    let position = 0;
-
-    pdf.addImage(imgData, "JPEG", 20, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight + 20;
-      pdf.addPage();
-      pdf.addImage(imgData, "JPEG", 20, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-
-    pdf.save("FloodInfo.pdf");
+      const pdf = new jsPDF("p", "pt", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth() - 40;
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      pdf.addImage(imgData, "PNG", 20, 20, pdfWidth, pdfHeight);
+      pdf.save("FloodInfo.pdf");
     };
 
     // Wait briefly to ensure page components render
     setTimeout(generatePDF, 1000);
   }, []);
 
-    return (
-        <div
-            ref={pdfRef}
-            style={{
-                padding: 20,
-                minHeight: "100vh",
-                background: "white",
-            }}
-        >
-            <div
+  return (
+    <div
+      ref={pdfRef}
+      style={{
+        padding: 20,
+        minHeight: "100vh",
+        background: "white",
+      }}
+    >
+
+ <div
                 id="flood-preparedness-guide"
                 style={{
                     maxWidth: "900px",
@@ -518,6 +496,6 @@ export default function DownloadPdf() {
                 </div>
             </div>
 
-        </div>
-    );
+    </div>
+  );
 }

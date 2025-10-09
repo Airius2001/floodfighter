@@ -69,7 +69,6 @@ export default function ChatBotPage() {
         flexDirection: "column",
         alignItems: "center",
         padding: "40px 20px 100px",
-        height:'100vh'
       }}
     >
       <h2

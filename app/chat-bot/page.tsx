@@ -11,7 +11,7 @@ export default function ChatBotPage() {
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const API_KEY = "AIzaSyDMeCNvmw-W9c8hnnwMmPxNxDhPfNkdSD0";
+  const API_KEY = "AIzaSyB9KTqvUcfHr9_LMSrc7ux41xfegAOVokw";
   const MODEL = "gemini-2.0-flash";
   const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
 
@@ -69,6 +69,7 @@ export default function ChatBotPage() {
         flexDirection: "column",
         alignItems: "center",
         padding: "40px 20px 100px",
+        height:'100vh'
       }}
     >
       <h2

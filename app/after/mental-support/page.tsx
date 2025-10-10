@@ -1,108 +1,279 @@
 "use client";
 
-import { Card, Typography, List, Divider, Row, Col } from "antd";
-import {
-  BsChatDots,
-  BsHeartPulse,
-  BsPeople,
-  BsJournalCheck,
-} from "react-icons/bs";
-import { MdSelfImprovement } from "react-icons/md";
+/**
+ * After → Mental Support
+ * - Meets Acceptance Criteria 5.2:
+ *   Given user selects module → When system loads → Then show hotlines, consultation channels, and grants info.
+ */
 
-const { Title, Paragraph } = Typography;
+import { Button, Card, Typography, Row, Col, Breadcrumb } from "antd";
+import { FaArrowLeft, FaInfoCircle } from "react-icons/fa";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-export default function MentalSupport() {
-  const tips = [
+const { Title, Paragraph, Text } = Typography;
+
+export default function MentalHealthAfter() {
+  const router = useRouter();
+
+  const handleBack = () => {
+    window.history.back();
+  };
+
+  // Breadcrumb: Home → Knowledge of Facing Flood → Mental Health & Community Support
+  const getBreadcrumbItems = () => [
     {
-      icon: <BsChatDots size={28} color="#0af" />,
-      text: "Talk to family and friends about your experiences to release stress.",
+      title: <span style={{ color: "#1f2937", cursor: "pointer" }}>Home</span>,
+      onClick: () => router.push("/"),
     },
     {
-      icon: <BsHeartPulse size={28} color="#ff4d4f" />,
-      text: "Seek professional counseling if you feel overwhelmed.",
+      title: (
+        <span style={{ color: "#1f2937", cursor: "pointer" }}>
+          Knowledge of Facing Flood
+        </span>
+      ),
+      onClick: () => router.push("/knowledge"),
     },
     {
-      icon: <MdSelfImprovement size={28} color="#52c41a" />,
-      text: "Practice relaxation techniques like deep breathing or meditation.",
-    },
-    {
-      icon: <BsPeople size={28} color="#faad14" />,
-      text: "Join local community support groups for shared healing.",
-    },
-    {
-      icon: <BsJournalCheck size={28} color="#13c2c2" />,
-      text: "Keep a journal to process your thoughts and emotions.",
+      title: (
+        <span style={{ color: "#1e40af", fontWeight: "bold" }}>
+          Mental Support
+        </span>
+      ),
     },
   ];
 
   return (
     <div
       style={{
-        background: "rgb(191, 214, 248)", // ✅ white background
-        color: "#111", // ✅ main text color black
-        minHeight: "100vh",
-        padding: "50px 20px",
+        backgroundColor: "#f0f2f5",
+        minHeight: "90vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        padding: "20px",
+        paddingTop: "20px",
+        paddingBottom: "64px",
       }}
     >
-      <Row justify="center">
-        <Col xs={24} md={20} lg={16}>
-          <Card
-            style={{
-              background: "#f5f5f5", // ✅ light card background
-              border: "1px solid #ccc", // lighter border
-              borderRadius: "12px",
-              padding: "30px",
-            }}
-          >
-            <div style={{ textAlign: "center", marginBottom: 30 }}>
-              <BsChatDots size={50} color="#0af" />
-              <Title
-                level={2}
-                style={{ color: "#111", marginTop: 15, fontWeight: "bold" }}
-              >
+      {/* Breadcrumb (under navbar) */}
+      <div
+        style={{
+          position: "absolute",
+          top: 95,
+          left: 0,
+          right: 0,
+          zIndex: 10,
+          maxWidth: 1200,
+          margin: "0 auto 20px auto",
+          padding: "0 20px",
+        }}
+      >
+        <Breadcrumb
+          items={getBreadcrumbItems()}
+          separator="→"
+          style={{
+            padding: "10px 20px",
+            background: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "8px",
+            backdropFilter: "blur(10px)",
+          }}
+        />
+      </div>
+
+      {/* Back button */}
+      <Button
+        type="text"
+        icon={<FaArrowLeft />}
+        onClick={handleBack}
+        style={{
+          position: "absolute",
+          top: 80,
+          left: 26,
+          color: "#000000",
+          zIndex: 10,
+        }}
+        aria-label="Go back"
+      />
+
+      <div style={{ maxWidth: 1200, width: "100%", marginTop: 80 }}>
+        {/* Main layout */}
+        <Row gutter={[32, 32]} align="top">
+          {/* Left: title + bullets */}
+          <Col xs={24} md={12}>
+            <div>
+              <Title level={1} style={{ color: "#1890ff", marginBottom: 10 }}>
                 Mental Support
               </Title>
-              <Paragraph style={{ color: "#333", fontSize: 16 }}>
-                Taking care of your mental health after a flood is just as
-                important as physical recovery.
-              </Paragraph>
+              <Text strong style={{ fontSize: 18, color: "#333" }}>
+                Taking care of your mental health after a flood is just as important as physical recovery.
+              </Text>
+
+              <div
+                style={{
+                  marginTop: 20,
+                  fontSize: 16,
+                  lineHeight: 1.7,
+                  color: "#333",
+                }}
+              >
+                <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+                  <li style={{ marginBottom: 12 }}>
+                    <span style={{ color: "#00bcd4", marginRight: 8 }}>💬</span>
+                    Talk to family and friends about your experiences to release stress.
+                  </li>
+                  <li style={{ marginBottom: 12 }}>
+                    <span style={{ color: "#e53935", marginRight: 8 }}>❤️</span>
+                    Seek professional counseling if you feel overwhelmed.
+                  </li>
+                  <li style={{ marginBottom: 12 }}>
+                    <span style={{ color: "#4caf50", marginRight: 8 }}>🧘</span>
+                    Practice relaxation techniques like deep breathing or meditation.
+                  </li>
+                  <li style={{ marginBottom: 12 }}>
+                    <span style={{ color: "#ffb300", marginRight: 8 }}>👥</span>
+                    Join local community support groups for shared healing.
+                  </li>
+                  <li style={{ marginBottom: 12 }}>
+                    <span style={{ color: "#00acc1", marginRight: 8 }}>📘</span>
+                    Keep a journal to process your thoughts and emotions.
+                  </li>
+                </ul>
+              </div>
             </div>
+          </Col>
 
-            <Divider style={{ backgroundColor: "#ccc" }} />
+          {/* Right: image */}
+          <Col xs={24} md={12}>
+            <div style={{ textAlign: "center" }}>
+              <div
+                style={{
+                  border: "1px solid #d9d9d9",
+                  borderRadius: 16,
+                  padding: 12,
+                  backgroundColor: "#fff",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  marginBottom: 20,
+                  display: "inline-block",
+                }}
+              >
+                <Image
+                  src="/images/mental support.png"
+                  alt="Mental support"
+                  width={500}
+                  height={300}
+                  style={{
+                    borderRadius: 12,
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                  priority
+                />
+              </div>
+            </div>
+          </Col>
+        </Row>
 
-            <List
-              itemLayout="horizontal"
-              dataSource={tips}
-              renderItem={(item) => (
-                <List.Item style={{ borderBottom: "1px solid #ddd" }}>
-                  <List.Item.Meta
-                    avatar={item.icon}
-                    title={
-                      <span style={{ color: "#111", fontSize: 16 }}>
-                        {item.text}
-                      </span>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-
-            <Divider style={{ backgroundColor: "#ccc" }} />
-
-            <Paragraph
+        {/* Resources & Support (replaces Expert Opinion) */}
+        <Row style={{ marginTop: 40 }}>
+          <Col span={24}>
+            <Card
               style={{
-                color: "#555",
-                fontStyle: "italic",
-                textAlign: "center",
-                marginTop: 20,
+                borderRadius: 16,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                border: "1px solid #d9d9d9",
               }}
             >
-              🌱 Remember: Healing takes time — reach out, stay connected, and
-              take small steps every day.
-            </Paragraph>
-          </Card>
-        </Col>
-      </Row>
+              <div style={{ display: "flex", alignItems: "flex-start" }}>
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <FaInfoCircle
+                      style={{ fontSize: 20, color: "#1890ff", marginRight: 8 }}
+                      aria-hidden
+                    />
+                    <Title level={3} style={{ color: "#1890ff", margin: 0 }}>
+                      Resources & Support
+                    </Title>
+                  </div>
+
+                  {/* Hotlines */}
+                  <Title level={4} style={{ marginTop: 0 }}>
+                    24/7 Hotlines
+                  </Title>
+                  <ul style={{ paddingLeft: 20, fontSize: 16, lineHeight: 1.7 }}>
+                    <li>
+                      <strong>Lifeline:</strong> 13 11 14 — Crisis support &
+                      suicide prevention.
+                    </li>
+                    <li>
+                      <strong>Beyond Blue:</strong> 1300 22 4636 — Mental health
+                      support for anxiety, depression, disaster recovery.
+                    </li>
+                    <li>
+                      <strong>Emergency:</strong> 000 — Immediate danger.
+                    </li>
+                  </ul>
+
+                  {/* Consultation channels */}
+                  <Title level={4} style={{ marginTop: 16 }}>
+                    Consultation Channels
+                  </Title>
+                  <ul style={{ paddingLeft: 20, fontSize: 16, lineHeight: 1.7 }}>
+                    <li>
+                      <a
+                        href="https://www.redcross.org.au/how-disasters-impact-mental-health/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="blue"
+                      >
+                        Australian Red Cross
+                      </a>{" "}
+                      — Community recovery, coping guides, outreach.
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.healthdirect.gov.au/mental-health-helplines"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="blue"
+                      >
+                        Healthdirect Helplines
+                      </a>{" "}
+                      — Find local phone/online counselling.
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.qld.gov.au/emergency/dealing-disasters/disaster-types/flood/flood-health-and-safety"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="blue"
+                      >
+                        QLD Health: Flood health & safety
+                      </a>{" "}
+                      |{" "}
+                      <a
+                        href="https://www.nsw.gov.au/emergency/recovery/mental-health-support"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="blue"
+                      >
+                        NSW Disaster Mental Health
+                      </a>
+                    </li>
+                  </ul>
+
+                </div>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 }

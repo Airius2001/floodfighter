@@ -6,7 +6,12 @@ import { usePathname } from "next/navigation";
 import { BsShieldCheck } from "react-icons/bs";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { MdOutlineCleaningServices, MdOutlineWaterDrop } from "react-icons/md";
-import { FaMapLocationDot, FaLocationDot, FaRegClock } from "react-icons/fa6";
+import {
+  FaMapLocationDot,
+  FaLocationDot,
+  FaRegClock,
+  FaRegFileLines,
+} from "react-icons/fa6";
 import { BsChatDots } from "react-icons/bs";
 import { ChevronDown } from "lucide-react";
 
@@ -23,22 +28,57 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // ------------------- Nav Data -------------------
 const beforeItems = [
-  { label: "Emergency Kit", href: "/before/emergency-kit", icon: <AiOutlineCheckCircle /> },
-  { label: "Family Flood Plan", href: "/before/family-plan", icon: <BsChatDots /> },
-  { label: "Property Protection", href: "/before/property-protection", icon: <BsShieldCheck /> },
+  {
+    label: "Emergency Kit",
+    href: "/before/emergency-kit",
+    icon: <AiOutlineCheckCircle />,
+  },
+  {
+    label: "Family Flood Plan",
+    href: "/before/family-plan",
+    icon: <BsChatDots />,
+  },
+  {
+    label: "Property Protection",
+    href: "/before/property-protection",
+    icon: <BsShieldCheck />,
+  },
 ];
 
 const duringItems = [
-  
-  { label: "Personal Safety Measures", href: "/during/personal-safety-measures", icon: <AiOutlineCheckCircle /> },
-  { label: "Health & Hygiene", href: "/during/health-and-hygiene", icon: <BsShieldCheck /> },
-  { label: "Mental & Emotional Wellbeing", href: "/during/mental-and-emotional-wellbeing", icon: <BsChatDots /> },
+  {
+    label: "Personal Safety Measures",
+    href: "/during/personal-safety-measures",
+    icon: <AiOutlineCheckCircle />,
+  },
+  {
+    label: "Health & Hygiene",
+    href: "/during/health-and-hygiene",
+    icon: <BsShieldCheck />,
+  },
+  {
+    label: "Mental & Emotional Wellbeing",
+    href: "/during/mental-and-emotional-wellbeing",
+    icon: <BsChatDots />,
+  },
 ];
 
 const afterItems = [
-  { label: "Safety Check", href: "/after/safety-check", icon: <AiOutlineCheckCircle /> },
-  { label: "Clean & Disinfection", href: "/after/clean-disinfection", icon: <MdOutlineCleaningServices /> },
-  { label: "Mental Support", href: "/after/mental-support", icon: <BsChatDots /> },
+  {
+    label: "Safety Check",
+    href: "/after/safety-check",
+    icon: <AiOutlineCheckCircle />,
+  },
+  {
+    label: "Clean & Disinfection",
+    href: "/after/clean-disinfection",
+    icon: <MdOutlineCleaningServices />,
+  },
+  {
+    label: "Mental Support",
+    href: "/after/mental-support",
+    icon: <BsChatDots />,
+  },
 ];
 
 function navLinkStyle(active: boolean): React.CSSProperties {
@@ -97,7 +137,7 @@ export function Navbar() {
       >
         {/* Logo */}
         <Link
-          href="/"
+          href="/home"
           style={{
             fontSize: 18,
             fontWeight: 700,
@@ -121,7 +161,10 @@ export function Navbar() {
           Flood Fighter
         </Link>
 
-        <nav className="desktop-nav" style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <nav
+          className="desktop-nav"
+          style={{ display: "flex", gap: 8, alignItems: "center" }}
+        >
           {/* Before Flood */}
           <div
             onMouseEnter={(e) => setBeforeAnchor(e.currentTarget)}
@@ -136,7 +179,7 @@ export function Navbar() {
                 borderBottomRightRadius: 0,
               }}
             >
-              <FaRegClock  size={20}/> Before Flood
+              <FaRegClock size={20} /> Before Flood
             </Link>
             <Button
               style={{
@@ -161,7 +204,7 @@ export function Navbar() {
               transformOrigin={{ vertical: "top", horizontal: "left" }}
               disableScrollLock
             >
-              <div style={{marginTop:'10px'}}></div>
+              <div style={{ marginTop: "10px" }}></div>
               {beforeItems.map((it) => (
                 <MenuItem key={it.href} onClick={() => setBeforeAnchor(null)}>
                   <Link
@@ -196,7 +239,7 @@ export function Navbar() {
                 borderBottomRightRadius: 0,
               }}
             >
-              <MdOutlineWaterDrop  size={20}/> During Flood
+              <MdOutlineWaterDrop size={20} /> During Flood
             </Link>
             <Button
               style={{
@@ -221,7 +264,7 @@ export function Navbar() {
               transformOrigin={{ vertical: "top", horizontal: "left" }}
               disableScrollLock
             >
-              <div style={{marginTop:'10px'}}></div>
+              <div style={{ marginTop: "10px" }}></div>
               {duringItems.map((it) => (
                 <MenuItem key={it.href} onClick={() => setDuringAnchor(null)}>
                   <Link
@@ -256,7 +299,7 @@ export function Navbar() {
                 borderBottomRightRadius: 0,
               }}
             >
-              <BsShieldCheck size={20}/> After Flood
+              <BsShieldCheck size={20} /> After Flood
             </Link>
             <Button
               style={{
@@ -281,7 +324,7 @@ export function Navbar() {
               transformOrigin={{ vertical: "top", horizontal: "left" }}
               disableScrollLock
             >
-              <div style={{marginTop:'10px'}}></div>
+              <div style={{ marginTop: "10px" }}></div>
               {afterItems.map((it) => (
                 <MenuItem key={it.href} onClick={() => setAfterAnchor(null)}>
                   <Link
@@ -303,10 +346,24 @@ export function Navbar() {
           </div>
 
           {/* Other Nav Items */}
-          <Link href="/map" style={navLinkStyle(mounted && pathname === "/map")}>
+          <Link
+            href="/quiz"
+            style={navLinkStyle(mounted && pathname === "/quiz")}
+          >
+            <FaRegFileLines /> Quiz Section
+          </Link>
+
+          <Link
+            href="/map"
+            style={navLinkStyle(mounted && pathname === "/map")}
+          >
             <FaMapLocationDot /> Map Visualisation
           </Link>
-          <Link href="/check-postcode" style={navLinkStyle(mounted && pathname === "/check-postcode")}>
+
+          <Link
+            href="/check-postcode"
+            style={navLinkStyle(mounted && pathname === "/check-postcode")}
+          >
             <FaLocationDot /> Check Postcode
           </Link>
         </nav>
@@ -336,9 +393,16 @@ export function Navbar() {
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography fontWeight={600}>Before Flood</Typography>
             </AccordionSummary>
-            <AccordionDetails style={{display:'flex', flexDirection:'column', gap:"10px"}}>
+            <AccordionDetails
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
               {beforeItems.map((it) => (
-                <Link key={it.href} href={it.href} onClick={() => setMenuOpen(false)} className="mobile-subitem">
+                <Link
+                  key={it.href}
+                  href={it.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="mobile-subitem"
+                >
                   {it.icon} {it.label}
                 </Link>
               ))}
@@ -349,32 +413,52 @@ export function Navbar() {
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography fontWeight={600}>During Flood</Typography>
             </AccordionSummary>
-            <AccordionDetails style={{display:'flex', flexDirection:'column', gap:"10px"}}>
+            <AccordionDetails
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
               {duringItems.map((it) => (
-                <Link key={it.href} href={it.href} onClick={() => setMenuOpen(false)} className="mobile-subitem">
+                <Link
+                  key={it.href}
+                  href={it.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="mobile-subitem"
+                >
                   {it.icon} {it.label}
                 </Link>
               ))}
             </AccordionDetails>
           </Accordion>
 
-          <Accordion >
+          <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography fontWeight={600}>After Flood</Typography>
             </AccordionSummary>
-            <AccordionDetails style={{display:'flex', flexDirection:'column', gap:"10px"}}>
+            <AccordionDetails
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
               {afterItems.map((it) => (
-                <Link key={it.href} href={it.href} onClick={() => setMenuOpen(false)} className="mobile-subitem">
+                <Link
+                  key={it.href}
+                  href={it.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="mobile-subitem"
+                >
                   {it.icon} {it.label}
                 </Link>
               ))}
             </AccordionDetails>
           </Accordion>
 
-          <Link href="/map" style={navLinkStyle(mounted && pathname === "/map")}>
+          <Link
+            href="/map"
+            style={navLinkStyle(mounted && pathname === "/map")}
+          >
             <FaMapLocationDot /> Map Visualisation
           </Link>
-          <Link href="/check-postcode" style={navLinkStyle(mounted && pathname === "/check-postcode")}>
+          <Link
+            href="/check-postcode"
+            style={navLinkStyle(mounted && pathname === "/check-postcode")}
+          >
             <FaLocationDot /> Check Postcode
           </Link>
         </div>

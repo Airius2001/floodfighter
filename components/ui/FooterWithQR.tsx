@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Modal, Button } from "antd";
 import { FaQrcode } from "react-icons/fa";
 import { QRCodeCanvas } from "qrcode.react";
@@ -12,6 +12,14 @@ import { DownloadCloudIcon } from "lucide-react";
 export function FooterWithQR() {
   const [open, setOpen] = useState(false);
   const pdfRef = useRef<HTMLDivElement>(null);
+
+  const [qrUrl, setQrUrl] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setQrUrl(`${window.location.origin}/download-pdf`);
+    }
+  }, []);
 
   const handleDownloadPDF = async () => {
     if (!pdfRef.current) return;
@@ -97,7 +105,7 @@ export function FooterWithQR() {
       >
         <div style={{ textAlign: "center", padding: 20 }}>
           <QRCodeCanvas
-            value={`${window.location.origin}/download-pdf`}
+            value={qrUrl}
             size={180}
             fgColor="#1e3a8a"
             includeMargin

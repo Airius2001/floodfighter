@@ -1,32 +1,44 @@
-# Stage 1 — install deps (keeps cacheable)
-FROM node:18-alpine AS deps
+# Stage 1 — Build Next.js app
+FROM node:18 AS builder
 WORKDIR /app
+
+# Install build tools for node-gyp
+RUN apt-get update && apt-get install -y python3 make g++ openssl nginx \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY package*.json ./
 RUN npm ci
-
-# Stage 2 — build
-FROM node:18-alpine AS builder
-WORKDIR /app
-# copy installed deps from deps stage
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
-# prune dev deps (make node_modules production-only)
-RUN npm prune --production
-
-# Stage 3 — runtime
-FROM node:18-alpine AS runner
+# Stage 2 — Runtime with Nginx + Node
+FROM node:18-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# copy only what is needed to run
+# Install Nginx + OpenSSL for SSL
+RUN apt-get update && apt-get install -y nginx openssl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy built app
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 
-EXPOSE 3000
-# Assumes package.json has "start": "next start -p 3000"
-CMD ["npm", "start"]
+# Generate self-signed certificate for container’s IP at runtime
+RUN mkdir -p /etc/nginx/certs && \
+    openssl req -newkey rsa:2048 -nodes -keyout /etc/nginx/certs/ip.key \
+    -x509 -days 365 -out /etc/nginx/certs/ip.crt \
+    -subj "/CN=localhost"
+
+# Configure Nginx
+RUN rm /etc/nginx/sites-enabled/default
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose ports
+EXPOSE 80 443
+
+# Start both Node app and Nginx
+CMD service nginx start && npm start

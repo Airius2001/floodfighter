@@ -56,47 +56,46 @@ export default function SafetyCheck() {
         padding: "32px 16px",
       }}
     >
-      {/* Back button */}
-      <Button
-          type="text"
-          icon={<FaArrowLeft />}
-          onClick={handleBack}
-          style={{
-            position: "absolute",
-            top: 90,
-            left: 26,
-            color: "#000000",
-            zIndex: 10,
-          }}
-          aria-label="Go back"
-        />
-
+     
       <Row justify="center">
         <Col xs={24} lg={20} xl={18}>
-          {/* ===== Breadcrumb Navigation ===== */}
-          <Breadcrumb
-            items={[
-              {
-                href: "/",
-                title: (
-                  <>
-                    <AiOutlineHome /> Home
-                  </>
-                ),
-              },
-              {
-                href: "/knowledge",
-                title: "Knowledge of Facing Flood",
-              },
-              {
-                title: "Safety Check",
-              },
-            ]}
+          {/* ── Navigation (Back + Breadcrumb) ── */}
+          <div
             style={{
+              display: "flex",
+              alignItems: "center", 
+              gap: 12,
               marginBottom: 24,
-              fontSize: "1rem",
             }}
-          />
+          >
+            <Button
+              type="text"
+              icon={<FaArrowLeft />}
+              onClick={handleBack}
+              style={{
+                color: "#000",
+                padding: "0 8px",
+                fontSize: 16,
+                height: "auto", 
+                lineHeight: "1.4", 
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              Back
+            </Button>
+  
+            <div style={{ position: "relative", top: "1px" }}>
+              <Breadcrumb
+                items={[
+                  { href: "/", title: (<><AiOutlineHome /> Home</>) },
+                  { href: "/knowledge", title: "Knowledge of Facing Flood" },
+                  { title: "Safety Check" },
+                ]}
+                style={{ margin: 0, fontSize: "1rem", lineHeight: "1.4" }}
+              />
+            </div>
+          </div>
 
           {/* ===== Top Layout: left content + right image ===== */}
           <Row gutter={[32, 32]} align="top">

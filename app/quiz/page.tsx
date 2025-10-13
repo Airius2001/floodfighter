@@ -45,12 +45,11 @@ export default function QuizPage() {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
+        // optimize the loading speed of quizzes
         const res = await axios.get(
-          "https://floodfighterbackend.onrender.com/quiz"
+          "https://floodfighterbackend.onrender.com/quiz/random"
         );
-        const allQuestions = res.data;
-        const shuffled = allQuestions.sort(() => 0.5 - Math.random());
-        setQuizData(shuffled.slice(0, 10));
+        setQuizData(res.data);
       } catch (err) {
         console.error("Failed to fetch quiz data", err);
       }

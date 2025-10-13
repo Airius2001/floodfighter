@@ -137,7 +137,7 @@ export function Navbar() {
       >
         {/* Logo */}
         <Link
-          href="/home"
+          href="/"
           style={{
             fontSize: 18,
             fontWeight: 700,

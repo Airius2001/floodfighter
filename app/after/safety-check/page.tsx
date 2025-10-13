@@ -1,74 +1,204 @@
 "use client";
 
-import { Typography, Row, Col, Card, Divider } from "antd";
-import { AiOutlineCheckCircle } from "react-icons/ai";
+import { Typography, Button, Row, Col, Card, Breadcrumb } from "antd";
+import {
+  AiOutlineHome,
+  AiOutlineCheckCircle,
+} from "react-icons/ai";
+import {
+  MdOutlineHealthAndSafety,
+  MdOutlineWarning,
+} from "react-icons/md";
+import { FaArrowLeft, FaInfoCircle } from "react-icons/fa";
+import { GiElectric, GiGasStove, GiBrokenWall } from "react-icons/gi";
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 export default function SafetyCheck() {
+  const handleBack = () => {
+    window.history.back();
+  };
+
+  // Safety tips list
+  const bullets = [
+    {
+      icon: <GiBrokenWall size={28} color="#1677ff" />,
+      text:
+        "Check for structural damage before entering — look for cracks, leaning walls, or sagging roofs.",
+    },
+    {
+      icon: <GiElectric size={28} color="#1677ff" />,
+      text:
+        "Stay away from downed power lines or wet switchboards. Do not use electricity until inspected.",
+    },
+    {
+      icon: <MdOutlineHealthAndSafety size={28} color="#1677ff" />,
+      text:
+        "Do not turn on appliances or gas until checked by a licensed professional.",
+    },
+    {
+      icon: <GiGasStove size={28} color="#1677ff" />,
+      text:
+        "Ventilate the home to remove gas, fuel, or chemical fumes before staying inside.",
+    },
+    {
+      icon: <MdOutlineWarning size={28} color="#1677ff" />,
+      text:
+        "If anything feels unsafe, do not enter. Contact local authorities or emergency services.",
+    },
+  ];
+
   return (
     <div
       style={{
         minHeight: "100vh",
-        backgroundColor: "rgb(191, 214, 248)", // ✅ white background
-        color: "#111", // ✅ main text color black
-        padding: "3rem 1rem",
+        background: "rgb(240, 242, 245)",
+        padding: "32px 16px",
       }}
     >
-      <Row justify="center">
-        <Col xs={24} md={20} lg={16}>
-          {/* Header */}
-          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-            <AiOutlineCheckCircle size={60} color="#0af" />
-            <Title level={2} style={{ color: "#111", marginTop: "1rem" }}>
-              Safety Check
-            </Title>
-            <Paragraph style={{ color: "#333", fontSize: "1.1rem" }}>
-              Ensure safety before re-entering your home
-            </Paragraph>
-          </div>
+      {/* Back button */}
+      <Button
+          type="text"
+          icon={<FaArrowLeft />}
+          onClick={handleBack}
+          style={{
+            position: "absolute",
+            top: 90,
+            left: 26,
+            color: "#000000",
+            zIndex: 10,
+          }}
+          aria-label="Go back"
+        />
 
-          {/* Content Cards */}
-          <Row gutter={[16, 16]}>
-            {[
-              "Check for structural damage before entering",
-              "Avoid downed power lines and report them",
-              "Do not use electrical appliances until inspected",
-              "Ventilate the area to remove gas or fumes",
-            ].map((tip, index) => (
-              <Col xs={24} sm={12} key={index}>
-                <Card
-                  bordered={false}
+      <Row justify="center">
+        <Col xs={24} lg={20} xl={18}>
+          {/* ===== Breadcrumb Navigation ===== */}
+          <Breadcrumb
+            items={[
+              {
+                href: "/",
+                title: (
+                  <>
+                    <AiOutlineHome /> Home
+                  </>
+                ),
+              },
+              {
+                href: "/knowledge",
+                title: "Knowledge of Facing Flood",
+              },
+              {
+                title: "Safety Check",
+              },
+            ]}
+            style={{
+              marginBottom: 24,
+              fontSize: "1rem",
+            }}
+          />
+
+          {/* ===== Top Layout: left content + right image ===== */}
+          <Row gutter={[32, 32]} align="top">
+            {/* Left column: all text + cards */}
+            <Col xs={24} md={14} lg={16}>
+              <Title level={2} style={{ color: "#1677ff", fontSize: "2rem", marginBottom: 32, }}>
+                Safety Check
+              </Title>
+              <Paragraph
+                style={{
+                  marginBottom: 80,
+                  color: "#475467",
+                  fontSize: "1.15rem",
+                  lineHeight: 1.8,
+                }}
+              >
+                Taking safety precautions before re-entering your home after a
+                flood is essential.
+              </Paragraph>
+
+              {/* Stack all safety tip cards vertically */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {bullets.map((b, i) => (
+                  <Card
+                    key={i}
+                    style={{
+                      background: "#fff",
+                      borderRadius: 16,
+                      boxShadow:
+                        "0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04)",
+                      padding: "1rem 1.2rem",
+                    }}
+                    styles={{
+                      body: { padding: 0 },
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: 16,
+                      }}
+                    >
+                      {b.icon}
+                      <Text
+                        style={{
+                          fontSize: "1.15rem",
+                          lineHeight: 1.8,
+                          color: "#1F2937",
+                        }}
+                      >
+                        {b.text}
+                      </Text>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </Col>
+
+            {/* Right column: image */}
+            <Col xs={24} md={10} lg={8}>
+              <div
+                style={{
+                  background: "#fff",
+                  borderRadius: 16,
+                  boxShadow:
+                    "0 6px 20px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04)",
+                  padding: 10,
+                  position: "sticky",
+                  top: 100, // keeps image visible when scrolling
+                }}
+              >
+                <img
+                  src="/images/safety.png"
+                  alt="Safety Check"
                   style={{
-                    background: "#f5f5f5", // ✅ light card background
-                    color: "#111",
+                    width: "100%",
+                    height: 450,
+                    objectFit: "cover",
                     borderRadius: 12,
-                    height: "100%",
+                    display: "block",
                   }}
-                >
-                  <Paragraph style={{ color: "#111", fontSize: "1rem" }}>
-                    {tip}
-                  </Paragraph>
-                </Card>
-              </Col>
-            ))}
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src =
+                      "/images/placeholder-16x9.jpg";
+                  }}
+                />
+              </div>
+            </Col>
           </Row>
 
-          <Divider style={{ borderColor: "#ccc", margin: "3rem 0" }} />
-
-          {/* Footer Info */}
+          {/* ===== Footer Note ===== */}
           <Paragraph
             style={{
               textAlign: "center",
-              color: "#555",
-              fontSize: "0.95rem",
-              maxWidth: 600,
-              margin: "0 auto",
+              color: "#667085",
+              marginTop: 40,
+              fontSize: "1.05rem",
             }}
           >
-            ⚠️ Always prioritize your safety before beginning flood recovery. If
-            you are unsure, contact local authorities or emergency services for
-            assistance.
+            <AiOutlineCheckCircle style={{ verticalAlign: -3 }} /> Always
+            prioritise personal safety before starting any clean-up.
           </Paragraph>
         </Col>
       </Row>

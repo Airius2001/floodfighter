@@ -1,184 +1,211 @@
 "use client";
 
 /**
- * After → Mental Support
- * - Meets Acceptance Criteria 5.2:
- *   Given user selects module → When system loads → Then show hotlines, consultation channels, and grants info.
+ * Mental Support Page
+ * ---------------------------------------------------------
+ * Matches the layout and visual hierarchy of the "Safety Check" page.
+ * Includes:
+ *  - Top navigation (Back + Breadcrumb)
+ *  - Left column (Title, Description, Tip Cards)
+ *  - Right column (Sticky Image)
+ *  - Bottom section: "Resources & Support" white card
  */
 
-import { Button, Card, Typography, Row, Col, Breadcrumb } from "antd";
-import { FaArrowLeft, FaInfoCircle } from "react-icons/fa";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import React from "react";
+import { Typography, Button, Row, Col, Card, Breadcrumb } from "antd";
+import { AiOutlineHome } from "react-icons/ai";
+import { FaInfoCircle, FaArrowLeft } from "react-icons/fa";
+import {
+  BsChatDots,
+  BsJournalBookmark,
+  BsInfoCircle,
+} from "react-icons/bs";
+import { MdOutlineSelfImprovement, MdOutlineGroups } from "react-icons/md";
+import { RiPsychotherapyLine } from "react-icons/ri";
 
 const { Title, Paragraph, Text } = Typography;
 
-export default function MentalHealthAfter() {
-  const router = useRouter();
-
-  const handleBack = () => {
-    window.history.back();
-  };
-
-  // Breadcrumb: Home → Knowledge of Facing Flood → Mental Health & Community Support
-  const getBreadcrumbItems = () => [
-    {
-      title: <span style={{ color: "#1f2937", cursor: "pointer" }}>Home</span>,
-      onClick: () => router.push("/"),
-    },
-    {
-      title: (
-        <span style={{ color: "#1f2937", cursor: "pointer" }}>
-          Knowledge of Facing Flood
+/** A small reusable tip card (icon + message). */
+function TipCard({
+  icon,
+  children,
+}: {
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <Card
+      style={{
+        background: "#fff",
+        borderRadius: 16,
+        boxShadow: "0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04)",
+        padding: "1rem 1.2rem",
+      }}
+      styles={{ body: { padding: 0 } }}
+    >
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+        {/* Icon container */}
+        <span
+          style={{
+            height: 32,
+            width: 32,
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 10,
+            background: "#EEF4FF",
+            boxShadow: "inset 0 0 0 1px #D6E4FF",
+            color: "#1677ff",
+            fontSize: 20,
+            flexShrink: 0,
+          }}
+        >
+          {icon}
         </span>
-      ),
-      onClick: () => router.push("/knowledge"),
-    },
-    {
-      title: (
-        <span style={{ color: "#1e40af", fontWeight: "bold" }}>
-          Mental Support
-        </span>
-      ),
-    },
-  ];
+
+        {/* Text content */}
+        <Text style={{ fontSize: "1.15rem", lineHeight: 1.8, color: "#1F2937" }}>
+          {children}
+        </Text>
+      </div>
+    </Card>
+  );
+}
+
+/** Main page component */
+export default function MentalSupportPage() {
+  const handleBack = () => window.history.back();
 
   return (
     <div
       style={{
-        backgroundColor: "#f0f2f5",
-        minHeight: "90vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        padding: "20px",
-        paddingTop: "20px",
-        paddingBottom: "64px",
+        minHeight: "100vh",
+        background: "rgb(240, 242, 245)", // same gray background as other pages
+        padding: "32px 16px",
       }}
     >
-      {/* Breadcrumb (under navbar) */}
-      <div
-        style={{
-          position: "absolute",
-          top: 95,
-          left: 0,
-          right: 0,
-          zIndex: 10,
-          maxWidth: 1200,
-          margin: "0 auto 20px auto",
-          padding: "0 20px",
-        }}
-      >
-        <Breadcrumb
-          items={getBreadcrumbItems()}
-          separator="→"
+      <div style={{ maxWidth: 1200, width: "100%", margin: "0 auto" }}>
+        {/* ── Navigation (Back + Breadcrumb) ───────────────────────────── */}
+        <div
           style={{
-            padding: "10px 20px",
-            background: "rgba(255, 255, 255, 0.9)",
-            borderRadius: "8px",
-            backdropFilter: "blur(10px)",
+            display: "flex",
+            alignItems: "center", 
+            gap: 12,
+            marginBottom: 24,
           }}
-        />
-      </div>
+        >
+          <Button
+            type="text"
+            icon={<FaArrowLeft />}
+            onClick={handleBack}
+            style={{
+              color: "#000",
+              padding: "0 8px",
+              fontSize: 16,
+              height: "auto", 
+              lineHeight: "1.4", 
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Back
+          </Button>
 
-      {/* Back button */}
-      <Button
-        type="text"
-        icon={<FaArrowLeft />}
-        onClick={handleBack}
-        style={{
-          position: "absolute",
-          top: 80,
-          left: 26,
-          color: "#000000",
-          zIndex: 10,
-        }}
-        aria-label="Go back"
-      />
+          <div style={{ position: "relative", top: "1px" }}>
+            <Breadcrumb
+              items={[
+                { href: "/", title: (<><AiOutlineHome /> Home</>) },
+                { href: "/knowledge", title: "Knowledge of Facing Flood" },
+                { title: "Mental Support" },
+              ]}
+              style={{ margin: 0, fontSize: "1rem", lineHeight: "1.4" }}
+            />
+          </div>
+        </div>
 
-      <div style={{ maxWidth: 1200, width: "100%", marginTop: 80 }}>
-        {/* Main layout */}
+
+        {/* ── Two-column layout (Text + Image) ────────────────────────── */}
         <Row gutter={[32, 32]} align="top">
-          {/* Left: title + bullets */}
-          <Col xs={24} md={12}>
-            <div>
-              <Title level={1} style={{ color: "#1890ff", marginBottom: 10 }}>
-                Mental Support
-              </Title>
-              <Text strong style={{ fontSize: 18, color: "#333" }}>
-                Taking care of your mental health after a flood is just as important as physical recovery.
-              </Text>
+          {/* Left column */}
+          <Col xs={24} md={14} lg={16}>
+            <Title
+              level={2}
+              style={{ color: "#1677ff", fontSize: "2rem", marginBottom: 32 }}
+            >
+              Mental Support
+            </Title>
 
-              <div
-                style={{
-                  marginTop: 20,
-                  fontSize: 16,
-                  lineHeight: 1.7,
-                  color: "#333",
-                }}
-              >
-                <ul style={{ listStyle: "none", paddingLeft: 0 }}>
-                  <li style={{ marginBottom: 12 }}>
-                    <span style={{ color: "#00bcd4", marginRight: 8 }}>💬</span>
-                    Talk to family and friends about your experiences to release stress.
-                  </li>
-                  <li style={{ marginBottom: 12 }}>
-                    <span style={{ color: "#e53935", marginRight: 8 }}>❤️</span>
-                    Seek professional counseling if you feel overwhelmed.
-                  </li>
-                  <li style={{ marginBottom: 12 }}>
-                    <span style={{ color: "#4caf50", marginRight: 8 }}>🧘</span>
-                    Practice relaxation techniques like deep breathing or meditation.
-                  </li>
-                  <li style={{ marginBottom: 12 }}>
-                    <span style={{ color: "#ffb300", marginRight: 8 }}>👥</span>
-                    Join local community support groups for shared healing.
-                  </li>
-                  <li style={{ marginBottom: 12 }}>
-                    <span style={{ color: "#00acc1", marginRight: 8 }}>📘</span>
-                    Keep a journal to process your thoughts and emotions.
-                  </li>
-                </ul>
-              </div>
+            <Paragraph
+              style={{
+                marginBottom: 80,
+                color: "#475467",
+                fontSize: "1.15rem",
+                lineHeight: 1.8,
+              }}
+            >
+              Taking care of your mental health after a flood is just as
+              important as physical recovery.
+            </Paragraph>
+
+            {/* Tip list */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <TipCard icon={<BsChatDots />}>
+                Talk to family and friends about your experiences to release stress.
+              </TipCard>
+
+              <TipCard icon={<RiPsychotherapyLine />}>
+                Seek professional counseling if you feel overwhelmed.
+              </TipCard>
+
+              <TipCard icon={<MdOutlineSelfImprovement />}>
+                Practice relaxation techniques like deep breathing or meditation.
+              </TipCard>
+
+              <TipCard icon={<MdOutlineGroups />}>
+                Join local community support groups for shared healing.
+              </TipCard>
+
+              <TipCard icon={<BsJournalBookmark />}>
+                Keep a journal to process your thoughts and emotions.
+              </TipCard>
             </div>
           </Col>
 
-          {/* Right: image */}
-          <Col xs={24} md={12}>
-            <div style={{ textAlign: "center" }}>
-              <div
+          {/* Right column (Sticky Image) */}
+          <Col xs={24} md={10} lg={8}>
+            <div
+              style={{
+                background: "#fff",
+                borderRadius: 16,
+                boxShadow: "0 6px 20px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04)",
+                padding: 10,
+                position: "sticky",
+                top: 100,
+              }}
+            >
+              <img
+                src="/images/mental support.png"
+                alt="Mental Support"
                 style={{
-                  border: "1px solid #d9d9d9",
-                  borderRadius: 16,
-                  padding: 12,
-                  backgroundColor: "#fff",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                  marginBottom: 20,
-                  display: "inline-block",
+                  width: "100%",
+                  height: 450,
+                  objectFit: "cover",
+                  borderRadius: 12,
+                  display: "block",
                 }}
-              >
-                <Image
-                  src="/images/mental support.png"
-                  alt="Mental support"
-                  width={500}
-                  height={300}
-                  style={{
-                    borderRadius: 12,
-                    objectFit: "cover",
-                    display: "block",
-                  }}
-                  priority
-                />
-              </div>
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src =
+                    "/images/placeholder-16x9.jpg";
+                }}
+              />
             </div>
           </Col>
         </Row>
 
-        {/* Resources & Support (replaces Expert Opinion) */}
-        <Row style={{ marginTop: 40 }}>
-          <Col span={24}>
-            <Card
+        {/* ── Bottom Section: Resources & Support ─────────────────────── */}
+        <Card
               style={{
+                marginTop: 32,
                 borderRadius: 16,
                 boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                 border: "1px solid #d9d9d9",
@@ -271,8 +298,6 @@ export default function MentalHealthAfter() {
                 </div>
               </div>
             </Card>
-          </Col>
-        </Row>
       </div>
     </div>
   );

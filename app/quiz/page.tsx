@@ -12,6 +12,8 @@ import {
   Fade,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
+// special effect
+import Confetti from "react-confetti";
 
 type Option = {
   option_id: number;
@@ -362,6 +364,7 @@ export default function QuizPage() {
         ) : (
           <CardContent sx={{ p: 6 }}>
             <Box textAlign="center">
+              <Confetti recycle={false} numberOfPieces={500} gravity={0.2} />
               <Typography variant="h4" gutterBottom fontWeight="bold">
                 🎉 Quiz Completed!
               </Typography>

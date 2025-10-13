@@ -1,5 +1,6 @@
 "use client";
 
+import { AiOutlineHome,} from "react-icons/ai";
 import { Button, Card, Typography, Row, Col, Breadcrumb } from "antd";
 import { FaArrowLeft, FaInfoCircle, FaQuoteLeft, FaHome } from "react-icons/fa";
 import Image from "next/image";
@@ -48,46 +49,45 @@ export default function SaveShelter() {
         paddingBottom: "64px",
       }}
     >
-      {/* Breadcrumb Navigation - Global Display */}
-      <div
-        style={{
-          position: "absolute",
-          top: 95,
-          left: 0,
-          right: 0,
-          zIndex: 10,
-          marginBottom: 20,
-          maxWidth: 1200,
-          margin: "0 auto 20px auto",
-        }}
-      >
-        <Breadcrumb
-          items={getBreadcrumbItems()}
-          separator="→"
-          style={{
-            padding: "10px 20px",
-            background: "rgba(255, 255, 255, 0.9)",
-            borderRadius: "8px",
-            backdropFilter: "blur(10px)",
-          }}
-        />
-      </div>
-
-      {/* Back button */}
-      <Button
-        type="text"
-        icon={<FaArrowLeft />}
-        onClick={handleBack}
-        style={{
-          position: "absolute",
-          top: 80,
-          left: 26,
-          color: "#000000ff",
-          zIndex: 10,
-        }}
-      />
-
+      
       <div style={{ maxWidth: 1200, width: "100%", marginTop: 80 }}>
+        {/* ── Navigation (Back + Breadcrumb) ── */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center", 
+            gap: 12,
+            marginBottom: 24,
+          }}
+        >
+          <Button
+            type="text"
+            icon={<FaArrowLeft />}
+            onClick={handleBack}
+            style={{
+              color: "#000",
+              padding: "0 8px",
+              fontSize: 16,
+              height: "auto", 
+              lineHeight: "1.4", 
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Back
+          </Button>
+
+          <div style={{ position: "relative", top: "1px" }}>
+            <Breadcrumb
+              items={[
+                { href: "/", title: (<><AiOutlineHome /> Home</>) },
+                { href: "/knowledge", title: "Knowledge of Facing Flood" },
+                { title: "Mental And Emotional Wellbeing" },
+              ]}
+              style={{ margin: 0, fontSize: "1rem", lineHeight: "1.4" }}
+            />
+          </div>
+        </div>
         {/* Main areas */}
         <Row gutter={[32, 32]} align="top">
           {/* Left: text area */}

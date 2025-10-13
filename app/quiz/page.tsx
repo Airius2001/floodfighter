@@ -9,7 +9,6 @@ import {
   Button,
   Box,
   LinearProgress,
-  Stack,
   Fade,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
@@ -30,7 +29,6 @@ type Question = {
   question_text: string;
   options: Option[];
   explanations: Explanation[];
-  image?: string;
 };
 
 export default function QuizPage() {
@@ -47,9 +45,8 @@ export default function QuizPage() {
       try {
         const res = await axios.get(
           "https://floodfighterbackend.onrender.com/quiz"
-        ); // all questions
+        );
         const allQuestions = res.data;
-        // Randomly select 10 questions
         const shuffled = allQuestions.sort(() => 0.5 - Math.random());
         setQuizData(shuffled.slice(0, 10));
       } catch (err) {
@@ -104,220 +101,264 @@ export default function QuizPage() {
     >
       <Card
         sx={{
-          maxWidth: 1200,
+          maxWidth: 800,
           width: "100%",
           borderRadius: 3,
           boxShadow: 3,
           overflow: "hidden",
+          textAlign: "center",
+          p: 3,
         }}
       >
         {!showResult ? (
-          <Box
-            sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
-          >
-            {/* left side pics */}
-            <Box
+          <CardContent sx={{ p: 4 }}>
+            <Typography variant="h5" fontWeight="bold" mb={2}>
+              Flood Awareness Quiz
+            </Typography>
+
+            <LinearProgress
+              variant="determinate"
+              value={((currentQuestion + 1) / quizData.length) * 100}
               sx={{
-                width: { xs: "100%", md: "41.67%" },
-                bgcolor: "#f5f5f5",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                minHeight: { xs: 250, md: 600 },
-                position: "relative",
+                mb: 3,
+                height: 8,
+                borderRadius: 4,
               }}
-            >
-              <Fade in={true} timeout={500} key={fadeKey}>
-                <Box
+            />
+
+            <Fade in={true} timeout={1000} key={fadeKey}>
+              <Box>
+                <Typography
+                  variant="h6"
+                  gutterBottom
                   sx={{
-                    width: "100%",
-                    height: "100%",
-                    position: "relative",
-                    overflow: "hidden",
+                    mb: 3,
+                    fontWeight: "bold",
+                    color: "primary.main",
                   }}
                 >
-                  {current.image && (
-                    <img
-                      src={current.image}
-                      alt={`Question ${currentQuestion + 1}`}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  )}
+                  Question {currentQuestion + 1}:
+                </Typography>
+
+                <Typography variant="body1" mb={4}>
+                  {current.question_text}
+                </Typography>
+
+                {/* Fixed layout with two options per row */}
+                <Box>
+                  {/* First line: Options 0 and 1 */}
                   <Box
                     sx={{
-                      position: "absolute",
-                      top: 16,
-                      left: 16,
-                      bgcolor: "rgba(25, 118, 210, 0.9)",
-                      color: "white",
-                      px: 2,
-                      py: 1,
-                      borderRadius: 2,
-                      fontWeight: "bold",
+                      display: "flex",
+                      gap: 2,
+                      mb: 2,
                     }}
                   >
-                    Question {currentQuestion + 1} / {quizData.length}
+                    {current.options.slice(0, 2).map((option) => {
+                      const isCorrectAns = selected && option.is_correct;
+                      const isWrong =
+                        selected &&
+                        selected.option_id === option.option_id &&
+                        !option.is_correct;
+
+                      return (
+                        <Button
+                          key={option.option_id}
+                          variant="outlined"
+                          onClick={() => handleAnswer(option)}
+                          disabled={!!selected}
+                          sx={{
+                            flex: "1 1 50%",
+                            minWidth: 0,
+                            py: 2.5,
+                            px: 2,
+                            height: "100px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            fontSize: "0.9rem",
+                            whiteSpace: "normal",
+                            wordWrap: "break-word",
+                            lineHeight: 1.3,
+                            color: isCorrectAns
+                              ? "#2E7D32"
+                              : isWrong
+                              ? "#C62828"
+                              : "text.primary",
+                            bgcolor: isCorrectAns
+                              ? alpha("#4CAF50", 0.15)
+                              : isWrong
+                              ? alpha("#F44336", 0.15)
+                              : "transparent",
+                            borderColor: isCorrectAns
+                              ? "#4CAF50"
+                              : isWrong
+                              ? "#F44336"
+                              : "rgba(0,0,0,0.23)",
+                            borderWidth: isCorrectAns || isWrong ? 2 : 1,
+                            fontWeight:
+                              selected && (isCorrectAns || isWrong)
+                                ? "bold"
+                                : "normal",
+                            textTransform: "none",
+                            transition: "all 0.3s ease",
+                            "&:hover": {
+                              bgcolor: isCorrectAns
+                                ? alpha("#4CAF50", 0.25)
+                                : isWrong
+                                ? alpha("#F44336", 0.25)
+                                : alpha("#1976d2", 0.08),
+                              borderWidth: 2,
+                            },
+                          }}
+                        >
+                          {option.option_text}
+                        </Button>
+                      );
+                    })}
+                  </Box>
+
+                  {/* Second row: Options 2 and 3 */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: 2,
+                      mb: 2,
+                    }}
+                  >
+                    {current.options.slice(2, 4).map((option) => {
+                      const isCorrectAns = selected && option.is_correct;
+                      const isWrong =
+                        selected &&
+                        selected.option_id === option.option_id &&
+                        !option.is_correct;
+
+                      return (
+                        <Button
+                          key={option.option_id}
+                          variant="outlined"
+                          onClick={() => handleAnswer(option)}
+                          disabled={!!selected}
+                          sx={{
+                            flex: "1 1 50%",
+                            minWidth: 0,
+                            py: 2.5,
+                            px: 2,
+                            height: "100px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            fontSize: "0.9rem",
+                            whiteSpace: "normal",
+                            wordWrap: "break-word",
+                            lineHeight: 1.3,
+                            color: isCorrectAns
+                              ? "#2E7D32"
+                              : isWrong
+                              ? "#C62828"
+                              : "text.primary",
+                            bgcolor: isCorrectAns
+                              ? alpha("#4CAF50", 0.15)
+                              : isWrong
+                              ? alpha("#F44336", 0.15)
+                              : "transparent",
+                            borderColor: isCorrectAns
+                              ? "#4CAF50"
+                              : isWrong
+                              ? "#F44336"
+                              : "rgba(0,0,0,0.23)",
+                            borderWidth: isCorrectAns || isWrong ? 2 : 1,
+                            fontWeight:
+                              selected && (isCorrectAns || isWrong)
+                                ? "bold"
+                                : "normal",
+                            textTransform: "none",
+                            transition: "all 0.3s ease",
+                            "&:hover": {
+                              bgcolor: isCorrectAns
+                                ? alpha("#4CAF50", 0.25)
+                                : isWrong
+                                ? alpha("#F44336", 0.25)
+                                : alpha("#1976d2", 0.08),
+                              borderWidth: 2,
+                            },
+                          }}
+                        >
+                          {option.option_text}
+                        </Button>
+                      );
+                    })}
                   </Box>
                 </Box>
-              </Fade>
-            </Box>
 
-            {/* right side questions */}
-            <Box sx={{ width: { xs: "100%", md: "58.33%" } }}>
-              <CardContent sx={{ p: 4, height: "100%" }}>
-                <Typography variant="h5" gutterBottom fontWeight="bold">
-                  Flood Awareness Quiz
-                </Typography>
-                <LinearProgress
-                  variant="determinate"
-                  value={((currentQuestion + 1) / quizData.length) * 100}
-                  sx={{ mb: 3, height: 8, borderRadius: 4 }}
-                />
-
-                <Fade in={true} timeout={300} key={fadeKey}>
-                  <Box>
-                    <Typography variant="h6" gutterBottom sx={{ mb: 3 }}>
-                      <Box
-                        component="span"
-                        sx={{ fontWeight: "bold", color: "primary.main" }}
-                      >
-                        Question {currentQuestion + 1}:
-                      </Box>{" "}
-                      {current.question_text}
-                    </Typography>
-
-                    <Stack spacing={2}>
-                      {current.options.map((option) => {
-                        const isCorrectAns = selected && option.is_correct;
-                        const isWrong =
-                          selected &&
-                          selected.option_id === option.option_id &&
-                          !option.is_correct;
-
-                        return (
-                          <Button
-                            key={option.option_id}
-                            variant="outlined"
-                            onClick={() => handleAnswer(option)}
-                            disabled={!!selected}
-                            sx={{
-                              py: 1.5,
-                              px: 2,
-                              justifyContent: "flex-start",
-                              textAlign: "left",
-                              color: isCorrectAns
-                                ? "#2E7D32"
-                                : isWrong
-                                ? "#C62828"
-                                : "text.primary",
-                              bgcolor: isCorrectAns
-                                ? alpha("#4CAF50", 0.15)
-                                : isWrong
-                                ? alpha("#F44336", 0.15)
-                                : "transparent",
-                              borderColor: isCorrectAns
-                                ? "#4CAF50"
-                                : isWrong
-                                ? "#F44336"
-                                : "rgba(0,0,0,0.23)",
-                              borderWidth: isCorrectAns || isWrong ? 2 : 1,
-                              fontWeight:
-                                selected && (isCorrectAns || isWrong)
-                                  ? "bold"
-                                  : "normal",
-                              textTransform: "none",
-                              transition: "all 0.3s ease",
-                              "&:hover": {
-                                bgcolor: isCorrectAns
-                                  ? alpha("#4CAF50", 0.25)
-                                  : isWrong
-                                  ? alpha("#F44336", 0.25)
-                                  : alpha("#1976d2", 0.08),
-                                borderWidth: 2,
-                              },
-                            }}
+                {selected && (
+                  <Fade in={true}>
+                    <Box mt={4}>
+                      {selected.is_correct ? (
+                        <Box
+                          p={2}
+                          bgcolor={alpha("#4CAF50", 0.1)}
+                          borderRadius={2}
+                          border="2px solid #4CAF50"
+                          mb={2}
+                        >
+                          <Typography
+                            variant="h6"
+                            color="success.main"
+                            fontWeight="bold"
                           >
-                            {option.option_text}
-                          </Button>
-                        );
-                      })}
-                    </Stack>
-
-                    {selected && (
-                      <Fade in={true}>
-                        <Box mt={3}>
-                          {selected.is_correct ? (
-                            <Box
-                              p={2}
-                              bgcolor={alpha("#4CAF50", 0.1)}
-                              borderRadius={2}
-                              border="2px solid #4CAF50"
-                              mb={2}
-                            >
-                              <Typography
-                                variant="h6"
-                                color="success.main"
-                                fontWeight="bold"
-                              >
-                                ✅ Correct!
-                              </Typography>
-                            </Box>
-                          ) : (
-                            <Box
-                              p={2}
-                              bgcolor="#fff3e0"
-                              borderRadius={2}
-                              border="2px solid #ffb74d"
-                              mb={2}
-                            >
-                              <Typography
-                                variant="body1"
-                                color="text.primary"
-                                fontWeight="bold"
-                                mb={1}
-                              >
-                                ❌ Incorrect
-                              </Typography>
-                              <Typography variant="body1" mb={1}>
-                                <strong>Correct Answer:</strong>{" "}
-                                {correctOption?.option_text}
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                              >
-                                💡{" "}
-                                {current.explanations
-                                  .map((e) => e.explanation_text)
-                                  .join(" ")}
-                              </Typography>
-                            </Box>
-                          )}
-
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleNextQuestion}
-                            fullWidth
-                            size="large"
-                            sx={{ py: 1.5 }}
-                          >
-                            {currentQuestion + 1 < quizData.length
-                              ? "Next Question →"
-                              : "View Results 🎯"}
-                          </Button>
+                            ✅ Correct!
+                          </Typography>
                         </Box>
-                      </Fade>
-                    )}
-                  </Box>
-                </Fade>
-              </CardContent>
-            </Box>
-          </Box>
+                      ) : (
+                        <Box
+                          p={2}
+                          bgcolor="#fff3e0"
+                          borderRadius={2}
+                          border="2px solid #ffb74d"
+                          mb={2}
+                        >
+                          <Typography
+                            variant="body1"
+                            color="text.primary"
+                            fontWeight="bold"
+                            mb={1}
+                          >
+                            ❌ Incorrect
+                          </Typography>
+                          <Typography variant="body1" mb={1}>
+                            <strong>Correct Answer:</strong>{" "}
+                            {correctOption?.option_text}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            💡{" "}
+                            {current.explanations
+                              .map((e) => e.explanation_text)
+                              .join(" ")}
+                          </Typography>
+                        </Box>
+                      )}
+
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNextQuestion}
+                        fullWidth
+                        size="large"
+                        sx={{ py: 1.5 }}
+                      >
+                        {currentQuestion + 1 < quizData.length
+                          ? "Next Question →"
+                          : "View Results 🎯"}
+                      </Button>
+                    </Box>
+                  </Fade>
+                )}
+              </Box>
+            </Fade>
+          </CardContent>
         ) : (
           <CardContent sx={{ p: 6 }}>
             <Box textAlign="center">

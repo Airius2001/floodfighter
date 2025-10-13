@@ -81,9 +81,9 @@ export default function CleanDisinfection() {
             {tips.map((tip, index) => (
               <Col xs={24} sm={12} key={index} style={{ display: "flex" }}>
                 <Card
-                  bordered={false}
+                  variant="borderless"
                   style={{
-                    background: "#f5f5f5", // light card background
+                    background: "#f5f5f5",
                     color: "#111",
                     borderRadius: 12,
                     padding: "1rem",
@@ -116,7 +116,7 @@ export default function CleanDisinfection() {
             ))}
           </Row>
 
-          {/* Footer Info */}
+          {/* Footer Info
           <div style={{ marginTop: "3rem", textAlign: "center" }}>
             <Paragraph style={{ color: "#555", fontSize: "0.95rem" }}>
               ℹ️ For detailed guidance, visit{" "}
@@ -130,7 +130,7 @@ export default function CleanDisinfection() {
               </a>
               .
             </Paragraph>
-          </div>
+          </div> */}
         </Col>
       </Row>
     </div>

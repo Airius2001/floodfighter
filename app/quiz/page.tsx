@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Card,
   CardContent,
@@ -13,102 +14,68 @@ import {
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
+type Option = {
+  option_id: number;
+  option_text: string;
+  is_correct: boolean;
+};
+
+type Explanation = {
+  explanation_id: number;
+  explanation_text: string;
+};
+
 type Question = {
-  question_no: string;
-  question: string;
-  options: string[];
-  correctAnswer: string;
-  explanation: string;
+  question_id: number;
+  question_text: string;
+  options: Option[];
+  explanations: Explanation[];
   image?: string;
 };
 
-const quizData: Question[] = [
-  {
-    question_no: "Question 1: ",
-    question: "Question description",
-    options: ["Answer 1", "Answer 2", "Answer 3", "Answer 4 (correct)"],
-    correctAnswer: "Answer 4 (correct)",
-    explanation: "Explanation",
-    image: "/logo-dark.png",
-  },
-  {
-    question_no: "Question 2: ",
-    question: "Question description",
-    options: ["Answer 1", "Answer 2", "Answer 3", "Answer 4 (correct)"],
-    correctAnswer: "Answer 4 (correct)",
-    explanation: "Explanation",
-    image: "/logo-dark.png",
-  },
-  {
-    question_no: "Question 3: ",
-    question: "Question description",
-    options: ["Answer 1", "Answer 2", "Answer 3", "Answer 4 (correct)"],
-    correctAnswer: "Answer 4 (correct)",
-    explanation: "Explanation",
-    image: "/logo-dark.png",
-  },
-  {
-    question_no: "Question 4: ",
-    question: "Question description",
-    options: ["Answer 1", "Answer 2", "Answer 3", "Answer 4 (correct)"],
-    correctAnswer: "Answer 4 (correct)",
-    explanation: "Explanation",
-    image: "/logo-dark.png",
-  },
-  {
-    question_no: "Question 5: ",
-    question: "Question description",
-    options: ["Answer 1", "Answer 2", "Answer 3", "Answer 4 (correct)"],
-    correctAnswer: "Answer 4 (correct)",
-    explanation: "Explanation",
-    image: "/logo-dark.png",
-  },
-  {
-    question_no: "Question 6: ",
-    question: "Question description",
-    options: ["Answer 1", "Answer 2", "Answer 3", "Answer 4 (correct)"],
-    correctAnswer: "Answer 4 (correct)",
-    explanation: "Explanation",
-    image: "/logo-dark.png",
-  },
-  {
-    question_no: "Question 7: ",
-    question: "Question description",
-    options: ["Answer 1", "Answer 2", "Answer 3", "Answer 4 (correct)"],
-    correctAnswer: "Answer 4 (correct)",
-    explanation: "Explanation",
-    image: "/logo-dark.png",
-  },
-  {
-    question_no: "Question 8: ",
-    question: "Question description",
-    options: ["Answer 1", "Answer 2", "Answer 3", "Answer 4 (correct)"],
-    correctAnswer: "Answer 4 (correct)",
-    explanation: "Explanation",
-    image: "/logo-dark.png",
-  },
-];
-
 export default function QuizPage() {
+  const [quizData, setQuizData] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [selected, setSelected] = useState<Option | null>(null);
   const [fadeKey, setFadeKey] = useState(0);
 
-  const handleAnswer = (option: string) => {
+  // Retrieve question data from the backend
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        const res = await axios.get(
+          "https://floodfighterbackend.onrender.com/quiz"
+        ); // all questions
+        const allQuestions = res.data;
+        // Randomly select 10 questions
+        const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+        setQuizData(shuffled.slice(0, 10));
+      } catch (err) {
+        console.error("Failed to fetch quiz data", err);
+      }
+    };
+    fetchQuiz();
+  }, []);
+
+  if (quizData.length === 0) {
+    return (
+      <Box textAlign="center" mt={10}>
+        Loading Quiz...
+      </Box>
+    );
+  }
+
+  const handleAnswer = (option: Option) => {
     setSelected(option);
-    const correct = option === quizData[currentQuestion].correctAnswer;
-    setIsCorrect(correct);
-    if (correct) setScore((prev) => prev + 1);
+    if (option.is_correct) setScore((prev) => prev + 1);
   };
 
   const handleNextQuestion = () => {
     if (currentQuestion + 1 < quizData.length) {
       setCurrentQuestion((prev) => prev + 1);
       setSelected(null);
-      setIsCorrect(null);
       setFadeKey((prev) => prev + 1);
     } else {
       setShowResult(true);
@@ -120,9 +87,11 @@ export default function QuizPage() {
     setScore(0);
     setShowResult(false);
     setSelected(null);
-    setIsCorrect(null);
     setFadeKey((prev) => prev + 1);
   };
+
+  const current = quizData[currentQuestion];
+  const correctOption = current.options.find((o) => o.is_correct);
 
   return (
     <Box
@@ -146,10 +115,10 @@ export default function QuizPage() {
           <Box
             sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
           >
-            {/* left img area */}
+            {/* left side pics */}
             <Box
               sx={{
-                width: { xs: "100%", md: "41.67%" }, // 5/12
+                width: { xs: "100%", md: "41.67%" },
                 bgcolor: "#f5f5f5",
                 display: "flex",
                 alignItems: "center",
@@ -167,16 +136,17 @@ export default function QuizPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <img
-                    src={quizData[currentQuestion].image}
-                    alt={`Question ${currentQuestion + 1}`}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                  {/* Question number label on the picture */}
+                  {current.image && (
+                    <img
+                      src={current.image}
+                      alt={`Question ${currentQuestion + 1}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  )}
                   <Box
                     sx={{
                       position: "absolute",
@@ -196,10 +166,8 @@ export default function QuizPage() {
               </Fade>
             </Box>
 
-            {/* Right-side Quiz area */}
+            {/* right side questions */}
             <Box sx={{ width: { xs: "100%", md: "58.33%" } }}>
-              {" "}
-              {/* 7/12 */}
               <CardContent sx={{ p: 4, height: "100%" }}>
                 <Typography variant="h5" gutterBottom fontWeight="bold">
                   Flood Awareness Quiz
@@ -217,22 +185,22 @@ export default function QuizPage() {
                         component="span"
                         sx={{ fontWeight: "bold", color: "primary.main" }}
                       >
-                        {quizData[currentQuestion].question_no}
-                      </Box>
-                      {quizData[currentQuestion].question}
+                        Question {currentQuestion + 1}:
+                      </Box>{" "}
+                      {current.question_text}
                     </Typography>
 
                     <Stack spacing={2}>
-                      {quizData[currentQuestion].options.map((option) => {
-                        const isCorrectAns =
-                          selected &&
-                          option === quizData[currentQuestion].correctAnswer;
+                      {current.options.map((option) => {
+                        const isCorrectAns = selected && option.is_correct;
                         const isWrong =
-                          selected && option === selected && !isCorrectAns;
+                          selected &&
+                          selected.option_id === option.option_id &&
+                          !option.is_correct;
 
                         return (
                           <Button
-                            key={option}
+                            key={option.option_id}
                             variant="outlined"
                             onClick={() => handleAnswer(option)}
                             disabled={!!selected}
@@ -273,7 +241,7 @@ export default function QuizPage() {
                               },
                             }}
                           >
-                            {option}
+                            {option.option_text}
                           </Button>
                         );
                       })}
@@ -282,7 +250,7 @@ export default function QuizPage() {
                     {selected && (
                       <Fade in={true}>
                         <Box mt={3}>
-                          {isCorrect ? (
+                          {selected.is_correct ? (
                             <Box
                               p={2}
                               bgcolor={alpha("#4CAF50", 0.1)}
@@ -316,13 +284,16 @@ export default function QuizPage() {
                               </Typography>
                               <Typography variant="body1" mb={1}>
                                 <strong>Correct Answer:</strong>{" "}
-                                {quizData[currentQuestion].correctAnswer}
+                                {correctOption?.option_text}
                               </Typography>
                               <Typography
                                 variant="body2"
                                 color="text.secondary"
                               >
-                                💡 {quizData[currentQuestion].explanation}
+                                💡{" "}
+                                {current.explanations
+                                  .map((e) => e.explanation_text)
+                                  .join(" ")}
                               </Typography>
                             </Box>
                           )}

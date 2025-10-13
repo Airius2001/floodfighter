@@ -1,82 +1,46 @@
 "use client";
+import { useMemo, useRef, useState } from "react";
+import Hero from "@/components/sections/Hero";
+import { Statistics } from "@/components/sections/Statistics";
+import FloodFighterUI from "@/components/sections/ProjectDetails";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Box, Button, TextField, Typography, Paper } from "@mui/material";
-
-export default function LoginPage() {
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const router = useRouter();
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const correctPassword = "TA08";
-
-    if (password === correctPassword) {
-      router.push("/home");
-    } else {
-      setError("Incorrect password. Please try again.");
+export default function HomePage() {
+  const [expanded, setExpanded] = useState(true);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const scrollToContent = () => {
+    if (contentRef.current) {
+      contentRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
-
+  const handleExplore = () => {};
+  const pageWrap: React.CSSProperties = useMemo(
+    () => ({
+      position: "relative",
+      overflow: expanded ? "visible" : "hidden",
+      minHeight: "100vh",
+      backgroundColor: "#e6f0ff",
+    }),
+    [expanded]
+  );
+  const revealPanel: React.CSSProperties = useMemo(
+    () => ({
+      transform: expanded ? "translateY(0)" : "translateY(100vh)",
+      transition: "transform 600ms cubic-bezier(0.22, 1, 0.36, 1)",
+      willChange: "transform",
+      position: "relative",
+      zIndex: 0,
+      backgroundColor: "#f9fafb",
+    }),
+    [expanded]
+  );
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        background: "linear-gradient(to bottom right, #e3f2fd, #bbdefb)",
-      }}
-    >
-      <Paper
-        elevation={6}
-        sx={{
-          p: 5,
-          borderRadius: 4,
-          width: 350,
-          textAlign: "center",
-        }}
-      >
-        <Typography
-          variant="h5"
-          component="h1"
-          sx={{ mb: 3, fontWeight: "bold", color: "#1976d2" }}
-        >
-          Enter Password To Visit Our Website
-        </Typography>
-
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            type="password"
-            label="Password"
-            variant="outlined"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            error={!!error}
-            helperText={error}
-            sx={{ mb: 3 }}
-          />
-
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{
-              py: 1.2,
-              borderRadius: 2,
-              fontWeight: "bold",
-              textTransform: "none",
-            }}
-          >
-            Login
-          </Button>
-        </form>
-      </Paper>
-    </Box>
+    <div style={pageWrap}>
+      <Hero onExplore={handleExplore} />
+      {expanded && (
+        <div style={revealPanel} ref={contentRef}>
+          <FloodFighterUI /> <Statistics />
+        </div>
+      )}
+    </div>
   );
 }

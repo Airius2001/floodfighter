@@ -38,7 +38,8 @@ export default function HomePage() {
       <Hero onExplore={handleExplore} />
       {expanded && (
         <div style={revealPanel} ref={contentRef}>
-          <FloodFighterUI /> <Statistics />
+          <Statistics />
+          <FloodFighterUI />
         </div>
       )}
     </div>

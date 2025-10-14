@@ -7,13 +7,14 @@ import {
   FaHandsHelping,
   FaBookOpen,
 } from "react-icons/fa";
+import Link from "next/link";
+import Magnet from "../../src/magnet/Magnet";
 
 export function Statistics() {
   return (
     <section
       style={{
-        background:
-          "rgb(191, 214, 248)",
+        background: "rgb(191, 214, 248)",
         padding: "60px 20px",
         color: "#1f2937",
         fontFamily: "Inter, sans-serif",
@@ -32,9 +33,17 @@ export function Statistics() {
           }}
         >
           {[
-            { number: "500+", label: "Flood-prone zones mapped", color: "#1e3a8a" },
+            {
+              number: "500+",
+              label: "Flood-prone zones mapped",
+              color: "#1e3a8a",
+            },
             { number: "2M+", label: "Residents informed", color: "#ca8a04" },
-            { number: "120+", label: "Reservoirs & rivers tracked", color: "#15803d" },
+            {
+              number: "120+",
+              label: "Reservoirs & rivers tracked",
+              color: "#15803d",
+            },
           ].map((stat, i) => (
             <div
               key={i}
@@ -47,7 +56,8 @@ export function Statistics() {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-6px)";
-                e.currentTarget.style.boxShadow = "0 10px 25px rgba(0,0,0,0.12)";
+                e.currentTarget.style.boxShadow =
+                  "0 10px 25px rgba(0,0,0,0.12)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateY(0)";
@@ -166,17 +176,20 @@ export function Statistics() {
             {
               icon: <FaInfoCircle size={42} color="#1e40af" />,
               step: "Step 1",
-              desc: "Open the map to explore real-time flood zones near your area.",
+              desc: "Open the map to explore flood status near your area.",
+              link: "/map",
             },
             {
               icon: <FaBookOpen size={42} color="#ca8a04" />,
               step: "Step 2",
               desc: "Follow easy safety tips and family preparation guides.",
+              link: "/knowledge",
             },
             {
               icon: <FaHandsHelping size={42} color="#15803d" />,
               step: "Step 3",
               desc: "Find help centers and recovery resources post-floods.",
+              link: "/check-postcode",
             },
           ].map((step, i) => (
             <div key={i} style={{ maxWidth: 320, margin: "0 auto" }}>
@@ -206,11 +219,37 @@ export function Statistics() {
                 {step.step}
               </h4>
               <p style={{ color: "#374151", fontSize: 15 }}>{step.desc}</p>
+
+              {/* Button */}
+              <Magnet padding={50} disabled={false} magnetStrength={2}>
+                <Link href={step.link}>
+                  <button
+                    style={{
+                      marginTop: 12,
+                      backgroundColor: "#1e40af",
+                      color: "white",
+                      border: "none",
+                      padding: "8px 16px",
+                      borderRadius: 8,
+                      cursor: "pointer",
+                      transition: "background-color 0.2s ease",
+                    }}
+                    onMouseOver={(e) =>
+                      (e.currentTarget.style.backgroundColor = "#1d4ed8")
+                    }
+                    onMouseOut={(e) =>
+                      (e.currentTarget.style.backgroundColor = "#1e40af")
+                    }
+                  >
+                    Explore More →
+                  </button>
+                </Link>
+              </Magnet>
             </div>
           ))}
         </div>
 
-        {/* ======= Emergency Resources ======= */}
+        {/* ======= Powerful tools ======= */}
         <h2
           style={{
             fontSize: 32,
@@ -220,7 +259,7 @@ export function Statistics() {
             marginBottom: 40,
           }}
         >
-          Emergency Resources
+          Powerful tools
         </h2>
         <div
           style={{
@@ -231,16 +270,14 @@ export function Statistics() {
         >
           {[
             {
-              title: "Government Alerts",
-              desc: "Get real-time weather warnings and official emergency notifications.",
+              title: "Emergency Kit",
+              desc: "Create your own personalized checklists and instructions to protect your home and family.",
+              link: "/before/emergency-kit",
             },
             {
-              title: "Preparation Guides",
-              desc: "Checklists and instructions to protect your home and family.",
-            },
-            {
-              title: "Recovery Support",
-              desc: "Rehabilitation and relief resources for post-disaster recovery.",
+              title: "Quiz sections",
+              desc: "Strengthen your flood knowledge by taking our quiz and become a professional flood fighter.",
+              link: "/quiz",
             },
           ].map((res, i) => (
             <div
@@ -272,6 +309,32 @@ export function Statistics() {
                 {res.title}
               </h3>
               <p style={{ color: "#374151", fontSize: 15 }}>{res.desc}</p>
+
+              {/* Button */}
+              <Magnet padding={50} disabled={false} magnetStrength={2}>
+                <Link href={res.link}>
+                  <button
+                    style={{
+                      marginTop: 12,
+                      backgroundColor: "#1e40af",
+                      color: "white",
+                      border: "none",
+                      padding: "8px 16px",
+                      borderRadius: 8,
+                      cursor: "pointer",
+                      transition: "background-color 0.2s ease",
+                    }}
+                    onMouseOver={(e) =>
+                      (e.currentTarget.style.backgroundColor = "#1d4ed8")
+                    }
+                    onMouseOut={(e) =>
+                      (e.currentTarget.style.backgroundColor = "#1e40af")
+                    }
+                  >
+                    Explore More →
+                  </button>
+                </Link>
+              </Magnet>
             </div>
           ))}
         </div>

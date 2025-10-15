@@ -23,7 +23,7 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 import { MdOutlineGpsFixed } from "react-icons/md";
-import { Timer } from "lucide-react";
+import { Clock, Timer } from "lucide-react";
 import { FaRankingStar } from "react-icons/fa6";
 
 const { Title, Text } = Typography;
@@ -59,10 +59,12 @@ export default function CheckPostcodePage() {
         `https://nominatim.openstreetmap.org/search?postalcode=${postcode}&countrycodes=au&polygon_geojson=1&format=jsonv2`
       );
 
-      if (!geoRes.data || geoRes.data.length === 0) {
-        geoRes = await axios.get(
-          `https://nominatim.openstreetmap.org/search?postalcode=${postcode}&polygon_geojson=1&format=jsonv2`
-        );
+      if (geoRes.data.length === 0) {
+        message.error("Invalid postcode or not found in Australia");
+        setLocation(null);
+        setWeather(null);
+        setLoading(false);
+        return;
       }
       setLocation(geoRes.data[0]);
 
@@ -183,7 +185,14 @@ export default function CheckPostcodePage() {
           <Input
             placeholder="Enter Australian postcode"
             value={postcode}
-            onChange={(e) => setPostcode(e.target.value)}
+            inputMode="numeric"
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "");
+              if (value.length <= 4) {
+                setPostcode(value);
+              }
+            }}
+            maxLength={4}
           />
           <Button type="primary" loading={loading} onClick={fetchData}>
             Check
@@ -297,7 +306,10 @@ export default function CheckPostcodePage() {
 
                   </Row>
                 </Card>
-
+                <p style={{
+                  display: 'flex', justifyContent: 'center', fontSize: "20px",
+                  fontWeight: 800, alignItems: 'center', gap: '10px'
+                }}> <Clock /> Hourly Precipitation Trend Over Time</p>
                 <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10 }}>
                   <Button.Group>
                     <Button
@@ -314,41 +326,52 @@ export default function CheckPostcodePage() {
                     </Button>
                   </Button.Group>
                 </div>
+                <div style={{ display: "flex", alignItems: 'center' }}>
+                  <p style={{
+                    transform: "translateY(-50%) rotate(-90deg)",
+                    transformOrigin: "center",
+                    fontSize: "14px",
+                    fontWeight: 600,
+                  }}>Precipitation</p>
+                  {chartType === "line" && (
+                    <Line
+                      data={chartData}
+                      xField="time"
+                      yField="precipitation"
+                      smooth
+                      point={{ size: 4, shape: "circle" }}
+                      color="blue"
+                      yAxis={{ title: { text: "Precipitation (mm)" } }}
+                      xAxis={{ title: { text: "Time (hours)" } }}
+                      height={350}
+                    />
+                  )}
+                  {chartType === "bar" && (
+                    <Column
+                      data={chartData}
+                      xField="time"
+                      yField="precipitation"
+                      colorField="precipitation"
+                      color={(precipitation: number) => {
+                        if (precipitation <= 1) return '#00C853';
+                        if (precipitation <= 2) return '#FFA726';
+                        return '#E53935';
+                      }}
+                      columnStyle={{ radius: [4, 4, 0, 0] }}
+                      yAxis={{ title: { text: 'Precipitation (mm)' } }}
+                      xAxis={{ title: { text: 'Time (hours)' } }}
+                      height={350}
+                    />
 
-                {chartType === "line" && (
-                  <Line
-                    data={chartData}
-                    xField="time"
-                    yField="precipitation"
-                    smooth
-                    point={{ size: 4, shape: "circle" }}
-                    color="blue"
-                    yAxis={{ title: { text: "Precipitation (mm)" } }}
-                    xAxis={{ title: { text: "Time (hours)" } }}
-                    height={350}
-                  />
-                )}
-                {chartType === "bar" && (
-                  <Column
-                    data={chartData}
-                    xField="time"
-                    yField="precipitation"
-                    colorField="precipitation"
-                    color={(precipitation: number) => {
-                      if (precipitation <= 1) return '#00C853';
-                      if (precipitation <= 2) return '#FFA726';
-                      return '#E53935';
-                    }}
-                    columnStyle={{ radius: [4, 4, 0, 0] }}
-                    yAxis={{ title: { text: 'Precipitation (mm)' } }}
-                    xAxis={{ title: { text: 'Time (hours)' } }}
-                    height={350}
-                  />
-
-                )}
+                  )}
+                </div>
+                <p style={{
+                  display: "flex", justifyContent: 'center', fontSize: "14px",
+                  fontWeight: 600
+                }}>Timeline (Date & Time)</p>
               </div>
             ) : (
-              <Empty description={"Check Flood Status based on Post Code"} />
+              <Empty description={"Check Flood Status based on only Australia Post Code"} />
             )}
           </>
         )}
